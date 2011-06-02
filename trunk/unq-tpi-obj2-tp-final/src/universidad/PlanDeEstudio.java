@@ -3,6 +3,8 @@ package universidad;
 import java.util.Date;
 import java.util.List;
 
+import materias.MateriasAsignadas;
+
 import personal.Docente;
 
 public class PlanDeEstudio {
