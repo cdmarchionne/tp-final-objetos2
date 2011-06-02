@@ -2,6 +2,8 @@ package universidad;
 
 import java.util.List;
 
+import materias.Materia;
+
 import personal.Docente;
 
 public class Area {

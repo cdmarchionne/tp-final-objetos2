@@ -1,4 +1,4 @@
-package universidad;
+package materias;
 
 /**
  * TODO: description
