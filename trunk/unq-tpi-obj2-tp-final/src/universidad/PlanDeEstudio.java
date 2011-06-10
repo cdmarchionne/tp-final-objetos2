@@ -2,20 +2,21 @@ package universidad;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import materias.MateriasAsignadas;
-
 import personal.Docente;
 
 public class PlanDeEstudio {
 
-    private String nombre;
+	private String nombre;
 
-    private Date fechaDeCreacion;
+	private Date fechaDeCreacion;
 
-    private Docente director;
+	private Docente director;
 
-    /** TODO: Guardar de historial de Docentes */
-    private List<MateriasAsignadas> materias;
+	private List<MateriasAsignadas> materias;
+
+	private Set<RecorridoSugerido> ordenesSugeridos;
 
 }
