@@ -1,30 +1,38 @@
 package personal;
 
+import materias.Materia;
+import Utils.Historial;
+
+/**
+ * Docente
+ */
 public class Docente {
 
-    private Persona datosPersonales;
+	private Persona datosPersonales;
 
-    private Integer legajo;
+	private Integer legajo;
 
-    public Docente(final Persona datosPersonales, final Integer legajo) {
-        super();
-        this.datosPersonales = datosPersonales;
-        this.legajo = legajo;
-    }
+	private Historial<Materia> materiasDictadas;
 
-    public Persona getDatosPersonales() {
-        return datosPersonales;
-    }
+	public Docente(final Persona datosPersonales, final Integer legajo) {
+		super();
+		this.datosPersonales = datosPersonales;
+		this.legajo = legajo;
+	}
 
-    public void setDatosPersonales(final Persona datosPersonales) {
-        this.datosPersonales = datosPersonales;
-    }
+	public Persona getDatosPersonales() {
+		return datosPersonales;
+	}
 
-    public Integer getLegajo() {
-        return legajo;
-    }
+	public void setDatosPersonales(final Persona datosPersonales) {
+		this.datosPersonales = datosPersonales;
+	}
 
-    public void setLegajo(final Integer legajo) {
-        this.legajo = legajo;
-    }
+	public Integer getLegajo() {
+		return legajo;
+	}
+
+	public void setLegajo(final Integer legajo) {
+		this.legajo = legajo;
+	}
 }

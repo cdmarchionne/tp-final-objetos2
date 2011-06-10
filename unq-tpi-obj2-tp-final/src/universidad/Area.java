@@ -1,20 +1,22 @@
 package universidad;
 
-import java.util.List;
-
 import materias.Materia;
-
 import personal.Docente;
+import Utils.Historial;
 
+/**
+ * Area: Agrupo las materias y los docentes de las mismas.
+ */
 public class Area {
 
-    private String nombre;
+	private String nombre;
 
-    private Docente director;
+	private Docente director;
 
-    /** TODO: Guardar de historial de Docentes */
-    private List<Docente> staff;
+	/** Guardar el historial de Docentes */
+	private Historial<Docente> staffDocente;
 
-    private List<Materia> materias;
+	/** Guardar el historial de Materias */
+	private Historial<Materia> materiasDictadas;
 
 }
