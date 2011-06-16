@@ -5,23 +5,37 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Manejo una lista de Antecedente (elementos con lapso de tiempo)
+ * Manejo una lista de Antecedente (elementos con lapso de tiempo) Yo soy
+ * responsable si el historial puede contener mas de un elementos en un mismo
+ * lapso de tiempo o no.
+ * 
+ * Ejemplos:
+ * En el caso de materias existentes en el area, pueden existir varias Materias
+ * en el mismo lapso de tiempo.
+ * Si manejo la lista de docentes de una catedra solo poseo un director en un
+ * lapso de tiempo
  */
 public class Historial<T> {
 
 	private Set<Antecedente<T>> elementosRecordables;
 
+	// *****************
+	// * Constructores *
+	// *****************
 	public Historial() {
 		super();
 		elementosRecordables = new HashSet<Antecedente<T>>();
 	}
 
 	public Historial(final Date fechaInicio, final Date fechaFin, final T elemento) {
-		super();
+		this();
 		this.addAntecedente(fechaInicio, fechaFin, elemento);
 	}
 
-	private void addAntecedente(final Antecedente<T> antecedente) {
+	// ********************
+	// * Getter & Setters *
+	// ********************
+	public void addAntecedente(final Antecedente<T> antecedente) {
 		elementosRecordables.add(antecedente);
 	}
 
@@ -33,12 +47,15 @@ public class Historial<T> {
 		return elementosRecordables;
 	}
 
+	// ********************
+	// * Funciones Utiles *
+	// ********************
 	/** Devuelvo las ocurrencias historicas de un elemento determinado */
 	public Historial<T> getHistorialDelElemento(final T elemento) {
 		Historial<T> elementosHitoricos = new Historial<T>();
 
 		for (Antecedente<T> antecedente : this.getAntecedentes()) {
-			if (antecedente.isElemento(elemento)) {
+			if (antecedente.sameElement(elemento)) {
 				elementosHitoricos.addAntecedente(antecedente);
 			}
 		}
@@ -64,7 +81,7 @@ public class Historial<T> {
 		T elementoBuscado = null;
 
 		for (Antecedente<T> antecedente : this.getHistorialDelElemento(elemento).getAntecedentes()) {
-			if (antecedente.isElemento(elemento) && antecedente.transcurrioEn(fecha)) {
+			if (antecedente.sameElement(elemento) && antecedente.transcurrioEn(fecha)) {
 				elementoBuscado = antecedente.getElemento();
 			}
 		}

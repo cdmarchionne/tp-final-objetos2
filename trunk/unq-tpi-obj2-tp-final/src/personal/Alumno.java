@@ -1,10 +1,12 @@
 package personal;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import materias.InscripcionMateria;
 import materias.MateriaAprobada;
 import universidad.InscripcionCarrera;
+import entregas.EntregaTP;
 
 public class Alumno {
 
@@ -12,7 +14,7 @@ public class Alumno {
 
 	private Integer legajo;
 
-	private List<?> entregas;
+	private List<EntregaTP> entregas;
 
 	private List<InscripcionCarrera> carrerasInscriptas;
 
@@ -20,21 +22,31 @@ public class Alumno {
 
 	private List<MateriaAprobada> materiasAprobadas;
 
+	// *****************
+	// * Constructores *
+	// *****************
 	public Alumno(final Persona datosPersonales, final Integer legajo) {
 		super();
 		this.datosPersonales = datosPersonales;
 		this.legajo = legajo;
+		entregas = new ArrayList<EntregaTP>();
+		carrerasInscriptas = new ArrayList<InscripcionCarrera>();
+		materiasInscriptas = new ArrayList<InscripcionMateria>();
+		materiasAprobadas = new ArrayList<MateriaAprobada>();
 	}
 
-	public List<?> getEntregas() {
+	// ********************
+	// * Getter & Setters *
+	// ********************
+	public List<EntregaTP> getEntregas() {
 		return entregas;
 	}
 
-	public void setEntregas(final List<?> entregas) {
+	public void setEntregas(final List<EntregaTP> entregas) {
 		this.entregas = entregas;
 	}
 
-	public List<?> getCarrerasInscriptas() {
+	public List<InscripcionCarrera> getCarrerasInscriptas() {
 		return carrerasInscriptas;
 	}
 
@@ -73,4 +85,15 @@ public class Alumno {
 	public void setLegajo(final Integer legajo) {
 		this.legajo = legajo;
 	}
+
+	@Override
+	public int hashCode() {
+		return legajo.hashCode() + datosPersonales.hashCode();
+	}
+
+	// @Override
+	// public boolean equals(final Object obj) {
+	// return this.hashCode() == obj.hashCode();
+	// }
+
 }
