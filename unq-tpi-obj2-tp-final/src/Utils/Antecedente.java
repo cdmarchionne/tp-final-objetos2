@@ -62,10 +62,13 @@ public class Antecedente<T> {
 		this.elemento = elemento;
 	}
 
-	public boolean isElemento(final T elemento) {
-		return this.elemento == elemento;
+	public boolean sameElement(final T elemento) {
+		return this.elemento.equals(elemento);
 	}
 
+	// ********************
+	// * Funciones Utiles *
+	// ********************
 	/** Verifico si un elemento esta en una fecha */
 	public boolean transcurrioEn(final Date fecha) {
 		boolean rta = false;
@@ -107,6 +110,7 @@ public class Antecedente<T> {
 		return rta;
 	}
 
+	/** Comparo que el Antecedente este hablando del mismo elemento */
 	public boolean sameElement(final Antecedente<T> antecedente) {
 		return this.getElemento() == null ? antecedente.getElemento() == null : this.getElemento()
 				.equals(antecedente.getElemento());

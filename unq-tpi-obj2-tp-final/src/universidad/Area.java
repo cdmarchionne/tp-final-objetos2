@@ -5,7 +5,8 @@ import personal.Docente;
 import Utils.Historial;
 
 /**
- * Area: Agrupo las materias y los docentes de las mismas.
+ * Area: Agrupo bajo un mismo concepto las materias y los docentes de temas
+ * relacionados.
  */
 public class Area {
 
@@ -19,4 +20,15 @@ public class Area {
 	/** Guardar el historial de Materias */
 	private Historial<Materia> materiasDictadas;
 
+	// *****************
+	// * Constructores *
+	// *****************
+
+	// ********************
+	// * Getter & Setters *
+	// ********************
+
+	// ********************
+	// * Funciones Utiles *
+	// ********************
 }
