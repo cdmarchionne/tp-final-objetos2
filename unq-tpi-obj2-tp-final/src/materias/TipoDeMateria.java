@@ -1,10 +1,13 @@
 package materias;
 
+import Utils.Nombrable;
+
 /**
  * TODO: description
  */
-public interface TipoDeMateria {
+public abstract class TipoDeMateria implements Nombrable {
 
-    public String getName();
+	@Override
+	public abstract String getNombre();
 
 }
