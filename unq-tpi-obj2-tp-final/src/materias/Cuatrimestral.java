@@ -3,11 +3,12 @@ package materias;
 /**
  * TODO: description
  */
-public class Cuatrimestral implements Duracion {
+public class Cuatrimestral extends Duracion {
 
-    @Override
-    public Integer getDuracionMensual() {
-        return 4;
-    }
+	public Cuatrimestral() {
+		super();
+		magnitud = 4;
+		unidad = "meses";
+	}
 
 }

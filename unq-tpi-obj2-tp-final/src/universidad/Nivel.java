@@ -1,7 +1,7 @@
 package universidad;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import materias.Duracion;
 import materias.Materia;
@@ -13,14 +13,14 @@ import materias.Materia;
 public class Nivel {
 
 	/** Lista de materias que se cursan a la par */
-	private List<Materia> materias;
+	private Set<Materia> materias;
 
 	/** duracion del periodo que se cursan todas las materias a la par */
 	private Duracion lapso;
 
 	public Nivel() {
 		super();
-		materias = new ArrayList<Materia>();
+		materias = new HashSet<Materia>();
 	}
 
 	public Nivel(final Duracion lapso) {
@@ -36,11 +36,11 @@ public class Nivel {
 		materias.remove(materia);
 	}
 
-	public List<Materia> getMaterias() {
+	public Set<Materia> getMaterias() {
 		return materias;
 	}
 
-	public void setMaterias(final List<Materia> materias) {
+	public void setMaterias(final Set<Materia> materias) {
 		this.materias = materias;
 	}
 
