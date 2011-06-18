@@ -1,10 +1,27 @@
 package materias;
 
+import Utils.Nombrable;
+
 /**
  * TODO: description
  */
-public interface Duracion {
+public abstract class Duracion implements Nombrable {
 
-    public Integer getDuracionMensual();
+	protected Integer magnitud;
+
+	protected String unidad;
+
+	public Integer getDuracion() {
+		return magnitud;
+	}
+
+	public String getUnidad() {
+		return unidad;
+	}
+
+	@Override
+	public String getNombre() {
+		return this.getDuracion() + " " + this.getUnidad();
+	}
 
 }

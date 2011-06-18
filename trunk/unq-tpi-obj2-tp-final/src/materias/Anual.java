@@ -3,11 +3,12 @@ package materias;
 /**
  * TODO: description
  */
-public class Anual implements Duracion {
+public class Anual extends Duracion {
 
-    @Override
-    public Integer getDuracionMensual() {
-        return 8;
-    }
+	public Anual() {
+		super();
+		magnitud = 10;
+		unidad = "meses";
+	}
 
 }
