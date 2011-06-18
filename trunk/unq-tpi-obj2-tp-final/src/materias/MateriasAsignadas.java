@@ -1,6 +1,6 @@
 package materias;
 
-import java.util.List;
+import java.util.Set;
 
 /**
  * Adapter de Materias que varian por Plan de Estudio
@@ -13,6 +13,6 @@ public class MateriasAsignadas {
 
 	private Duracion duracion;
 
-	private List<Materia> correlatividades;
+	private Set<Materia> correlatividades;
 
 }

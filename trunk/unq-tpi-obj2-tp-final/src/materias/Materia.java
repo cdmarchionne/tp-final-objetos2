@@ -1,6 +1,7 @@
 package materias;
 
 import java.util.List;
+import java.util.Set;
 
 import Utils.Nombrable;
 
@@ -19,7 +20,7 @@ public class Materia implements Nombrable {
 
 	private Integer horasSemanales;
 
-	private List<Catedra> catedras;
+	private Set<Catedra> catedras;
 
 	/** Calculo los creditos de la materia */
 	public Integer getCreditos() {

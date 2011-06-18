@@ -3,11 +3,11 @@ package materias;
 /**
  * TODO: description
  */
-public class Obligatoria implements TipoDeMateria {
+public class Obligatoria extends TipoDeMateria {
 
-    @Override
-    public String getName() {
-        return "Obligatoria";
-    }
+	@Override
+	public String getNombre() {
+		return "Obligatoria";
+	}
 
 }
