@@ -3,6 +3,7 @@ package materias;
 import java.util.List;
 import java.util.Set;
 
+import personal.Docente;
 import Utils.Nombrable;
 
 /**
@@ -11,6 +12,8 @@ import Utils.Nombrable;
 public class Materia implements Nombrable {
 
 	private String nombre;
+
+	private Docente titular;
 
 	private List<String> programa; // Lista de Temas
 

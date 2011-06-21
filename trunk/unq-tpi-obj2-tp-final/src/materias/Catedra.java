@@ -1,6 +1,6 @@
 package materias;
 
-import java.util.List;
+import java.util.Set;
 
 import Utils.Historial;
 import entregas.Evaluacion;
@@ -16,7 +16,7 @@ public class Catedra {
 	private Historial<StaffCatedra> staff;
 	// private StaffCatedra staff;
 
-	private List<TrabajoPractico> tp;
-	private List<Evaluacion> examenes;
+	private Set<TrabajoPractico> tp;
+	private Set<Evaluacion> examenes;
 
 }

@@ -11,13 +11,8 @@ import personal.Docente;
 public class StaffCatedra {
 
 	private Docente responsable;
-	private Docente jefeTrabajosPracticos;
+	private Docente jefeTP;
 	private List<Docente> instructores;
 	private List<Alumno> colaboradores;
-
-	// private Historial<Docente> responsable;
-	// private Historial<Docente> jefeTrabajosPracticos;
-	// private Historial<List<Docente>> instructores;
-	// private Historial<List<Alumno>> colaboradores;
 
 }
