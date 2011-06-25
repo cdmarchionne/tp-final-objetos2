@@ -1,12 +1,11 @@
-package personal;
+package src.personal;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import materias.InscripcionMateria;
-import materias.MateriaAprobada;
-import universidad.InscripcionCarrera;
-import entregas.EntregaTP;
+import src.materias.*;
+import src.universidad.*;
+import src.entregas.*;
 
 public class Alumno {
 
@@ -18,21 +17,22 @@ public class Alumno {
 
 	private List<InscripcionCarrera> carrerasInscriptas;
 
-	private List<InscripcionMateria> materiasInscriptas;
+	private List<Materia> materiasInscriptas;
 
 	private List<MateriaAprobada> materiasAprobadas;
 
 	// *****************
 	// * Constructores *
 	// *****************
-	public Alumno(final Persona datosPersonales, final Integer legajo) {
+	public Alumno(final Persona datosPersonales, final int legajo) {
+		
 		super();
 		this.datosPersonales = datosPersonales;
 		this.legajo = legajo;
-		entregas = new ArrayList<EntregaTP>();
-		carrerasInscriptas = new ArrayList<InscripcionCarrera>();
-		materiasInscriptas = new ArrayList<InscripcionMateria>();
-		materiasAprobadas = new ArrayList<MateriaAprobada>();
+		this.entregas = new ArrayList<EntregaTP>();
+		this.carrerasInscriptas = new ArrayList<InscripcionCarrera>();
+		this.materiasInscriptas = new ArrayList<Materia>();
+		this.materiasAprobadas = new ArrayList<MateriaAprobada>();
 	}
 
 	// ********************
@@ -42,7 +42,7 @@ public class Alumno {
 		return entregas;
 	}
 
-	public void setEntregas(final List<EntregaTP> entregas) {
+	public void setEntregas(final ArrayList<EntregaTP> entregas) {
 		this.entregas = entregas;
 	}
 
@@ -86,14 +86,33 @@ public class Alumno {
 		this.legajo = legajo;
 	}
 
-	@Override
-	public int hashCode() {
-		return legajo.hashCode() + datosPersonales.hashCode();
+	public void calcularRegularidad(){		
+		
 	}
-
+	
+	public void inscribirEnMateria(Materia materia){
+		//El alumno no se inscribe en la catedra eso lo sabe la materia.
+		
+		this.materiasInscriptas.add(materia);
+				
+	}
+	public void agregarMateriaAprobada(Materia materia){
+		
+	}
+	public void inscribirEnCarrera(Carrera carrera){
+	
+	}
+	public int calcularCoeficiente(){
+		
+		return int;
+	}
 	// @Override
 	// public boolean equals(final Object obj) {
 	// return this.hashCode() == obj.hashCode();
 	// }
-
+	//
+	//@Override
+	//public int hashCode() {
+	//	return legajo.hashCode() + datosPersonales.hashCode();
+	//}
 }
