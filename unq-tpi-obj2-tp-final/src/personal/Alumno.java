@@ -12,7 +12,7 @@ public class Alumno {
 
 	private Persona datosPersonales;
 
-	private Integer legajo;
+	private int legajo;
 
 	private List<EntregaTP> entregas;
 
