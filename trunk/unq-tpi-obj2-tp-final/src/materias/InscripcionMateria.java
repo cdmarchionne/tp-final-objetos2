@@ -1,4 +1,4 @@
-package materias;
+package src.materias;
 
 import java.util.List;
 

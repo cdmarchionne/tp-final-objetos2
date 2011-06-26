@@ -1,4 +1,4 @@
-package personal;
+package src.personal;
 
 /**
  * Clase que utilizamos para manejar a las Autoridades

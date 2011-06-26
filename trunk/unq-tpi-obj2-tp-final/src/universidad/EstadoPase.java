@@ -1,6 +1,6 @@
-package universidad;
+package src.universidad;
 
-import Utils.Nombrable;
+import src.Utils.Nombrable;
 
 /**
  * Regulacion de los estados del pase

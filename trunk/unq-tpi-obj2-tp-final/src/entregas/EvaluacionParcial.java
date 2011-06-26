@@ -1,4 +1,4 @@
-package entregas;
+package src.entregas;
 
 import java.util.Date;
 

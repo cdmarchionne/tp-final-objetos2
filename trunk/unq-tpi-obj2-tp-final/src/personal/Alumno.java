@@ -17,7 +17,7 @@ public class Alumno {
 
 	private List<InscripcionCarrera> carrerasInscriptas;
 
-	private List<Materia> materiasInscriptas;
+	private ArrayList<InscripcionMateria> materiasInscriptas;
 
 	private List<MateriaAprobada> materiasAprobadas;
 
@@ -31,7 +31,7 @@ public class Alumno {
 		this.legajo = legajo;
 		this.entregas = new ArrayList<EntregaTP>();
 		this.carrerasInscriptas = new ArrayList<InscripcionCarrera>();
-		this.materiasInscriptas = new ArrayList<Materia>();
+		this.materiasInscriptas = new ArrayList<InscripcionMateria>();
 		this.materiasAprobadas = new ArrayList<MateriaAprobada>();
 	}
 
@@ -58,7 +58,7 @@ public class Alumno {
 		return materiasInscriptas;
 	}
 
-	public void setMateriasInscriptas(final List<InscripcionMateria> materiasInscriptas) {
+	public void setMateriasInscriptas(final ArrayList<InscripcionMateria> materiasInscriptas) {
 		this.materiasInscriptas = materiasInscriptas;
 	}
 
@@ -90,7 +90,7 @@ public class Alumno {
 		
 	}
 	
-	public void inscribirEnMateria(Materia materia){
+	public void inscribirEnMateria(InscripcionMateria materia){
 		//El alumno no se inscribe en la catedra eso lo sabe la materia.
 		
 		this.materiasInscriptas.add(materia);
@@ -104,7 +104,7 @@ public class Alumno {
 	}
 	public int calcularCoeficiente(){
 		
-		return int;
+		return 5;
 	}
 	// @Override
 	// public boolean equals(final Object obj) {
