@@ -1,9 +1,12 @@
 package src.materias;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
 import src.Utils.Nombrable;
+import src.personal.Alumno;
 import src.personal.Docente;
 
 
@@ -17,7 +20,7 @@ public class Materia implements Nombrable {
 
 	private Docente titular;
 
-	private List<String> programa; // Lista de Temas
+	private Set<String> programa; // Lista de Temas, es un SET para poder eliminar los repetidos sin hacer ningun calculo.
 
 	private List<String> requisitos;
 
@@ -26,14 +29,93 @@ public class Materia implements Nombrable {
 	private Integer horasSemanales;
 
 	private Set< Catedra > catedras;
+	
+	private List<InscripcionMateria> inscripciones;
+	
+	
+	
+	
 
+	
+
+
+	public Materia(String nombre, int dificultad){/*La materia se crea solo con el nombre y la dificultad, el resto de las caracteristicas se van agregando luego*/
+		this.nombre = nombre;
+		this.dificultad = dificultad;
+	}
+	
+	public List<InscripcionMateria> getInscripciones() {
+		return inscripciones;
+	}
+
+
+
+	public void agregarInscripcion(InscripcionMateria inscripcion) {
+		this.getInscripciones().add(inscripcion);
+		for(Catedra c : this.getCatedras() ){
+			if(c.equals(inscripcion.getCatedraElegida())){
+				c.agrgarAlumnoInscripto(inscripcion.getAlumno());
+			}
+			
+		}
+	}
+
+	
 	/** Calculo los creditos de la materia */
 	public Integer getCreditos() {
 		return horasSemanales * dificultad;
+	}
+	
+	public void setHorasSemanales(int horas){
+		this.horasSemanales = horas;
+	}
+	public List<String> getRequisitos(){
+		return this.requisitos;
+	}
+	
+	public void agregarRequisito(String requisito ) {
+		this.getRequisitos().add(requisito);	
+	}
+	
+	
+	
+	public Set< Catedra > getCatedras(){
+		return this.catedras;
+	}
+	
+	public void agregarCatedra(Catedra catedra){
+		this.getCatedras().add(catedra);
+	}
+	
+	public void setTitular(Docente titular){
+		this.titular = titular;
+	}
+	public Docente getTitular(){
+		return this.titular;
 	}
 
 	public String getNombre() {
 		return nombre;
 	}
+	public Set<String> getPrograma(){
+		return this.programa;
+	}
+	
+	public void agregarTema(String tema){ /*Agrega un tema al programa*/
+		this.getPrograma().add(tema);
+	}
 
+	public List<Alumno> getAlumnosInscriptosEn(Date fecha){
+		ArrayList<Alumno> listaFinal = new ArrayList<Alumno>();
+			
+		for (InscripcionMateria inscripcion : this.getInscripciones()) {
+				if(inscripcion.getFechaInscripcion().equals(fecha)){
+						listaFinal.add(inscripcion.getAlumno());
+				}	
+			
+		}
+		return listaFinal;
+	}
+	
+	
 }
