@@ -1,4 +1,4 @@
-package personal;
+package src.personal;
 
 /**
  * Administracion de los Datos personales

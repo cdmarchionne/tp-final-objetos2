@@ -1,4 +1,4 @@
-package materias;
+package src.materias;
 
 /**
  * TODO: description

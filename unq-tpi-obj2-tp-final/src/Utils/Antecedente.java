@@ -1,4 +1,4 @@
-package Utils;
+package src.Utils;
 
 import java.util.Date;
 
@@ -65,6 +65,8 @@ public class Antecedente<T> {
 	public boolean sameElement(final T elemento) {
 		return this.elemento.equals(elemento);
 	}
+	
+	
 
 	// ********************
 	// * Funciones Utiles *

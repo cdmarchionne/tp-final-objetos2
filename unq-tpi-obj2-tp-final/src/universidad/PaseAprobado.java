@@ -1,4 +1,4 @@
-package universidad;
+package src.universidad;
 
 /**
  * Aprobado

@@ -1,10 +1,10 @@
-package universidad;
+package src.universidad;
 
 import java.util.Map;
 import java.util.Set;
 
 import personal.Docente;
-import Utils.Nombrable;
+import src.Utils.Nombrable;
 
 public class Carrera implements Nombrable {
 

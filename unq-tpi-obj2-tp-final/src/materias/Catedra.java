@@ -1,10 +1,10 @@
-package materias;
+package src.materias;
 
 import java.util.Set;
 
-import Utils.Historial;
-import entregas.Evaluacion;
-import entregas.TrabajoPractico;
+import src.Utils.Historial;
+import src.entregas.*;
+
 
 /**
  * Catedra

@@ -1,10 +1,12 @@
-package materias;
+package src.materias;
 
 import java.util.List;
 import java.util.Set;
 
-import personal.Docente;
-import Utils.Nombrable;
+import src.Utils.Nombrable;
+import src.personal.Docente;
+
+
 
 /**
  * Materia. La duracion de una materia depende del Plan de estudio
@@ -23,14 +25,13 @@ public class Materia implements Nombrable {
 
 	private Integer horasSemanales;
 
-	private Set<Catedra> catedras;
+	private Set< Catedra > catedras;
 
 	/** Calculo los creditos de la materia */
 	public Integer getCreditos() {
 		return horasSemanales * dificultad;
 	}
 
-	@Override
 	public String getNombre() {
 		return nombre;
 	}

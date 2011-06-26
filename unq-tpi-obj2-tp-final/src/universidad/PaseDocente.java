@@ -1,9 +1,9 @@
-package universidad;
+package src.universidad;
 
 import java.util.Set;
 
-import personal.Autoridad;
-import personal.Docente;
+import src.personal.Autoridad;
+import src.personal.Docente;
 
 /**
  * TODO: description
