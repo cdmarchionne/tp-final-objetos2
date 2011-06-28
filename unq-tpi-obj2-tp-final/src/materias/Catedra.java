@@ -1,5 +1,6 @@
 package src.materias;
 
+import java.util.ArrayList;
 import java.util.Set;
 
 import src.Utils.Historial;
@@ -31,9 +32,8 @@ public class Catedra {
 	public Set<TrabajoPractico> getTp() {
 		return tp;
 	}
-	public void setTp(Set<TrabajoPractico> tp) {
-		this.tp = tp;
-	}
+	
+	
 	public Set<Evaluacion> getExamenes() {
 		return examenes;
 	}
@@ -49,7 +49,20 @@ public class Catedra {
 	public void agrgarAlumnoInscripto(Alumno alumno) {
 		this.getAlumnosInscriptos().add(alumno);
 		
-		
 	} 
+	
+	public void agregarEvaluacion(Evaluacion evaluacion){
+		this.getExamenes().add(evaluacion);
+		
+	}
+	
+	public void agregarTrabajoPractico(TrabajoPractico tp){
+		this.getTp().add(tp);
+	}
+	
+	
+	public ArrayList<Alumno> getTPSDe(Alumno alumno){
+		return null; 
+	}
 
 }

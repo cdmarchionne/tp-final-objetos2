@@ -19,7 +19,7 @@ public class InscripcionMateria {
 	
 	
 	public InscripcionMateria(Materia materia, Catedra catedra, Alumno alumno){
-		this.fechaInscripcion = new Date();
+		this.fechaInscripcion = new Date(); //Fecha actual del sistema.
 		this.materiaElegida = materia;
 		this.catedraElegida = catedra;
 		this.alumno = alumno;
