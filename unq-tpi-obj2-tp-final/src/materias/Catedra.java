@@ -65,4 +65,12 @@ public class Catedra {
 		return null; 
 	}
 
+	
+	public Alumno getMejorAlumnoDeEntrega(TrabajoPractico tp){
+		
+		
+		
+		return null;
+		
+	}
 }
