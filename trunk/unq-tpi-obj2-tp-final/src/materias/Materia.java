@@ -30,6 +30,9 @@ public class Materia implements Nombrable {
 
 	private Set< Catedra > catedras;
 	
+	private boolean promocionable;
+	
+	
 	private List<InscripcionMateria> inscripciones;
 	
 	
@@ -50,9 +53,11 @@ public class Materia implements Nombrable {
 
 
 
+	
+	
 	public void agregarInscripcion(InscripcionMateria inscripcion) {
 		this.getInscripciones().add(inscripcion);
-		for(Catedra c : this.getCatedras() ){
+		for(Catedra c : this.getCatedras() ){ //Aca a la catedra que se inscribio el alumno tambien le agrego el alumno.
 			if(c.equals(inscripcion.getCatedraElegida())){
 				c.agrgarAlumnoInscripto(inscripcion.getAlumno());
 			}
@@ -116,6 +121,26 @@ public class Materia implements Nombrable {
 		}
 		return listaFinal;
 	}
+
+	public Integer getDificultad() {
+		return dificultad;
+	}
+
+	public Integer getHorasSemanales() {
+		return horasSemanales;
+	}
 	
+	public boolean esPromocionable() {
+		return promocionable;
+	}
+	
+	public void setNoPromocionable(){
+		this.promocionable = false;
+	}
+
+	public void setPromocionable() {
+		this.promocionable = true;
+	}
+
 	
 }

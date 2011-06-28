@@ -4,7 +4,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
-import src.materias.MateriasAsignadas;
+import src.materias.MateriaAsignadaAPlanDeEstudio;
 import src.personal.Docente;
 
 public class PlanDeEstudio {
@@ -15,7 +15,7 @@ public class PlanDeEstudio {
 
 	private Docente director;
 
-	private List<MateriasAsignadas> materias;
+	private List<MateriaAsignadaAPlanDeEstudio> materias;
 
 	private Set<RecorridoSugerido> ordenesSugeridos;
 
