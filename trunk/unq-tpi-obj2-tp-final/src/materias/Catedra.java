@@ -18,19 +18,36 @@ public class Catedra {
 	/** Guardar el historial de Docentes */
 	private Historial<StaffCatedra> staff;
 	// private StaffCatedra staff;
-
+	private String nombre;
 	private Set<TrabajoPractico> tp;
 	private Set<Evaluacion> examenes;
 	private Set<Alumno> alumnosInscriptos ;
 	private List<EntregaTP> entregasDeAlumnos; //Cuando un alumno entrega un TP, se guarda tmb en la catedra
 	
 	
+	
+	
+	public Catedra(String nombre){
+		this.setNombre(nombre);
+	}
+	public String getNombre(){
+		return this.nombre;
+	}
+	public String toString(){
+		return this.getNombre();
+	}
+	
 	public Historial<StaffCatedra> getStaff() {
 		return staff;
 	}
+	
 	public void setStaff(Historial<StaffCatedra> staff) {
 		this.staff = staff;
 	}
+	public void setNombre(String nombre){
+		this.nombre = nombre;
+	}
+	
 	public Set<TrabajoPractico> getTp() {
 		return tp;
 	}
@@ -42,14 +59,14 @@ public class Catedra {
 	public void setExamenes(Set<Evaluacion> examenes) {
 		this.examenes = examenes;
 	}
-	public Set<Alumno> getAlumnosInscriptos() {
+	public Set<Alumno> getInscriptos() {
 		return alumnosInscriptos;
 	}
 	public void setAlumnosInscriptos(Set<Alumno> alumnosInscriptos) {
 		this.alumnosInscriptos = alumnosInscriptos;
 	}
 	public void agrgarAlumnoInscripto(Alumno alumno) {
-		this.getAlumnosInscriptos().add(alumno);
+		this.getInscriptos().add(alumno);
 		
 	} 
 	
@@ -118,7 +135,15 @@ public class Catedra {
 							}else{ if(ganador.getFechaReal().after(entrega.getTp().getFechaReal())){
 									ganador = (TrabajoPracticoIndividual) entrega.getTp();
 									}else{ //Si la fecha no esta ni antes ni despues, coinciden.
-											ganador.getAlumnos().getApellido();
+											int comp = ganador.getAlumnos().getApellido().compareTo(tp.getAlumnos().getApellido());
+											if(comp<0){//No se hace nada.}
+											if(comp>0){ganador = (TrabajoPracticoIndividual)entrega.getTp();}
+											if(comp == 0){//Si da 0 es porque tienen mismo apellido. Comparo por nombre
+												int name = ganador.getAlumnos().getNombre().compareTo(tp.getAlumnos().getNombre());
+												if(name<0){//No se hace nada}
+												if(name > 0 ){ganador = (TrabajoPracticoIndividual)entrega.getTp();}
+											}
+											}
 										 }
 							 	  }
 						  }
@@ -129,7 +154,11 @@ public class Catedra {
 		
 				
 		
-		return ganador.getAlumnos();
-		
-	}
+
+			
+		}
+							return ganador.getAlumnos();		
+		}
+	
+
 }
