@@ -1,15 +1,15 @@
-package src.personal;
+package personal;
 
 import java.util.HashSet;
 import java.util.Set;
 
-import src.materias.Materia;
-import src.universidad.Carrera;
-import src.Utils.*;
-import src.personal.*;
+import materias.Materia;
+import universidad.Carrera;
+import Utils.*;
+import personal.*;
 
 
-/**
+/** 
  * Docente
  */
 public class Docente {

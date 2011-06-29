@@ -1,6 +1,6 @@
-package src.materias;
+package materias;
 
-import src.Utils.Nombrable;
+import Utils.Nombrable;
 
 /**
  * TODO: description

@@ -1,6 +1,6 @@
-package src.entregas;
+package entregas;
 
-import src.personal.Alumno;
+import personal.Alumno;
 
 public class TrabajoPracticoIndividual extends TrabajoPractico {
 

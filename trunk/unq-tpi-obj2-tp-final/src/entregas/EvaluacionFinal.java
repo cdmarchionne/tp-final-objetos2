@@ -1,10 +1,10 @@
-package src.entregas;
+package entregas;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import src.materias.Duracion;
+import materias.Duracion;
 import personal.Alumno;
 
 /**

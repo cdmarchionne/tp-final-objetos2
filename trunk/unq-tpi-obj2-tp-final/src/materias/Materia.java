@@ -1,13 +1,13 @@
-package src.materias;
+package materias;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
-import src.Utils.Nombrable;
-import src.personal.Alumno;
-import src.personal.Docente;
+import Utils.Nombrable;
+import personal.Alumno;
+import personal.Docente;
 
 
 

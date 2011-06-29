@@ -1,11 +1,11 @@
-package src.universidad;
+package universidad;
 
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
-import src.materias.MateriaAsignadaAPlanDeEstudio;
-import src.personal.Docente;
+import materias.MateriaAsignadaAPlanDeEstudio;
+import personal.Docente;
 
 public class PlanDeEstudio {
 

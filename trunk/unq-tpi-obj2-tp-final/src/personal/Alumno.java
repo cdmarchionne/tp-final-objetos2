@@ -29,10 +29,10 @@ public class Alumno {
 		super();
 		this.datosPersonales = datosPersonales;
 		this.legajo = legajo;
-		this.entregas = new List<EntregaTP>();
-		this.carrerasInscriptas = new List();
-		this.materiasInscriptas = new List<InscripcionMateria>();
-		this.materiasAprobadas = new List<MateriaAprobada>();
+		this.entregas = new ArrayList<EntregaTP>();
+		this.carrerasInscriptas = new ArrayList();
+		this.materiasInscriptas = new ArrayList<InscripcionMateria>();
+		this.materiasAprobadas = new ArrayList<MateriaAprobada>();
 	}
 
 	// ********************

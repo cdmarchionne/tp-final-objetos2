@@ -1,4 +1,4 @@
-package src.Utils;
+package Utils;
 
 /**
  * Interfaz que ayuda a que las clases devuelvan un Nombre

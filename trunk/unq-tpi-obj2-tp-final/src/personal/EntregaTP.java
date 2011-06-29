@@ -1,4 +1,4 @@
-package src.personal;
+package personal;
 
 public class EntregaTP {
 
