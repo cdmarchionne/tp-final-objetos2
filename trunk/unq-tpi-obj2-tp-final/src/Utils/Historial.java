@@ -36,11 +36,12 @@ public class Historial<T> {
 	// * Getter & Setters *
 	// ********************
 	public void addAntecedente(final Antecedente<T> antecedente) {
+		this.closeAntecedente(antecedente.getFechaInicio());
 		elementosRecordables.add(antecedente);
 	}
 
-	private void addAntecedente(final Date fechaInicio, final Date fechaFin, final T elemento) {
-		elementosRecordables.add(new Antecedente<T>(elemento, fechaInicio, fechaFin));
+	public void addAntecedente(final Date fechaInicio, final Date fechaFin, final T elemento) {
+		this.addAntecedente(new Antecedente<T>(elemento, fechaInicio, fechaFin));
 	}
 
 	private Set<Antecedente<T>> getAntecedentes() {
@@ -61,6 +62,19 @@ public class Historial<T> {
 		}
 
 		return elementosHitoricos;
+	}
+
+	/** Devuelvo si existe el elemento que correspode a una fecha determinada */
+	public T getElemento(final Date fecha) {
+		T elemento = null;
+
+		for (Antecedente<T> antecedente : elementosRecordables) {
+			if (antecedente.transcurrioEn(fecha)) {
+				elemento = antecedente.getElemento();
+			}
+		}
+
+		return elemento;
 	}
 
 	/** Devuelvo los elementos que correspode a una fecha determinada */
@@ -88,4 +102,16 @@ public class Historial<T> {
 
 		return elementoBuscado;
 	}
+
+	/** Cierro un antecedente abierto en una fecha */
+	public void closeAntecedente(final Date fecha) {
+
+		for (Antecedente<T> antecedente : elementosRecordables) {
+			if (antecedente.transcurrioEn(fecha) && antecedente.getFechaFin() == null) {
+				antecedente.setFechaFin(fecha);
+			}
+		}
+
+	}
+
 }
