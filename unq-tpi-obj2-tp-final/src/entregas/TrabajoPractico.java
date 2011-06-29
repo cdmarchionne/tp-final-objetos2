@@ -1,9 +1,9 @@
-package src.entregas;
+package entregas;
 
 import java.util.ArrayList;
 import java.util.Date;
 
-import src.personal.Alumno;
+import personal.Alumno;
 
 /**
  * TODO: description

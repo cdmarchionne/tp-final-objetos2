@@ -1,10 +1,10 @@
-package src.universidad;
+package universidad;
 
 import java.util.HashSet;
 import java.util.Set;
 
-import src.materias.Duracion;
-import src.materias.Materia;
+import materias.Duracion;
+import materias.Materia;
 
 /**
  * Clase que sirve para manejar de forma conjunta las Materias que se pueden

@@ -1,8 +1,8 @@
-package src.universidad;
+package universidad;
 
 import java.util.Set;
 
-import src.Utils.Nombrable;
+import Utils.Nombrable;
 
 public class Universidad implements Nombrable {
 

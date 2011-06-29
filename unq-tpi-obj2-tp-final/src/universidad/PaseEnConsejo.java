@@ -1,4 +1,4 @@
-package src.universidad;
+package universidad;
 
 /**
  * En Consejo

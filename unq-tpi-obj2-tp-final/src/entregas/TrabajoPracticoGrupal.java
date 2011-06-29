@@ -1,10 +1,10 @@
-package src.entregas;
+package entregas;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import src.personal.Alumno;
+import personal.Alumno;
 
 public class TrabajoPracticoGrupal extends TrabajoPractico {
 	

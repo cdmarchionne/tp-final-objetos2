@@ -1,8 +1,8 @@
-package src.universidad;
+package universidad;
 
-import src.materias.Materia;
+import materias.Materia;
 import personal.Docente;
-import src.Utils.Historial;
+import Utils.Historial;
 
 /**
  * Area: Agrupo bajo un mismo concepto las materias y los docentes de temas

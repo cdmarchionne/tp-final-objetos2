@@ -1,9 +1,9 @@
-package src.materias;
+package materias;
 
 import java.util.Date;
 import java.util.List;
 
-import src.personal.Alumno;
+import personal.Alumno;
 
 /**
  * TODO: description

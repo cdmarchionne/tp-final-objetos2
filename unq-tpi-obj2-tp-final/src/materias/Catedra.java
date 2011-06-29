@@ -1,12 +1,12 @@
-package src.materias;
+package materias;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import src.Utils.Historial;
-import src.entregas.*;
-import src.personal.Alumno;
+import Utils.Historial;
+import entregas.*;
+import personal.Alumno;
 
 
 /**

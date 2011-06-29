@@ -1,4 +1,4 @@
-package src.materias;
+package materias;
 
 import java.util.Set;
 

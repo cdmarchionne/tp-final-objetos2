@@ -1,4 +1,4 @@
-package src.Utils;
+package Utils;
 
 import java.util.Date;
 import java.util.HashSet;

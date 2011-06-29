@@ -1,7 +1,7 @@
-package src.entregas;
+package entregas;
 
-import src.personal.Alumno;
-import src.personal.Docente;
+import personal.Alumno;
+import personal.Docente;
 
 /**
  * TODO: description
