@@ -108,9 +108,10 @@ public class Alumno {
 		
 	}
 	public void inscribirEnCarrera(Carrera carrera){
-		this.carrerasInscriptas.add(carrera);
-		carrera
-		
+		if (this.cursoDeIngresoAprobado){
+			this.carrerasInscriptas.add(carrera);
+			this.legajo = carrera.obtenerLegajo();
+										}
 	}
 	public int calcularCoeficiente(){
 		
