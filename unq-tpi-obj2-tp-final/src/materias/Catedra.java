@@ -67,10 +67,15 @@ public class Catedra {
 	}
 	
 	
-	public ArrayList<TrabajoPractico> getTPSDe(Alumno alumno){ /*Devuelve la lista de tps de un alumno*/
+	public ArrayList<EntregaTP> getTPSDe(Alumno alumno){ /*Devuelve la lista de tps de un alumno*/
+		ArrayList<EntregaTP> listaEntregas = new ArrayList<EntregaTP>();
+		for (EntregaTP  entrega :  this.getEntregasTPs()) {
+			if(entrega.getAlumno().equals(alumno)){
+				listaEntregas.add(entrega);
+			}
+		}
 		
-		
-		return null;
+		return listaEntregas;
 	}
 
 	
