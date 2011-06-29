@@ -9,7 +9,7 @@ import src.Utils.Nombrable;
 public class Carrera implements Nombrable {
 
 	private String nombre;
-
+	private int legajoCarrera;
 	private Docente director;
 
 	private Map<PlanDeEstudio, Boolean> planesVigentes;
@@ -34,6 +34,11 @@ public class Carrera implements Nombrable {
 	/** Devuelvo la Lista de Plan de Estudio */
 	public Set<PlanDeEstudio> getPlanesVigentes() {
 		return planesVigentes.keySet();
+	}
+	/** devuelvo el numero de legajo de la carrera y lo incremento en 1	 */
+		public int giveLegajo(){
+		this.legajoCarrera = this.legajoCarrera + 1;
+		return legajoCarrera;
 	}
 
 	/** Agrego un Plan de Estudio */
