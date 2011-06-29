@@ -11,8 +11,8 @@ import src.personal.Alumno;
 public abstract class TrabajoPractico {
 	
 	private String nombre;
-	private Date fechaLimite;
-	private Date fechaReal;
+	private Date fechaLimite; //Fecha MAXIMA para entregar
+	private Date fechaReal; //Fecha CUANDO SE ENTREGO
 	private ArrayList<String> correcciones;
 	private boolean estado ;
 	
@@ -26,6 +26,9 @@ public abstract class TrabajoPractico {
 		this.estado = true;
 	}
 	
+	public Date getFechaReal(){
+		return this.fechaReal;
+	}
 	public void setDesaprobado(){
 		this.estado = false;
 	}
