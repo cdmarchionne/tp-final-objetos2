@@ -24,9 +24,37 @@ public class Area {
 	// * Constructores *
 	// *****************
 
+	public Area(final String nombre, final Docente director) {
+		super();
+		this.nombre = nombre;
+		this.director = director;
+		staffDocente = new Historial<Docente>();
+		materiasDictadas = new Historial<Materia>();
+	}
+
 	// ********************
 	// * Getter & Setters *
 	// ********************
+
+	public Docente getDirector() {
+		return director;
+	}
+
+	public void setDirector(final Docente director) {
+		this.director = director;
+	}
+
+	public String getNombre() {
+		return nombre;
+	}
+
+	public Historial<Docente> getStaffDocente() {
+		return staffDocente;
+	}
+
+	public Historial<Materia> getMateriasDictadas() {
+		return materiasDictadas;
+	}
 
 	// ********************
 	// * Funciones Utiles *
