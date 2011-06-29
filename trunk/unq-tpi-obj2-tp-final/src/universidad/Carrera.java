@@ -36,7 +36,7 @@ public class Carrera implements Nombrable {
 		return planesVigentes.keySet();
 	}
 	/** devuelvo el numero de legajo de la carrera y lo incremento en 1	 */
-		public int giveLegajo(){
+		public int obtenerLegajo(){
 		this.legajoCarrera = this.legajoCarrera + 1;
 		return legajoCarrera;
 	}
