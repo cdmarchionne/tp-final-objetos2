@@ -90,6 +90,14 @@ public class Alumno {
 		
 	}
 	
+	public String getNombre(){
+		return this.getDatosPersonales().getNombre();
+	}
+	
+	public String getApellido(){
+		return this.getDatosPersonales().getApellido();
+	}
+	
 	public void inscribirEnMateria(InscripcionMateria materia){
 		//El alumno no se inscribe en la catedra eso lo sabe la materia.
 		
