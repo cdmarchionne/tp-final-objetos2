@@ -1,6 +1,7 @@
 package src.materias;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import src.Utils.Historial;
@@ -21,6 +22,7 @@ public class Catedra {
 	private Set<TrabajoPractico> tp;
 	private Set<Evaluacion> examenes;
 	private Set<Alumno> alumnosInscriptos ;
+	private List<EntregaTP> entregasDeAlumnos;
 	
 	
 	public Historial<StaffCatedra> getStaff() {
@@ -60,9 +62,15 @@ public class Catedra {
 		this.getTp().add(tp);
 	}
 	
+	public List<EntregaTP> getEntregasTPs(){
+		return this.entregasDeAlumnos;
+	}
 	
-	public ArrayList<Alumno> getTPSDe(Alumno alumno){
-		return null; 
+	
+	public ArrayList<TrabajoPractico> getTPSDe(Alumno alumno){ /*Devuelve la lista de tps de un alumno*/
+		
+		
+		return null;
 	}
 
 	
