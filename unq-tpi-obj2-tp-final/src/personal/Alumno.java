@@ -1,38 +1,39 @@
 package personal;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import materias.InscripcionMateria;
 import materias.Materia;
 import materias.MateriaAprobada;
-import personal.Persona;
 import universidad.Carrera;
-import universidad.InscripcionCarrera;
 import entregas.EntregaTP;
 
 public class Alumno {
-	
+
 	private Persona datosPersonales;
-	private int legajo;
+	private Map<Carrera, Integer> legajo;
 	private List<EntregaTP> entregas;
 	private List<Carrera> carrerasInscriptas;
 	private List<InscripcionMateria> materiasInscriptas;
 	private List<MateriaAprobada> materiasAprobadas;
-	private Boolean cursoDeIngresoAprobado = false;
+	private Boolean cursoDeIngreso;
 
 	// *****************
 	// * Constructores *
 	// *****************
-	public Alumno(final Persona datosPersonales, final int legajo) {
-		
+	public Alumno(final Persona datosPersonales) {
+
 		super();
 		this.datosPersonales = datosPersonales;
-		this.legajo = legajo;
-		this.entregas = new ArrayList<EntregaTP>();
-		this.carrerasInscriptas = new ArrayList();
-		this.materiasInscriptas = new ArrayList<InscripcionMateria>();
-		this.materiasAprobadas = new ArrayList<MateriaAprobada>();
+		legajo = new HashMap<Carrera, Integer>();
+		entregas = new ArrayList<EntregaTP>();
+		carrerasInscriptas = new ArrayList();
+		materiasInscriptas = new ArrayList<InscripcionMateria>();
+		materiasAprobadas = new ArrayList<MateriaAprobada>();
+		cursoDeIngreso = false;
 	}
 
 	// ********************
@@ -50,8 +51,8 @@ public class Alumno {
 		return carrerasInscriptas;
 	}
 
-	public void setCarrerasInscriptas(final List<Carrera> carrerasInscriptas) {
-		this.carrerasInscriptas = carrerasInscriptas;
+	public void addCarrerasInscriptas(final Carrera carreraInscripta) {
+		carrerasInscriptas.add(carreraInscripta);
 	}
 
 	public List<?> getMateriasInscriptas() {
@@ -78,52 +79,48 @@ public class Alumno {
 		this.datosPersonales = datosPersonales;
 	}
 
-	public int getLegajo() {
-		return legajo;
+	public Integer getLegajo(final Carrera carrera) {
+		return legajo.get(carrera);
 	}
-	public void setLegajo(final int legajo) {
-		this.legajo = legajo;
+
+	public void addLegajo(final Carrera carrera, final Integer legajo) {
+		this.legajo.put(carrera, legajo);
 	}
-	public void calcularRegularidad(){		
-		
-	}	
-	public String getNombre(){
+
+	public void calcularRegularidad() {
+
+	}
+
+	public String getNombre() {
 		return this.getDatosPersonales().getNombre();
 	}
-	
-	public String getApellido(){
+
+	public String getApellido() {
 		return this.getDatosPersonales().getApellido();
 	}
-	public void setCursoDeIngresoAprobado(Boolean boolie){
-		this.cursoDeIngresoAprobado = boolie;
+
+	public void setCursoDeIngresoAprobado(final Boolean boolie) {
+		cursoDeIngreso = boolie;
 	}
-	
-	public void inscribirEnMateria(InscripcionMateria materia){
-		//El alumno no se inscribe en la catedra eso lo sabe la materia.
-		
-		this.materiasInscriptas.add(materia);
-				
+
+	public Boolean cursoDeIngresoAprobado() {
+		return cursoDeIngreso;
 	}
-	public void agregarMateriaAprobada(Materia materia){
-		
+
+	public void inscribirEnMateria(final InscripcionMateria materia) {
+		// El alumno no se inscribe en la catedra eso lo sabe la materia.
+
+		materiasInscriptas.add(materia);
+
 	}
-	public void inscribirEnCarrera(Carrera carrera){
-		if (this.cursoDeIngresoAprobado){
-			this.carrerasInscriptas.add(carrera);
-			this.legajo = carrera.obtenerLegajo();
-										}
+
+	public void agregarMateriaAprobada(final Materia materia) {
+
 	}
-	public int calcularCoeficiente(){
-		
+
+	public int calcularCoeficiente() {
+
 		return 5;
 	}
-	// @Override
-	// public boolean equals(final Object obj) {
-	// return this.hashCode() == obj.hashCode();
-	// }
-	//
-	//@Override
-	//public int hashCode() {
-	//	return legajo.hashCode() + datosPersonales.hashCode();
-	//}
+
 }
