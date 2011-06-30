@@ -1,37 +1,58 @@
 package universidad;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.List;
 
-import personal.Alumno;
 import personal.Persona;
+import personal.Alumno;
+import personal.Docente;
 import materias.Catedra;
 
 /**
  * TODO: description
  */
 public class OficinaDeAlumnos {
+
 	private Persona jefeOficina;
-	private List<Alumno> alumnos;
-	private List<Persona> secretarios;
+	private Set<Persona> secretarios;
+
+	private Set<Alumno> alumnos;
+	private Set<Docente> docentes;
+	private Integer legajoDocente;
 	
 	public OficinaDeAlumnos(Persona jefeOficina){
 		super();
-		this.alumnos = new ArrayList<Alumno>();
-		this.secretarios = new ArrayList<Persona>();
+		this.alumnos = new HashSet<Alumno>();
+		this.secretarios = new HashSet<Persona>();
 		this.jefeOficina = jefeOficina;
 	}
-	public void inscribirAlumnoEnCarrera(Alumno alumno, final Carrera carrera) {
+
+	public void inscribirAlumnoEnCarrera(final Alumno alumno, final Carrera carrera) {
 		if (alumno.cursoDeIngresoAprobado()) {
 			alumno.addCarrerasInscriptas(carrera);
 			alumno.addLegajo(carrera, carrera.obtenerLegajo());
 		}
-		}
-	public void altaAlumno(Persona persona){
-		Alumno alumno = new Alumno(persona);
-		this.alumnos.add(alumno);		
 	}
+	
+	/** Creo un docente nuevo y lo agrego a la lista de docentes */
+	public void nuevoDocente(Persona datosPersonales){
+		Docente docente= new Docente(datosPersonales,incrementarLegajoDocente());
+		docentes.add(docente);
+	}
+
+	private int incrementarLegajoDocente() {
+		legajoDocente =legajoDocente +1;
+		return legajoDocente;
+	}
+
+	public void nuevoAlumno(Persona datosPersonales) {
+		Alumno alumno= new Alumno(datosPersonales);
+		alumnos.add(alumno);
+	}
+	
+	
 	/** Cambia un alumno de una catedra a otra 	 */
 	public void cambiarAlumnoDeCatedra(Catedra nuevaCatedra, Catedra catedraActual , Alumno alumno){
 		catedraActual.removeAlumno(alumno);

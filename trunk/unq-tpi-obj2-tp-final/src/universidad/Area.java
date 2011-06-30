@@ -24,10 +24,10 @@ public class Area {
 	// * Constructores *
 	// *****************
 
-	public Area(final String nombre, final Docente director) {
+	public Area(final String nombre) {
 		super();
 		this.nombre = nombre;
-		this.director = director;
+		this.director = null;
 		staffDocente = new Historial<Docente>();
 		materiasDictadas = new Historial<Materia>();
 	}

@@ -61,7 +61,7 @@ public class Materia implements Nombrable {
 												// inscribio el alumno tambien
 												// le agrego el alumno.
 			if (c.equals(inscripcion.getCatedraElegida())) {
-				c.agrgarAlumnoInscripto(inscripcion.getAlumno());
+				c.agregarAlumnoInscripto(inscripcion.getAlumno());
 			}
 
 		}

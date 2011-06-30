@@ -6,6 +6,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
+
 import personal.Alumno;
 import Utils.Historial;
 import entregas.EntregaTP;
@@ -75,15 +77,15 @@ public class Catedra {
 		return alumnosInscriptos;
 	}
 
-	public void setAlumnosInscriptos(final Set<Alumno> alumnosInscriptos) {
-		this.alumnosInscriptos = alumnosInscriptos;
-	}
-
-	public void agrgarAlumnoInscripto(final Alumno alumno) {
+	public void agregarAlumnoInscripto(final Alumno alumno) {
 		this.getInscriptos().add(alumno);
-
+		
 	}
-
+	
+	public void removeAlumno(final Alumno alumno) {
+		this.alumnosInscriptos.remove(alumno);
+	}
+	
 	public void agregarEvaluacion(final Evaluacion evaluacion) {
 		this.getExamenes().add(evaluacion);
 
@@ -97,15 +99,15 @@ public class Catedra {
 		return entregasDeAlumnos;
 	}
 
-	public void addEntrega(final EntregaTP entrega) {
+	public void addEntrega(EntregaTP entrega) {
 		this.getEntregasTPs().add(entrega);
 	}
 
-	public ArrayList<EntregaTP> getTPSDe(final Alumno alumno) { /*
-																 * Devuelve la
-																 * lista de tps
-																 * de un alumno
-																 */
+	public ArrayList<EntregaTP> getTPSDe(Alumno alumno) { /*
+														 * Devuelve la
+														 * lista de tps
+														 * de un alumno
+														 */
 		ArrayList<EntregaTP> listaEntregas = new ArrayList<EntregaTP>();
 		for (EntregaTP entrega : this.getEntregasTPs()) {
 			if (entrega.getAlumno().equals(alumno)) {
@@ -116,15 +118,8 @@ public class Catedra {
 		return listaEntregas;
 	}
 
-	public ArrayList<Alumno> getAlumnosEntregaronTP(final TrabajoPractico tp) {/*
-																				 * Devuelve
-																				 * los
-																				 * alumnos
-																				 * que
-																				 * entregaron
-																				 * cierto
-																				 * TP
-																				 */
+	/** Devuelve los alumnos que entregaron cierto TP */
+	public ArrayList<Alumno> getAlumnosEntregaronTP(final TrabajoPractico tp) {
 		ArrayList<Alumno> listaAlumnos = new ArrayList<Alumno>();
 		for (EntregaTP entrega : this.getEntregasTPs()) {
 			if (entrega.getTp().equals(tp)) {
@@ -135,14 +130,9 @@ public class Catedra {
 
 	}
 
-	public ArrayList<EntregaTP> getEntregasTP(final TrabajoPractico tp) {/*
-																		 * Devuelve
-																		 * las
-																		 * entregas
-																		 * de
-																		 * cierto
-																		 * TP
-																		 */
+
+	/** Devuelve las entregas de cierto TP */
+	public ArrayList<EntregaTP> getEntregasTP(final TrabajoPractico tp) {
 		ArrayList<EntregaTP> listaEntregas = new ArrayList<EntregaTP>();
 		for (EntregaTP entrega : this.getEntregasTPs()) {
 			if (entrega.getTp().equals(tp)) {
@@ -152,50 +142,53 @@ public class Catedra {
 		return listaEntregas;
 
 	}
-
+	
 	public Alumno getMejorAlumnoDeEntrega(final TrabajoPracticoIndividual tp) {
 		TrabajoPracticoIndividual ganador = tp;
+
 		for (EntregaTP entrega : this.getEntregasTP(tp)) {
-			if (ganador.getNota() < entrega.getNota()) {
+			if (!mayorNota(ganador, entrega)) {
 				ganador = (TrabajoPracticoIndividual) entrega.getTp();
 			} else {
-				if (ganador.getNota() > entrega.getNota()) {
-					// No hacer nada.
-				} else {/* Si no es menor ni es mayor, entonces es igual */
-					if (ganador.getFechaReal().before(entrega.getTp().getFechaReal())) {
-						// No hacer nada
-					} else {
-						if (ganador.getFechaReal().after(entrega.getTp().getFechaReal())) {
-							ganador = (TrabajoPracticoIndividual) entrega.getTp();
-						} else { // Si la fecha no esta ni antes ni despues,
-									// coinciden.
-							int comp = ganador.getAlumnos().getApellido()
-									.compareTo(tp.getAlumnos().getApellido());
-							if (comp < 0) {// No se hace nada.}
-								if (comp > 0) {
-									ganador = (TrabajoPracticoIndividual) entrega.getTp();
-								}
-								if (comp == 0) {// Si da 0 es porque tienen
-												// mismo apellido. Comparo por
-												// nombre
-									int name = ganador.getAlumnos().getNombre()
-											.compareTo(tp.getAlumnos().getNombre());
-									if (name < 0) {// No se hace nada}
-										if (name > 0) {
-											ganador = (TrabajoPracticoIndividual) entrega.getTp();
-										}
-									}
-								}
-							}
-						}
+					if (compararNombre(ganador.getAlumnos(),tp.getAlumnos())){
+						ganador = (TrabajoPracticoIndividual) entrega.getTp();
 					}
-
-				}
-
 			}
-
 		}
+		
 		return ganador.getAlumnos();
+
 	}
+
+	/** Devuelve True la nota Mayor la tiene el ganador o lo entrego antes*/
+	private boolean mayorNota(TrabajoPracticoIndividual ganador, EntregaTP entrega) {
+		boolean rta=false;
+		
+		if (ganador.getNota()==entrega.getNota()){
+			rta = ganador.getFechaReal().before(entrega.getTp().getFechaReal());		
+		}else{
+			rta = ganador.getNota()>entrega.getNota();
+		}
+		
+		
+		return rta;
+	}
+
+	/** Devuelve True si el nombre del alumno Tp esta antes que el del ganador ordenado alfabeticamente */
+	private boolean compararNombre(Alumno alumnoGanador,Alumno alumnoTp)
+	{
+		boolean ordenNombre = false;
+		// Si la fecha no esta ni antes ni despues,
+					// coinciden.
+			
+			int compApellido = alumnoGanador.getApellido().compareTo(alumnoTp.getApellido());
+			ordenNombre = (compApellido > 0); // Si el apellido esta antes
+			if (compApellido == 0) {// Si tienen mismo apellido. Comparo por nombre
+					int compName = alumnoGanador.getNombre().compareTo(alumnoTp.getNombre());
+					ordenNombre = (compName > 0); // Si el nombre esta antes
+			}
+		return ordenNombre;
+	}
+
 
 }
