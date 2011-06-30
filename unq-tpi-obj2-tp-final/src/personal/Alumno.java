@@ -99,7 +99,7 @@ public class Alumno {
 		return this.getDatosPersonales().getApellido();
 	}
 
-	public void setCursoDeIngresoAprobado(final Boolean boolie) {
+	public void setCursoDeIngreso(final Boolean boolie) {
 		cursoDeIngreso = boolie;
 	}
 
