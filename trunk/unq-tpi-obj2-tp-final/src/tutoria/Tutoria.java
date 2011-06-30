@@ -26,7 +26,7 @@ public abstract class Tutoria {
 		this.nombre = nombre;
 		this.alumno = alumno;
 		this.fechaInicio = fechaInicio;
-		fechaFinal = fechaInicio.setYear(fechaInicio.getYear() + 1);
+		// fechaFinal = fechaInicio.setYear(fechaInicio.getYear() + 1);
 	}
 
 	// ********************

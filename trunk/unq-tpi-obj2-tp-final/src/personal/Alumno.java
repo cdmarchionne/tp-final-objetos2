@@ -8,10 +8,11 @@ import java.util.Map;
 import materias.InscripcionMateria;
 import materias.Materia;
 import materias.MateriaAprobada;
+import model.interfaces.AlumnoIMPL;
 import universidad.Carrera;
 import entregas.EntregaTP;
 
-public class Alumno {
+public class Alumno implements AlumnoIMPL {
 
 	private Persona datosPersonales;
 	private Map<Carrera, Integer> legajo;
@@ -114,13 +115,19 @@ public class Alumno {
 
 	}
 
-	public void agregarMateriaAprobada(final Materia materia) {
-
+	public void agregarMateriaAprobada(final Materia materia, float nota) {
+		materiasAprobadas.add(new MateriaAprobada(materia, nota));
 	}
 
-	public int calcularCoeficiente() {
+	/** Calcula el promedio de las materias aprobadas */
+	public float calcularPromedio() {
+		float notas = 0;
 
-		return 5;
+		for (MateriaAprobada materiaAprobada : materiasAprobadas) {
+			notas = notas + materiaAprobada.getNota();
+		}
+
+		return notas / materiasAprobadas.size();
 	}
 
 }
