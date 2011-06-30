@@ -62,6 +62,26 @@ public class OficinaDeAlumnos {
 	public List entregarAnalitico(Alumno alumno){
 		return alumno.getMateriasAprobadas();
 	}
+
+	public Persona getJefeOficina() {
+		return jefeOficina;
+	}
+
+	public Set<Persona> getSecretarios() {
+		return secretarios;
+	}
+
+	public Set<Alumno> getAlumnos() {
+		return alumnos;
+	}
+
+	public Set<Docente> getDocentes() {
+		return docentes;
+	}
+
+	public Integer getLegajoDocente() {
+		return legajoDocente;
+	}
 	
 	
 }
