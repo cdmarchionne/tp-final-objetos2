@@ -10,6 +10,7 @@ import model.interfaces.AlumnoIMPL;
 import model.interfaces.CatedraIMPL;
 import model.interfaces.MateriaIMPL;
 import model.interfaces.UniversidadIMPL;
+import personal.Alumno;
 import personal.Persona;
 import Utils.Nombrable;
 
@@ -80,6 +81,20 @@ public class Universidad implements Nombrable, UniversidadIMPL {
 		this.oficinaDeAlumnos = oficinaDeAlumnos;
 	}
 
+	/** Busco la carrera a la que pertenece un plan de estudio */
+	public Carrera getCarrera(PlanDeEstudio planDeEstudio) {
+		Carrera carreraBuscada = null;
+
+		for (Carrera carrera : carreras) {
+			if (carrera.getPlanesDeEstudio().equals(planDeEstudio)) {
+				carreraBuscada = carrera;
+				break;
+			}
+		}
+
+		return carreraBuscada;
+	}
+
 	@Override
 	public String getNombre() {
 		return nombre;
@@ -108,7 +123,7 @@ public class Universidad implements Nombrable, UniversidadIMPL {
 
 	@Override
 	public List<MateriaIMPL> materiasInscribibles(AlumnoIMPL alumno) {
-		throw new UnsupportedOperationException();
+		return ((Alumno) alumno).getMateriasInscribibles();
 	}
 
 	@Override
