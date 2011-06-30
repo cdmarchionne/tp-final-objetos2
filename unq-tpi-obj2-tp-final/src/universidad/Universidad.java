@@ -43,6 +43,7 @@ public class Universidad implements Nombrable, UniversidadIMPL {
 
 	public Universidad() {
 		super();
+		Utils.GeneradorDeDatos.datosMinimos();
 	}
 
 	public Universidad(String nombre, Persona jefeOficinaAlumnos) {
