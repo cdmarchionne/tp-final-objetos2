@@ -1,6 +1,7 @@
 package universidad;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -19,7 +20,7 @@ public class Carrera implements Nombrable {
 		super();
 		this.nombre = nombre;
 		legajoCarrera = 0;
-		this.director = null;
+		director = null;
 		planesVigentes = new HashMap<PlanDeEstudio, Boolean>();
 	}
 
@@ -28,9 +29,9 @@ public class Carrera implements Nombrable {
 		return nombre;
 	}
 
-//	public void setNombre(final String nombre) {
-//		this.nombre = nombre;
-//	}
+	// public void setNombre(final String nombre) {
+	// this.nombre = nombre;
+	// }
 
 	public Docente getDirector() {
 		return director;
@@ -41,8 +42,21 @@ public class Carrera implements Nombrable {
 	}
 
 	/** Devuelvo la Lista de Plan de Estudio */
-	public Set<PlanDeEstudio> getPlanesVigentes() {
+	public Set<PlanDeEstudio> getPlanesDeEstudio() {
 		return planesVigentes.keySet();
+	}
+
+	/** Devuelvo la Lista de Plan de Estudio Vigentes */
+	public Set<PlanDeEstudio> getPlanesVigentes() {
+		Set<PlanDeEstudio> planes = new HashSet<PlanDeEstudio>();
+
+		for (PlanDeEstudio planDeEstudio : planesVigentes.keySet()) {
+			if (planesVigentes.get(planDeEstudio)) {
+				planes.add(planDeEstudio);
+			}
+		}
+
+		return planes;
 	}
 
 	/** devuelvo el numero de legajo de la carrera y lo incremento en 1 */
