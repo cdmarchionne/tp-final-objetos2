@@ -6,10 +6,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
-
+import model.interfaces.AlumnoIMPL;
+import model.interfaces.CatedraIMPL;
 import personal.Alumno;
 import Utils.Historial;
+import Utils.Nombrable;
 import entregas.EntregaTP;
 import entregas.Evaluacion;
 import entregas.TrabajoPractico;
@@ -19,7 +20,7 @@ import entregas.TrabajoPracticoIndividual;
  * Catedra
  */
 // Almeceno el Historial del Staff Completo
-public class Catedra {
+public class Catedra implements Nombrable, CatedraIMPL {
 
 	/** Guardar el historial de Docentes */
 	private Historial<StaffCatedra> staff;
@@ -40,6 +41,7 @@ public class Catedra {
 		entregasDeAlumnos = new ArrayList<EntregaTP>();
 	}
 
+	@Override
 	public String getNombre() {
 		return nombre;
 	}
@@ -73,19 +75,19 @@ public class Catedra {
 		this.examenes = examenes;
 	}
 
-	public Set<Alumno> getInscriptos() {
+	public Set<Alumno> getAlumnosInscriptos() {
 		return alumnosInscriptos;
 	}
 
 	public void agregarAlumnoInscripto(final Alumno alumno) {
-		this.getInscriptos().add(alumno);
-		
+		this.getAlumnosInscriptos().add(alumno);
+
 	}
-	
+
 	public void removeAlumno(final Alumno alumno) {
-		this.alumnosInscriptos.remove(alumno);
+		alumnosInscriptos.remove(alumno);
 	}
-	
+
 	public void agregarEvaluacion(final Evaluacion evaluacion) {
 		this.getExamenes().add(evaluacion);
 
@@ -130,7 +132,6 @@ public class Catedra {
 
 	}
 
-
 	/** Devuelve las entregas de cierto TP */
 	public ArrayList<EntregaTP> getEntregasTP(final TrabajoPractico tp) {
 		ArrayList<EntregaTP> listaEntregas = new ArrayList<EntregaTP>();
@@ -142,53 +143,58 @@ public class Catedra {
 		return listaEntregas;
 
 	}
-	
+
 	public Alumno getMejorAlumnoDeEntrega(final TrabajoPracticoIndividual tp) {
 		TrabajoPracticoIndividual ganador = tp;
 
 		for (EntregaTP entrega : this.getEntregasTP(tp)) {
-			if (!mayorNota(ganador, entrega)) {
+			if (!this.mayorNota(ganador, entrega)) {
 				ganador = (TrabajoPracticoIndividual) entrega.getTp();
 			} else {
-					if (compararNombre(ganador.getAlumnos(),tp.getAlumnos())){
-						ganador = (TrabajoPracticoIndividual) entrega.getTp();
-					}
+				if (this.compararNombre(ganador.getAlumnos(), tp.getAlumnos())) {
+					ganador = (TrabajoPracticoIndividual) entrega.getTp();
+				}
 			}
 		}
-		
+
 		return ganador.getAlumnos();
 
 	}
 
-	/** Devuelve True la nota Mayor la tiene el ganador o lo entrego antes*/
+	/** Devuelve True la nota Mayor la tiene el ganador o lo entrego antes */
 	private boolean mayorNota(TrabajoPracticoIndividual ganador, EntregaTP entrega) {
-		boolean rta=false;
-		
-		if (ganador.getNota()==entrega.getNota()){
-			rta = ganador.getFechaReal().before(entrega.getTp().getFechaReal());		
-		}else{
-			rta = ganador.getNota()>entrega.getNota();
+		boolean rta = false;
+
+		if (ganador.getNota() == entrega.getNota()) {
+			rta = ganador.getFechaReal().before(entrega.getTp().getFechaReal());
+		} else {
+			rta = ganador.getNota() > entrega.getNota();
 		}
-		
-		
+
 		return rta;
 	}
 
-	/** Devuelve True si el nombre del alumno Tp esta antes que el del ganador ordenado alfabeticamente */
-	private boolean compararNombre(Alumno alumnoGanador,Alumno alumnoTp)
-	{
+	/**
+	 * Devuelve True si el nombre del alumno Tp esta antes que el del ganador
+	 * ordenado alfabeticamente
+	 */
+	private boolean compararNombre(Alumno alumnoGanador, Alumno alumnoTp) {
 		boolean ordenNombre = false;
 		// Si la fecha no esta ni antes ni despues,
-					// coinciden.
-			
-			int compApellido = alumnoGanador.getApellido().compareTo(alumnoTp.getApellido());
-			ordenNombre = (compApellido > 0); // Si el apellido esta antes
-			if (compApellido == 0) {// Si tienen mismo apellido. Comparo por nombre
-					int compName = alumnoGanador.getNombre().compareTo(alumnoTp.getNombre());
-					ordenNombre = (compName > 0); // Si el nombre esta antes
-			}
+		// coinciden.
+
+		int compApellido = alumnoGanador.getApellido().compareTo(alumnoTp.getApellido());
+		ordenNombre = compApellido > 0; // Si el apellido esta antes
+		if (compApellido == 0) {// Si tienen mismo apellido. Comparo por nombre
+			int compName = alumnoGanador.getNombre().compareTo(alumnoTp.getNombre());
+			ordenNombre = compName > 0; // Si el nombre esta antes
+		}
 		return ordenNombre;
 	}
 
+	@Override
+	public List<AlumnoIMPL> getInscriptos() {
+		return new ArrayList<AlumnoIMPL>(this.getAlumnosInscriptos());
+	}
 
 }

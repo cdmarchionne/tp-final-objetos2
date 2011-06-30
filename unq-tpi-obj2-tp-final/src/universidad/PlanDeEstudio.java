@@ -21,9 +21,10 @@ public class PlanDeEstudio {
 
 	private Set<RecorridoSugerido> ordenesSugeridos;
 
-	
-	
-	
+	// *****************
+	// * Constructores *
+	// *****************
+
 	public PlanDeEstudio(String nombre, Date fechaDeCreacion, Docente director) {
 		super();
 		this.nombre = nombre;
@@ -32,6 +33,10 @@ public class PlanDeEstudio {
 		this.materias = new ArrayList<MateriaAsignadaAPlanDeEstudio>();
 		this.ordenesSugeridos = new HashSet<RecorridoSugerido>();
 	}
+
+	// ********************
+	// * Getter & Setters *
+	// ********************
 
 	public List<MateriaAsignadaAPlanDeEstudio> getMaterias() {
 		return materias;

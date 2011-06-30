@@ -1,18 +1,8 @@
 package Utils;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
-
-import personal.Alumno;
-import personal.Docente;
 import personal.Persona;
-
 import universidad.Area;
 import universidad.Carrera;
-import universidad.OficinaDeAlumnos;
-import universidad.PlanDeEstudio;
 import universidad.Universidad;
 
 /**
@@ -23,27 +13,40 @@ public class Prueba {
 	private static final int DNI_PRIETO = 32640573;
 
 	public static void main(String[] args) {
-		Universidad universidad = new Universidad("UNQ");
-			
+		Persona directorOA = new Persona(1345672, "Juan", "Petrolas", "M");
+		Universidad unq = new Universidad("UNQ", directorOA);
+
 		Carrera tpi = new Carrera("tpi");
 		Area idiomas = new Area("Idiomas");
-		Persona directorOA = new Persona(1345672, "Juan", "Petrolas", "M");
-		
-		OficinaDeAlumnos oficinaDeAlumnos = new OficinaDeAlumnos(directorOA);
-		
-		Persona directorTPI = new Persona(12345678, "Pablo", "Lopez", "M");
-		Persona alumnoPromedioTPI = new Persona(DNI_PRIETO, "Mariano", "Prieto", "M");
-		
-		oficinaDeAlumnos.nuevoDocente(directorTPI);
-		oficinaDeAlumnos.nuevoAlumno(alumnoPromedioTPI);
-		
-		Iterator<Alumno> alumnosIterator = oficinaDeAlumnos.getAlumnos().iterator();
-		alumnosIterator.next().setCursoDeIngreso(true);
-		
-		PlanDeEstudio planViejo = new PlanDeEstudio();
-		
-		
-		
+
+		// OficinaDeAlumnos oficinaDeAlumnos = unq.getOficinaDeAlumnos();
+		//
+		// Persona directorTPI = new Persona(12345678, "Pablo", "Lopez", "M");
+		// Persona alumnoPromedioTPI = new Persona(DNI_PRIETO, "Mariano",
+		// "Prieto", "M");
+		//
+		// oficinaDeAlumnos.nuevoDocente(directorTPI);
+		// oficinaDeAlumnos.nuevoAlumno(alumnoPromedioTPI);
+		//
+		// Iterator<Alumno> alumnosIterator =
+		// oficinaDeAlumnos.getAlumnos().iterator();
+		// alumnosIterator.next().setCursoDeIngreso(true);
+		//
+		// Iterator<Docente> docenteIterator =
+		// oficinaDeAlumnos.getDocentes().iterator();
+		// Docente docente = docenteIterator.next();
+		//
+		// // PlanDeEstudio planViejo = new PlanDeEstudio("Plan TPI 2007", new
+		// // Date(2007, 08, 01),docente);
+		//
+		// Materia analisis = new Materia("Analisis Matematico I", 5);
+		// analisis.setHorasSemanales(6);
+		// analisis.setPromocionable(true);
+		//
+		// Catedra catedraAnalisis = new Catedra("Gomez");
+		//
+		// analisis.addCatedra(catedraAnalisis);
+
 	}
 
 }
