@@ -1,5 +1,6 @@
 package universidad;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
@@ -9,19 +10,27 @@ import Utils.Nombrable;
 public class Carrera implements Nombrable {
 
 	private String nombre;
-	private Integer legajoCarrera = 0;
+	private Integer legajoCarrera;
 	private Docente director;
 
 	private Map<PlanDeEstudio, Boolean> planesVigentes;
+
+	public Carrera(String nombre) {
+		super();
+		this.nombre = nombre;
+		legajoCarrera = 0;
+		this.director = null;
+		planesVigentes = new HashMap<PlanDeEstudio, Boolean>();
+	}
 
 	@Override
 	public String getNombre() {
 		return nombre;
 	}
 
-	public void setNombre(final String nombre) {
-		this.nombre = nombre;
-	}
+//	public void setNombre(final String nombre) {
+//		this.nombre = nombre;
+//	}
 
 	public Docente getDirector() {
 		return director;
