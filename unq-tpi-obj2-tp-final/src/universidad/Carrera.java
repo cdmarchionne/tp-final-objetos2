@@ -92,4 +92,9 @@ public class Carrera implements Nombrable {
 		}
 	}
 
+	/** Verifica si un plan de estudio esta vigente */
+	public boolean contains(PlanDeEstudio planDeEstudio) {
+		return planesVigentes.get(planDeEstudio);
+	}
+
 }

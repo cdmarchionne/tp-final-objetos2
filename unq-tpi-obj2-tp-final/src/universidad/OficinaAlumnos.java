@@ -1,6 +1,8 @@
 package universidad;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 import materias.Catedra;
@@ -22,6 +24,8 @@ public class OficinaAlumnos implements OficinaAlumnosIMPL {
 	private Set<Docente> docentes;
 	private Integer legajoDocente;
 
+	private Set<Carrera> carreras;
+	
 	public OficinaAlumnos() {
 		super();
 	}
@@ -33,10 +37,12 @@ public class OficinaAlumnos implements OficinaAlumnosIMPL {
 		this.jefeOficina = jefeOficina;
 	}
 
-	public void inscribirAlumnoEnCarrera(final Alumno alumno, final Carrera carrera) {
+	public void inscribirAlumnoEnCarrera(Alumno alumno, PlanDeEstudio planDeEstudio) {
 		if (alumno.cursoDeIngresoAprobado()) {
-			alumno.addCarrerasInscriptas(carrera);
-			alumno.addLegajo(carrera, carrera.obtenerLegajo());
+			Carrera carrera= getCarrera(planDeEstudio);
+			if(carrera.contains(planDeEstudio)){
+				alumno.addCarreraIncripta(new InscripcionCarrera(planDeEstudio,carrera.obtenerLegajo()));
+			}
 		}
 	}
 
@@ -100,4 +106,19 @@ public class OficinaAlumnos implements OficinaAlumnosIMPL {
 		return this.getCoeficiente((Alumno) alumno);
 	}
 
+	public Carrera getCarrera(PlanDeEstudio planDeEstudio){
+		Carrera carreraBuscada = null;
+
+		Iterator<Carrera> iteradorCarrera = carreras.iterator();
+		Carrera carrera=null;
+		while(iteradorCarrera.hasNext()){
+			carrera=iteradorCarrera.next();
+			if (carrera.contains(planDeEstudio)) {
+				carreraBuscada = carrera;
+				break;
+			}
+		}
+
+		return carreraBuscada;
+	}
 }

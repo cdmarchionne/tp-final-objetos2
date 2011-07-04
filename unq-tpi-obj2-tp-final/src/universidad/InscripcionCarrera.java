@@ -1,7 +1,7 @@
 package universidad;
 
 /**
- * TODO: description
+ * Clase que coopera con los Alumnos para designar a que Plan de Estudio pertenecen
  */
 public class InscripcionCarrera {
 

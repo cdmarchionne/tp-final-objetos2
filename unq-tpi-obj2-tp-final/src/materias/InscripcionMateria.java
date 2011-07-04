@@ -16,8 +16,6 @@ public class InscripcionMateria {
 	//private List<Materia> materiasInscriptas;
 	public Catedra catedraElegida;
 	
-	
-	
 	public InscripcionMateria(Materia materia, Catedra catedra, Alumno alumno){
 		this.fechaInscripcion = new Date(); //Fecha actual del sistema.
 		this.materiaElegida = materia;
@@ -43,8 +41,6 @@ public class InscripcionMateria {
 	public Materia getMateriaElegida() {
 		return materiaElegida;
 	}
-	
-	
 	
 	public void setMateriaElegida(Materia materiaElegida) {
 		this.materiaElegida = materiaElegida;

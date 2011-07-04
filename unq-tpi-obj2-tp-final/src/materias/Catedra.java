@@ -32,13 +32,15 @@ public class Catedra implements Nombrable, CatedraIMPL {
 												// TP, se guarda tmb en la
 												// catedra
 
-	public Catedra(final String nombre) {
+	public Catedra(String nombre, Materia materia) {
+		super();
 		this.setNombre(nombre);
 		staff = new Historial<StaffCatedra>();
 		tp = new HashSet<TrabajoPractico>();
 		examenes = new HashSet<Evaluacion>();
 		alumnosInscriptos = new HashSet<Alumno>();
 		entregasDeAlumnos = new ArrayList<EntregaTP>();
+		materia.addCatedra(this);
 	}
 
 	@Override
