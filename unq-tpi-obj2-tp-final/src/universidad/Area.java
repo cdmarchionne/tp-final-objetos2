@@ -11,7 +11,6 @@ import Utils.Historial;
 public class Area {
 
 	private String nombre;
-
 	private Docente director;
 
 	/** Guardar el historial de Docentes */

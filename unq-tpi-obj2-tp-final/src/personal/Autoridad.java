@@ -7,4 +7,13 @@ public class Autoridad {
 
 	private Persona datosPersonales;
 
+	public Autoridad(Persona datosPersonales) {
+		super();
+		this.datosPersonales = datosPersonales;
+	}
+
+	public Persona getDatosPersonales() {
+		return datosPersonales;
+	}
+
 }

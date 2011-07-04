@@ -6,8 +6,9 @@ import java.util.Date;
 import personal.Alumno;
 
 /**
- * TODO: description
+ * TP
  */
+@SuppressWarnings("unused")
 public abstract class TrabajoPractico {
 	
 	private String nombre;

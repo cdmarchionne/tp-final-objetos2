@@ -11,15 +11,16 @@ import universidad.OficinaAlumnos;
 import universidad.Universidad;
 
 /**
- * TODO: description
+ * Genero los datos minimos de las Clases
  */
 public class GeneradorDeDatos {
 
 	private static final int DNI_PRIETO = 32640573;
 
-	public static void datosMinimos() {
+	@SuppressWarnings("unused")
+	public static void init() {
 		Persona directorOA = new Persona(1345672, "Juan", "Petrolas", "M");
-		Universidad unq = new Universidad("UNQ", directorOA);
+		Universidad unq = Universidad.getInstance("UNQ", directorOA);
 
 		Carrera tpi = new Carrera("tpi");
 		Area idiomas = new Area("Idiomas");

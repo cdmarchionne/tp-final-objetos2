@@ -1,52 +1,109 @@
 package model.test;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
-import java.util.Vector;
 
 import junit.framework.TestCase;
 
+import materias.Anual;
 import materias.Catedra;
+import materias.Cuatrimestral;
+import materias.InscripcionMateria;
 import materias.Materia;
-import model.interfaces.AlumnoIMPL;
-import model.interfaces.MateriaIMPL;
+import materias.MateriaAsignadaAPlanDeEstudio;
+import materias.Obligatoria;
+import materias.Optativa;
 import personal.Alumno;
+import personal.Docente;
 import personal.Persona;
+import universidad.Area;
+import universidad.Carrera;
+import universidad.OficinaAlumnos;
+import universidad.PlanDeEstudio;
 import universidad.Universidad;
 
-
+@SuppressWarnings("unused")
 public class UniversidadTest extends TestCase{
 
-	private static final int DNI_PRIETO = 32640573;
-
+	private static final int DNI_ALUMNO = 32640573;
+ 
 	public void testMateriasInscribibles() throws Exception {
-		Materia materia1 = new Materia("Analisis I",3);
-		Materia materia2 = new Materia("Ingles I", 2);
-		Catedra catedra = new Catedra("", materia1);
-		
 		Persona directorOA = new Persona(1345672, "Juan", "Petrolas", "M");
-		Persona directorTPI = new Persona(12345678, "Pablo", "Lopez", "M");
-		Persona alumnoPromedioTPI = new Persona(DNI_PRIETO, "Mariano", "Prieto", "M");
+		Persona directorCarrera = new Persona(12345678, "Pablo", "Lopez", "M");
+		Persona alumnoPromedio = new Persona(DNI_ALUMNO, "Mariano", "Prieto", "M");
 		
-		Alumno alumno = new Alumno(alumnoPromedioTPI);
+		/* Creo la Universidad */
+		Universidad universidad = Universidad.getInstance("UNQ", directorOA);
+		assertNotNull("La universidad se creo correctamente", Universidad.getInstance());
 		
-		List<MateriaIMPL> materias = new Vector<MateriaIMPL>();
-		materias.add(materia1);
-		materias.add(materia2);
+		/* Agrego una Oficina de Alumnos a la universidad */
+		OficinaAlumnos oficinaDeAlumnos = universidad.getOficinaDeAlumnos();
+		assertNotNull("Existe una Oficina de Alumnos en la Universidad", universidad.getOficinaDeAlumnos());
+
+		/* Creo un Area de la Universidad */
+		Area idiomas = new Area("Idiomas");
+		universidad.addArea(idiomas);
+		assertNotNull("Existe una Area en la Universidad", universidad.getAreas());
+
+		/* Ingreso un Docente y un Alumno al sistema */
+		oficinaDeAlumnos.nuevoDocente(directorCarrera);
+		oficinaDeAlumnos.nuevoAlumno(alumnoPromedio);
+		assertNotNull("Existe un Docente registrado en la Universidad", universidad.getOficinaDeAlumnos().getDocentes());
+		assertNotNull("Existe un Alumno registrado en la Universidad", universidad.getOficinaDeAlumnos().getAlumnos());
+
+		/* Creo una Carrera */
+		Carrera carreraTPI = new Carrera("TPI");
 		
-		List<AlumnoIMPL> alumnos = new Vector<AlumnoIMPL>();
-		alumnos.add(alumno);
+		/* Agrego la Carrera a la Universidad */
+		universidad.getOficinaDeAlumnos().addCarrera(carreraTPI);
+		assertNotNull("Existe la carrera en la Universidad", universidad.getOficinaDeAlumnos().getCarreras());
 		
-		Universidad universidad = Universidad.getInstance();
-		universidad.setAlumnos(alumnos);
-		universidad.setMaterias(materias);
+		/* Creo Planes de Estudio para una Carrera */
+		Object[] docentes = oficinaDeAlumnos.getDocentes().toArray();
+		Docente docente1 = (Docente) docentes[docentes.length-1];
+		PlanDeEstudio planDeEstudio = new PlanDeEstudio("Plan Nuevo", new Date(), docente1);
 		
-		//el alumno no se inscribio en materias
-		Assert.assertEquals("el alumno esta inscripto en una materia",
-				2, universidad.materiasInscribibles(alumno).size());
+		/* Asocio un Plan de Estudio que pertenece a una Carrera */
+		carreraTPI.addPlanDeEstudio(planDeEstudio,true);
+		assertNotNull("La carrera tiene un Plan de Estudio", carreraTPI.getPlanesVigentes());
 		
-		catedra.inscribirAlumno(alumno);
+		/* Creo Materias y Catedras */
+		Materia analisis1 = new Materia("Analisis I",3);
+		analisis1.setHorasSemanales(8);
+		//analisis1.setPromocionable(false);
+		Catedra catedraAnalisis1 = new Catedra("Baragati",analisis1);
+
+		Materia ingles1 = new Materia("Ingles I", 2);
+		ingles1.setHorasSemanales(4); 
+		ingles1.setPromocionable(true);
+		Catedra catedraIngles1= new Catedra("Duch",ingles1);
 		
-		Assert.assertEquals("el alumno esta inscripto en una materia",
-				1, universidad.materiasInscribibles(alumno).size());
+		/* Agrego una Materia en un Area*/
+		idiomas.getMateriasDictadas().addAntecedente(new Date(), null, ingles1);
+		assertEquals("Verifico que se cargo la materia en el area",ingles1,idiomas.getMateriasDictadas().getElemento(new Date()));
+		
+		/* Agrego las materias al Plan de Estudio */
+		planDeEstudio.addMaterias(new MateriaAsignadaAPlanDeEstudio(analisis1, new Obligatoria(), new Cuatrimestral()));
+		planDeEstudio.addMaterias(new MateriaAsignadaAPlanDeEstudio(ingles1, new Optativa(), new Anual()));
+		
+		/* Inscribo a un alumno en una carrera */
+		Object[] alumnos = oficinaDeAlumnos.getAlumnos().toArray();
+		Alumno alumno1 = (Alumno) alumnos[alumnos.length-1];
+		alumno1.setCursoDeIngreso(true);
+		universidad.getOficinaDeAlumnos().inscribirAlumnoEnCarrera(alumno1, planDeEstudio);
+		
+		//El alumno no se inscribio en materias
+		List<Materia> materiasInscribibles= new ArrayList<Materia>();
+		materiasInscribibles.add(analisis1);
+		materiasInscribibles.add(ingles1);
+		assertTrue("el alumno no esta inscripto en materias",alumno1.getMateriasInscribibles().containsAll(materiasInscribibles));
+		
+		/* Inscribo al alumno para que curse una materia */
+		alumno1.inscribirEnMateria(new InscripcionMateria(analisis1, catedraAnalisis1, alumno1));
+		materiasInscribibles.remove(analisis1);
+		assertTrue("El alumno esta inscripto en una materia",alumno1.getMateriasInscribibles().containsAll(materiasInscribibles));
+		assertTrue("El alumno esta inscripto en Analisis",alumno1.estaInscripto(analisis1));
 	}
+	
 }

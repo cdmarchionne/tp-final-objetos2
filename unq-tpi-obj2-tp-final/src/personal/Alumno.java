@@ -28,7 +28,7 @@ public class Alumno implements AlumnoIMPL {
 	// *****************
 	// * Constructores *
 	// *****************
-	public Alumno(final Persona datosPersonales) {
+	public Alumno(Persona datosPersonales) {
 
 		super();
 		this.datosPersonales = datosPersonales;
@@ -68,10 +68,6 @@ public class Alumno implements AlumnoIMPL {
 
 	public List<InscripcionMateria> getMateriasInscriptas() {
 		return materiasInscriptas;
-	}
-
-	public void setMateriasInscriptas(List<InscripcionMateria> materiasInscriptas) {
-		this.materiasInscriptas = materiasInscriptas;
 	}
 
 	public List<MateriaAprobada> getMateriasAprobadas() {
@@ -121,16 +117,16 @@ public class Alumno implements AlumnoIMPL {
 	}
 
 	/** Averiguo el legajo de un Alumno */
-	public Integer getLegajo(final PlanDeEstudio planDeEstudio) {
+	public Integer getLegajo( PlanDeEstudio planDeEstudio) {
 		return this.getCarreraInscripta(planDeEstudio).getLegajo();
 	}
 
-	public Integer getLegajo(final Carrera carrera) {
+	public Integer getLegajo( Carrera carrera) {
 		return this.getCarreraInscripta(carrera).getLegajo();
 	}
 
 	/** Modofico el legajo de un Alumno */
-	public void setLegajo(final PlanDeEstudio planDeEstudio, final Integer legajo) {
+	public void setLegajo( PlanDeEstudio planDeEstudio,  Integer legajo) {
 		boolean existe=false;
 		for (InscripcionCarrera carreraInscripta : carrerasInscriptas) {
 			if(carreraInscripta.getPlanDeEstudio().equals(planDeEstudio)){
@@ -156,22 +152,20 @@ public class Alumno implements AlumnoIMPL {
 		return this.getDatosPersonales().getApellido();
 	}
 
-	public void setCursoDeIngreso(final Boolean boolie) {
+	public void setCursoDeIngreso(Boolean boolie) {
 		cursoDeIngreso = boolie;
 	}
 
-	public Boolean cursoDeIngresoAprobado() {
+	public Boolean getCursoDeIngreso() {
 		return cursoDeIngreso;
 	}
 
-	public void inscribirEnMateria(final InscripcionMateria materia) {
+	public void inscribirEnMateria( InscripcionMateria materiaInscripta) {
 		// El alumno no se inscribe en la catedra eso lo sabe la materia.
-
-		materiasInscriptas.add(materia);
-
+		materiasInscriptas.add(materiaInscripta);
 	}
 
-	public void agregarMateriaAprobada(final Materia materia, float nota) {
+	public void agregarMateriaAprobada( Materia materia, float nota) {
 		materiasAprobadas.add(new MateriaAprobada(materia, nota));
 	}
 
@@ -240,7 +234,7 @@ public class Alumno implements AlumnoIMPL {
 	}
 
 	/** Comprueba si una materia esta en la lista de Inscriptas */
-	private boolean estaInscripto(Materia materia) {
+	public boolean estaInscripto(Materia materia) {
 
 		for (InscripcionMateria materiaInscripto : this.getMateriasInscriptas()) {
 			if (materiaInscripto.getMateriaElegida().equals(materia))

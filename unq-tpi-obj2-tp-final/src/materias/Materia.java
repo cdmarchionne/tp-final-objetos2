@@ -2,6 +2,7 @@ package materias;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -17,48 +18,29 @@ import Utils.Nombrable;
 public class Materia implements Nombrable, MateriaIMPL {
 
 	private String nombre;
-
 	private Docente titular;
 
 	// Lista de Temas, es un SET para poder eliminar los repetidos sin hacer
 	// ningun calculo.
 	private Set<String> programa;
-
 	private List<String> requisitos;
-
 	private Integer dificultad;
-
 	private Integer horasSemanales;
-
 	private Set<Catedra> catedras;
-
 	private boolean promocionable;
-
-	private List<InscripcionMateria> inscripciones;
 
 	/**
 	 * La materia se crea solo con el nombre y la dificultad, el resto de las
 	 * caracteristicas se van agregando luego
 	 */
-	public Materia(final String nombre, final int dificultad) {
+	public Materia( String nombre,  int dificultad) {
 		this.nombre = nombre;
 		this.dificultad = dificultad;
-	}
-
-	public List<InscripcionMateria> getInscripciones() {
-		return inscripciones;
-	}
-
-	public void agregarInscripcion(final InscripcionMateria inscripcion) {
-		this.getInscripciones().add(inscripcion);
-		// Aca a la catedra que se inscribio el alumno tambien le agrego el
-		// alumno.
-		for (Catedra c : this.getTodasLasCatedras()) {
-			if (c.equals(inscripcion.getCatedraElegida())) {
-				c.agregarAlumnoInscripto(inscripcion.getAlumno());
-			}
-
-		}
+		programa = new HashSet<String>();
+		requisitos = new ArrayList<String>();
+		horasSemanales=0;
+		catedras = new HashSet<Catedra>();
+		promocionable = false;
 	}
 
 	/** Calculo los creditos de la materia */
@@ -66,7 +48,7 @@ public class Materia implements Nombrable, MateriaIMPL {
 		return horasSemanales * dificultad;
 	}
 
-	public void setHorasSemanales(final int horas) {
+	public void setHorasSemanales( int horas) {
 		horasSemanales = horas;
 	}
 
@@ -74,7 +56,7 @@ public class Materia implements Nombrable, MateriaIMPL {
 		return requisitos;
 	}
 
-	public void agregarRequisito(final String requisito) {
+	public void agregarRequisito( String requisito) {
 		this.getRequisitos().add(requisito);
 	}
 
@@ -82,15 +64,15 @@ public class Materia implements Nombrable, MateriaIMPL {
 		return catedras;
 	}
 
-	public void addCatedra(final Catedra catedra) {
+	public void addCatedra(Catedra catedra) {
 		catedras.add(catedra);
 	}
 
-	public void removeCatedra(final Catedra catedra) {
+	public void removeCatedra(Catedra catedra) {
 		catedras.remove(catedra);
 	}
 
-	public void setTitular(final Docente titular) {
+	public void setTitular( Docente titular) {
 		this.titular = titular;
 	}
 
@@ -108,19 +90,32 @@ public class Materia implements Nombrable, MateriaIMPL {
 	}
 
 	/** Agrega un tema al programa */
-	public void agregarTema(final String tema) {
+	public void agregarTema( String tema) {
 		this.getPrograma().add(tema);
 	}
 
-	public List<Alumno> getAlumnosInscriptosEn(final Date fecha) {
+	public List<Alumno> getAlumnosInscriptosEn() {
+		ArrayList<Alumno> listaFinal = new ArrayList<Alumno>();
+		
+		for (Catedra catedra: (Catedra[]) this.getCatedras().toArray()) {
+			listaFinal.addAll(catedra.getAlumnosInscriptos());
+		}
+		
+		return listaFinal;
+	}
+	
+	public List<Alumno> getAlumnosInscriptosEn(Date fecha) {
 		ArrayList<Alumno> listaFinal = new ArrayList<Alumno>();
 
-		for (InscripcionMateria inscripcion : this.getInscripciones()) {
-			if (inscripcion.getFechaInscripcion().equals(fecha)) {
-				listaFinal.add(inscripcion.getAlumno());
+		for (Catedra catedra: (Catedra[]) this.getCatedras().toArray()) {
+			for (Alumno alumno : catedra.getAlumnosInscriptos()) {
+				// Ver quien lleva el historial de materias inscriptas alguna fecha determinada
+//				if(alumno.getCursoDeIngreso()){
+					listaFinal.add(alumno);
+//				}
 			}
-
 		}
+		
 		return listaFinal;
 	}
 
