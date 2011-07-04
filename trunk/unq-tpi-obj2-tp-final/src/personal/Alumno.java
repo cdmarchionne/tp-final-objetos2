@@ -46,7 +46,11 @@ public class Alumno implements AlumnoIMPL {
 		return entregas;
 	}
 
-	public void setEntregas(final List<EntregaTP> entregas) {
+	public void addEntregas(EntregaTP entrega) {
+		this.entregas.add(entrega);
+	}
+	
+	public void setEntregas(List<EntregaTP> entregas) {
 		this.entregas = entregas;
 	}
 
@@ -54,15 +58,19 @@ public class Alumno implements AlumnoIMPL {
 		return carrerasInscriptas;
 	}
 
-	public void addCarrerasInscriptas(final InscripcionCarrera carreraInscripta) {
+	public void addCarreraIncripta(InscripcionCarrera carreraInscripta) {
 		carrerasInscriptas.add(carreraInscripta);
+	}
+	
+	public void removeCarreras(InscripcionCarrera carreraInscripta) {
+		carrerasInscriptas.remove(carreraInscripta);
 	}
 
 	public List<InscripcionMateria> getMateriasInscriptas() {
 		return materiasInscriptas;
 	}
 
-	public void setMateriasInscriptas(final List<InscripcionMateria> materiasInscriptas) {
+	public void setMateriasInscriptas(List<InscripcionMateria> materiasInscriptas) {
 		this.materiasInscriptas = materiasInscriptas;
 	}
 
@@ -70,7 +78,7 @@ public class Alumno implements AlumnoIMPL {
 		return materiasAprobadas;
 	}
 
-	public void setMateriasAprobadas(final List<MateriaAprobada> materiasAprobadas) {
+	public void setMateriasAprobadas(List<MateriaAprobada> materiasAprobadas) {
 		this.materiasAprobadas = materiasAprobadas;
 	}
 
@@ -121,13 +129,19 @@ public class Alumno implements AlumnoIMPL {
 		return this.getCarreraInscripta(carrera).getLegajo();
 	}
 
-	/** Agrego el legajo de un Alumno */
-	public void addLegajo(final PlanDeEstudio planDeEstudio, final Integer legajo) {
-		this.getCarreraInscripta(planDeEstudio).setLegajo(legajo);
-	}
-
-	public void addLegajo(final Carrera carrera, final Integer legajo) {
-		this.getCarreraInscripta(carrera).setLegajo(legajo);
+	/** Modofico el legajo de un Alumno */
+	public void setLegajo(final PlanDeEstudio planDeEstudio, final Integer legajo) {
+		boolean existe=false;
+		for (InscripcionCarrera carreraInscripta : carrerasInscriptas) {
+			if(carreraInscripta.getPlanDeEstudio().equals(planDeEstudio)){
+				carreraInscripta.setLegajo(legajo);
+				existe=true;
+			}
+		}
+		
+		if(!existe){
+			this.addCarreraIncripta(new InscripcionCarrera(planDeEstudio, legajo));
+		}
 	}
 
 	public void calcularRegularidad() {

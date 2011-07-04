@@ -47,15 +47,14 @@ public class GeneradorDeDatos {
 		analisis.setHorasSemanales(6);
 		analisis.setPromocionable(true);
 
-		Catedra catedraAnalisis = new Catedra("Gomez");
+		Catedra catedraAnalisis = new Catedra("Gomez",analisis);
 
-		analisis.addCatedra(catedraAnalisis);
 
 		Materia ingles = new Materia("Ingles I", 2);
 		ingles.setHorasSemanales(3);
 		ingles.setPromocionable(true);
 
-		ingles.addCatedra(new Catedra("Silvina"));
+		Catedra catedraIngles= new Catedra("Silvina",ingles);
 
 		idiomas.getMateriasDictadas().addAntecedente(new Date(), null, ingles);
 
