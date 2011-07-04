@@ -5,7 +5,7 @@ import java.util.Date;
 import personal.Alumno;
 
 /**
- * TODO: description
+ * Controla las Becas otorgadas
  */
 public class Beca extends Tutoria {
 
@@ -15,10 +15,13 @@ public class Beca extends Tutoria {
 	// * Constructores *
 	// *****************
 
-	public Beca(final String nombre, final Alumno alumno, final Date fechaInicio,
-			final Integer monto) {
+	public Beca(String nombre, Alumno alumno, Date fechaInicio, Integer monto) {
 		super(nombre, alumno, fechaInicio);
 		this.monto = monto;
+	}
+
+	public Integer getMonto() {
+		return monto;
 	}
 
 }

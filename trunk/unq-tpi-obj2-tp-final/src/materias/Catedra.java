@@ -28,19 +28,22 @@ public class Catedra implements Nombrable, CatedraIMPL {
 	private Set<TrabajoPractico> tp;
 	private Set<Evaluacion> examenes;
 	private Set<Alumno> alumnosInscriptos;
-	private List<EntregaTP> entregasDeAlumnos; // Cuando un alumno entrega un
-												// TP, se guarda tmb en la
-												// catedra
+	// Cuando un alumno entrega un TP, se guarda tmb en la catedra
+	private List<EntregaTP> entregasDeAlumnos; 
 
 	public Catedra(String nombre, Materia materia) {
+		this(nombre);
+		materia.addCatedra(this);
+	}
+	
+	private Catedra(String nombre) {
 		super();
-		this.setNombre(nombre);
+		this.nombre=nombre;
 		staff = new Historial<StaffCatedra>();
 		tp = new HashSet<TrabajoPractico>();
 		examenes = new HashSet<Evaluacion>();
 		alumnosInscriptos = new HashSet<Alumno>();
 		entregasDeAlumnos = new ArrayList<EntregaTP>();
-		materia.addCatedra(this);
 	}
 
 	@Override
@@ -57,12 +60,8 @@ public class Catedra implements Nombrable, CatedraIMPL {
 		return staff.getElemento(new Date());
 	}
 
-	public void setStaff(final StaffCatedra staffNuevo) {
+	public void setStaff(StaffCatedra staffNuevo) {
 		staff.addAntecedente(new Date(), null, staffNuevo);
-	}
-
-	public void setNombre(final String nombre) {
-		this.nombre = nombre;
 	}
 
 	public Set<TrabajoPractico> getTp() {
@@ -73,7 +72,7 @@ public class Catedra implements Nombrable, CatedraIMPL {
 		return examenes;
 	}
 
-	public void setExamenes(final Set<Evaluacion> examenes) {
+	public void setExamenes(Set<Evaluacion> examenes) {
 		this.examenes = examenes;
 	}
 
@@ -81,21 +80,20 @@ public class Catedra implements Nombrable, CatedraIMPL {
 		return alumnosInscriptos;
 	}
 
-	public void agregarAlumnoInscripto(final Alumno alumno) {
+	public void agregarAlumnoInscripto(Alumno alumno) {
 		this.getAlumnosInscriptos().add(alumno);
-
 	}
 
-	public void removeAlumno(final Alumno alumno) {
+	public void removeAlumno(Alumno alumno) {
 		alumnosInscriptos.remove(alumno);
 	}
 
-	public void agregarEvaluacion(final Evaluacion evaluacion) {
+	public void agregarEvaluacion(Evaluacion evaluacion) {
 		this.getExamenes().add(evaluacion);
 
 	}
 
-	public void agregarTrabajoPractico(final TrabajoPractico tp) {
+	public void agregarTrabajoPractico(TrabajoPractico tp) {
 		this.getTp().add(tp);
 	}
 
@@ -123,7 +121,7 @@ public class Catedra implements Nombrable, CatedraIMPL {
 	}
 
 	/** Devuelve los alumnos que entregaron cierto TP */
-	public ArrayList<Alumno> getAlumnosEntregaronTP(final TrabajoPractico tp) {
+	public ArrayList<Alumno> getAlumnosEntregaronTP(TrabajoPractico tp) {
 		ArrayList<Alumno> listaAlumnos = new ArrayList<Alumno>();
 		for (EntregaTP entrega : this.getEntregasTPs()) {
 			if (entrega.getTp().equals(tp)) {
@@ -135,7 +133,7 @@ public class Catedra implements Nombrable, CatedraIMPL {
 	}
 
 	/** Devuelve las entregas de cierto TP */
-	public ArrayList<EntregaTP> getEntregasTP(final TrabajoPractico tp) {
+	public ArrayList<EntregaTP> getEntregasTP(TrabajoPractico tp) {
 		ArrayList<EntregaTP> listaEntregas = new ArrayList<EntregaTP>();
 		for (EntregaTP entrega : this.getEntregasTPs()) {
 			if (entrega.getTp().equals(tp)) {
@@ -146,7 +144,7 @@ public class Catedra implements Nombrable, CatedraIMPL {
 
 	}
 
-	public Alumno getMejorAlumnoDeEntrega(final TrabajoPracticoIndividual tp) {
+	public Alumno getMejorAlumnoDeEntrega(TrabajoPracticoIndividual tp) {
 		TrabajoPracticoIndividual ganador = tp;
 
 		for (EntregaTP entrega : this.getEntregasTP(tp)) {

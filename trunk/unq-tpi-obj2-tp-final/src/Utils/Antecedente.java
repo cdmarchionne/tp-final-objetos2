@@ -85,6 +85,7 @@ public class Antecedente<T> {
 		return rta;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public boolean equals(final Object obj) {
 		boolean rta = false;

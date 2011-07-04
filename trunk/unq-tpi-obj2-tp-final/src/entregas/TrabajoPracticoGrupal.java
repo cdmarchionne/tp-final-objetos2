@@ -6,6 +6,7 @@ import java.util.Set;
 
 import personal.Alumno;
 
+@SuppressWarnings("unused")
 public class TrabajoPracticoGrupal extends TrabajoPractico {
 	
 	Map<Alumno,?>	notasAlumnos;

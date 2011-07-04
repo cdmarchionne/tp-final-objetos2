@@ -5,7 +5,7 @@ import java.util.Date;
 import personal.Alumno;
 
 /**
- * TODO: description
+ * Controla las Pasantias otorgadas
  */
 public class Pasantia extends Tutoria {
 
@@ -15,10 +15,13 @@ public class Pasantia extends Tutoria {
 	// * Constructores *
 	// *****************
 
-	public Pasantia(final String nombre, final Alumno alumno, final Date fechaInicio,
-			final String empresa) {
+	public Pasantia(String nombre, Alumno alumno, Date fechaInicio,	String empresa) {
 		super(nombre, alumno, fechaInicio);
 		this.empresa = empresa;
+	}
+
+	public String getEmpresa() {
+		return empresa;
 	}
 
 }

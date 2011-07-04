@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import materias.Catedra;
 import model.interfaces.AlumnoIMPL;
 import model.interfaces.CatedraIMPL;
 import model.interfaces.MateriaIMPL;
@@ -27,8 +28,12 @@ public class Universidad implements Nombrable, UniversidadIMPL {
 	private OficinaAlumnos oficinaDeAlumnos;
 
 	public static Universidad getInstance() {
+		return getInstance("",null);
+	}
+	
+	public static Universidad getInstance(String nombre, Persona jefeOficinaAlumnos) {
 		if (getUniversidad() == null) {
-			setUniversidad(new Universidad());
+			setUniversidad(new Universidad(nombre, jefeOficinaAlumnos));
 		}
 		return getUniversidad();
 	}
@@ -41,12 +46,12 @@ public class Universidad implements Nombrable, UniversidadIMPL {
 		return universidad;
 	}
 
-	public Universidad() {
+	private Universidad() {
 		super();
-		Utils.GeneradorDeDatos.datosMinimos();
+//		Utils.GeneradorDeDatos.init();
 	}
 
-	public Universidad(String nombre, Persona jefeOficinaAlumnos) {
+	private Universidad(String nombre, Persona jefeOficinaAlumnos) {
 		this();
 		this.nombre = nombre;
 		carreras = new HashSet<Carrera>();
@@ -58,28 +63,28 @@ public class Universidad implements Nombrable, UniversidadIMPL {
 		return carreras;
 	}
 
-	public void addCarreras(final Carrera carrera) {
+	public void addCarreras(Carrera carrera) {
 		carreras.add(carrera);
 	}
 
-	public void removeCarreras(final Carrera carrera) {
+	public void removeCarreras(Carrera carrera) {
 		carreras.remove(carrera);
 	}
 
 	public Set<Area> getAreas() {
 		return areas;
 	}
+	
+	public void addArea(Area areas) {
+		this.areas.add(areas);
+	}
 
-	public void setAreas(final Set<Area> areas) {
-		this.areas = areas;
+	public void removeArea(Area areas) {
+		this.areas.remove(areas);
 	}
 
 	public OficinaAlumnos getOficinaDeAlumnos() {
 		return oficinaDeAlumnos;
-	}
-
-	public void setOficinaDeAlumnos(OficinaAlumnos oficinaDeAlumnos) {
-		this.oficinaDeAlumnos = oficinaDeAlumnos;
 	}
 
 	/** Busco la carrera a la que pertenece un plan de estudio */
@@ -101,7 +106,7 @@ public class Universidad implements Nombrable, UniversidadIMPL {
 		return nombre;
 	}
 
-	public void setNombre(final String nombre) {
+	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
 
@@ -129,7 +134,7 @@ public class Universidad implements Nombrable, UniversidadIMPL {
 
 	@Override
 	public void inscribirAlumno(AlumnoIMPL alumno, CatedraIMPL catedra) {
-		// this.getOficinaDeAlumnos().inscribirAlumnoEnCarrera(alumno, catedra);
+		this.getOficinaDeAlumnos().inscribirAlumnoEnCatedra((Alumno) alumno,(Catedra) catedra);
 	}
 
 }

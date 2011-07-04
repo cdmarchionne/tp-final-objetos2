@@ -5,8 +5,8 @@ import java.util.Set;
 
 import materias.Materia;
 import universidad.Carrera;
-import Utils.*;
-import personal.*;
+import Utils.Antecedente;
+import Utils.Historial;
 
 
 /** 
