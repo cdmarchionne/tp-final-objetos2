@@ -7,7 +7,7 @@ import personal.Autoridad;
 import personal.Docente;
 
 /**
- * TODO: description
+ * Modela un Pase de Docente de un Area a otra
  */
 public class PaseDocente {
 
@@ -35,7 +35,7 @@ public class PaseDocente {
 		this.solicitante = solicitante;
 		this.areaOrigen = areaOrigen;
 		this.areaDestino = areaDestino;
-		resultado = new PaseSolicitado();
+		resultado = new PaseSolicitado(this);
 	}
 
 	public PaseDocente(final Set<Autoridad> concejo, final String descripcion,
@@ -46,7 +46,7 @@ public class PaseDocente {
 		this.solicitante = solicitante;
 		this.areaOrigen = areaOrigen;
 		this.areaDestino = areaDestino;
-		resultado = new PaseSolicitado();
+		resultado = new PaseSolicitado(this);
 	}
 
 	// ********************
@@ -93,26 +93,27 @@ public class PaseDocente {
 	// * Funciones Utiles *
 	// ********************
 
-	private void setPase(final Autoridad autoridad, final EstadoPase pase) {
+	public void setPase(Autoridad autoridad, EstadoPase pase) {
 		if (concejo.contains(autoridad)) {
-			resultado = new PaseAprobado();
+			resultado = pase;
+			resultado.run();
 		}
 	}
 
 	public void setPaseAprobado(final Autoridad autoridad) {
-		this.setPase(autoridad, new PaseAprobado());
+		this.setPase(autoridad, new PaseAprobado(this));
 	}
 
 	public void setPaseEnConcejo(final Autoridad autoridad) {
-		this.setPase(autoridad, new PaseEnConsejo());
+		this.setPase(autoridad, new PaseEnConsejo(this));
 	}
 
 	public void setPaseRechazado(final Autoridad autoridad) {
-		this.setPase(autoridad, new PaseRechazado());
+		this.setPase(autoridad, new PaseRechazado(this));
 	}
 
 	public void setPaseSolicitado(final Autoridad autoridad) {
-		this.setPase(autoridad, new PaseSolicitado());
+		this.setPase(autoridad, new PaseSolicitado(this));
 	}
 
 }

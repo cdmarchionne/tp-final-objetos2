@@ -5,15 +5,18 @@ package universidad;
  */
 public class PaseEnConsejo extends EstadoPase {
 
+	public PaseEnConsejo(PaseDocente memorandum) {
+		super(memorandum);
+	}
+
 	@Override
 	public String getNombre() {
 		return "En Consejo";
 	}
 
-	// @Override
-	// public EstadoPase next() {
-	// return new PaseRechazado();
-	// return new PaseAprobado();
-	// }
-
+	@Override
+	public void run() {
+		
+	}
+	
 }
