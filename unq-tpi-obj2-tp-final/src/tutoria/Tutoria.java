@@ -21,7 +21,7 @@ public abstract class Tutoria {
 	// * Constructores *
 	// *****************
 
-	protected Tutoria(final String nombre, final Alumno alumno, final Date fechaInicio) {
+	protected Tutoria(String nombre, Alumno alumno, Date fechaInicio) {
 		super();
 		this.nombre = nombre;
 		this.alumno = alumno;

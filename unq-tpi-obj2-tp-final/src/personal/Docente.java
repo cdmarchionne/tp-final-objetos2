@@ -8,8 +8,7 @@ import universidad.Carrera;
 import Utils.Antecedente;
 import Utils.Historial;
 
-
-/** 
+/**
  * Docente
  */
 public class Docente {
@@ -30,7 +29,7 @@ public class Docente {
 	// *****************
 	// * Constructores *
 	// *****************
-	public Docente(final Persona datosPersonales, final Integer legajo) {
+	public Docente(Persona datosPersonales, Integer legajo) {
 		super();
 		this.datosPersonales = datosPersonales;
 		this.legajo = legajo;
@@ -47,7 +46,7 @@ public class Docente {
 		return datosPersonales;
 	}
 
-	public void setDatosPersonales(final Persona datosPersonales) {
+	public void setDatosPersonales(Persona datosPersonales) {
 		this.datosPersonales = datosPersonales;
 	}
 
@@ -55,7 +54,7 @@ public class Docente {
 		return legajo;
 	}
 
-	public void setLegajo(final Integer legajo) {
+	public void setLegajo(Integer legajo) {
 		this.legajo = legajo;
 	}
 
@@ -63,7 +62,7 @@ public class Docente {
 		return titulos;
 	}
 
-	public void setTitulos(final Set<String> titulos) {
+	public void setTitulos(Set<String> titulos) {
 		this.titulos = titulos;
 	}
 
@@ -71,7 +70,7 @@ public class Docente {
 		return alumno;
 	}
 
-	public void setAlumno(final Alumno alumno) {
+	public void setAlumno(Alumno alumno) {
 		this.alumno = alumno;
 	}
 
@@ -83,7 +82,7 @@ public class Docente {
 		return carreras;
 	}
 
-	public void addCarreras(final Carrera carrera) {
+	public void addCarreras(Carrera carrera) {
 		carreras.add(carrera);
 	}
 
@@ -91,7 +90,7 @@ public class Docente {
 		return materiasDictadas;
 	}
 
-	public void addMateriasDictadas(final Antecedente<Materia> materiasDictadas) {
+	public void addMateriasDictadas(Antecedente<Materia> materiasDictadas) {
 		this.materiasDictadas.addAntecedente(materiasDictadas);
 	}
 
@@ -107,15 +106,15 @@ public class Docente {
 		return alumno != null;
 	}
 
-	public boolean isSameAlumno(final Alumno alumno) {
+	public boolean isSameAlumno(Alumno alumno) {
 		return this.isAlumno() && this.alumno.equals(alumno);
 	}
 
-	public boolean isSamePerson(final Alumno alumno) {
+	public boolean isSamePerson(Alumno alumno) {
 		return this.getDatosPersonales().equals(alumno.getDatosPersonales());
 	}
 
-	public boolean isSamePerson(final Persona datosPersonales) {
+	public boolean isSamePerson(Persona datosPersonales) {
 		return this.getDatosPersonales().equals(datosPersonales);
 	}
 }

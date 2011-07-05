@@ -29,7 +29,7 @@ public class Carrera implements Nombrable {
 		return nombre;
 	}
 
-	// public void setNombre(final String nombre) {
+	// public void setNombre( String nombre) {
 	// this.nombre = nombre;
 	// }
 
@@ -37,7 +37,7 @@ public class Carrera implements Nombrable {
 		return director;
 	}
 
-	public void setDirector(final Docente director) {
+	public void setDirector(Docente director) {
 		this.director = director;
 	}
 
@@ -66,26 +66,26 @@ public class Carrera implements Nombrable {
 	}
 
 	/** Agrego un Plan de Estudio */
-	public void addPlanDeEstudio(final PlanDeEstudio planDeEstudio) {
+	public void addPlanDeEstudio(PlanDeEstudio planDeEstudio) {
 		planesVigentes.put(planDeEstudio, false);
 	}
 
-	public void addPlanDeEstudio(final PlanDeEstudio planDeEstudio, final Boolean vigencia) {
+	public void addPlanDeEstudio(PlanDeEstudio planDeEstudio, Boolean vigencia) {
 		planesVigentes.put(planDeEstudio, vigencia);
 	}
 
 	/** Seteo a un Plan de Estudio como Vigente */
-	public void setVigenteOn(final PlanDeEstudio planDeEstudio) {
+	public void setVigenteOn(PlanDeEstudio planDeEstudio) {
 		this.setVigenciaDelPlan(planDeEstudio, true);
 	}
 
 	/** Seteo a un Plan de Estudio como No Vigente */
-	public void setVigenteOff(final PlanDeEstudio planDeEstudio) {
+	public void setVigenteOff(PlanDeEstudio planDeEstudio) {
 		this.setVigenciaDelPlan(planDeEstudio, false);
 	}
 
 	/** Cambio la vigencia de un Plan de Estudio */
-	private void setVigenciaDelPlan(final PlanDeEstudio planDeEstudio, final Boolean vigencia) {
+	private void setVigenciaDelPlan(PlanDeEstudio planDeEstudio, Boolean vigencia) {
 		if (planesVigentes.containsKey(planDeEstudio)
 				&& planesVigentes.get(planDeEstudio) != vigencia) {
 			this.addPlanDeEstudio(planDeEstudio, vigencia);

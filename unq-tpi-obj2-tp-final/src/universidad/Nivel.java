@@ -23,16 +23,16 @@ public class Nivel {
 		materias = new HashSet<Materia>();
 	}
 
-	public Nivel(final Duracion lapso) {
+	public Nivel(Duracion lapso) {
 		this();
 		this.lapso = lapso;
 	}
 
-	public void addMaterias(final Materia materia) {
+	public void addMaterias(Materia materia) {
 		materias.add(materia);
 	}
 
-	public void removeMaterias(final Materia materia) {
+	public void removeMaterias(Materia materia) {
 		materias.remove(materia);
 	}
 
@@ -40,7 +40,7 @@ public class Nivel {
 		return materias;
 	}
 
-	public void setMaterias(final Set<Materia> materias) {
+	public void setMaterias(Set<Materia> materias) {
 		this.materias = materias;
 	}
 
@@ -48,7 +48,7 @@ public class Nivel {
 		return lapso;
 	}
 
-	public void setLapso(final Duracion lapso) {
+	public void setLapso(Duracion lapso) {
 		this.lapso = lapso;
 	}
 

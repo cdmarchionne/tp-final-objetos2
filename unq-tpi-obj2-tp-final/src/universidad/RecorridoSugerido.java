@@ -16,7 +16,7 @@ public class RecorridoSugerido {
 		recorrido = new LinkedList<Nivel>();
 	}
 
-	public void addNivel(final Nivel materia) {
+	public void addNivel(Nivel materia) {
 		recorrido.add(materia);
 	}
 

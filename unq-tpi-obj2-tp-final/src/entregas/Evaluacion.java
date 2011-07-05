@@ -17,13 +17,13 @@ public abstract class Evaluacion {
 
 	private Integer nota;
 
-	public Evaluacion(final String titulo, final Date fecha) {
+	public Evaluacion(String titulo, Date fecha) {
 		super();
 		this.titulo = titulo;
 		this.fecha = fecha;
 	}
 
-	public Evaluacion(final String titulo, final Date fecha, final Alumno alumno, final Integer nota) {
+	public Evaluacion(String titulo, Date fecha, Alumno alumno, Integer nota) {
 		this(titulo, fecha);
 		this.alumno = alumno;
 		this.nota = nota;
@@ -33,7 +33,7 @@ public abstract class Evaluacion {
 		return titulo;
 	}
 
-	public void setTitulo(final String titulo) {
+	public void setTitulo(String titulo) {
 		this.titulo = titulo;
 	}
 
@@ -41,7 +41,7 @@ public abstract class Evaluacion {
 		return fecha;
 	}
 
-	public void setFecha(final Date fecha) {
+	public void setFecha(Date fecha) {
 		this.fecha = fecha;
 	}
 
@@ -49,7 +49,7 @@ public abstract class Evaluacion {
 		return alumno;
 	}
 
-	public void setAlumno(final Alumno alumno) {
+	public void setAlumno(Alumno alumno) {
 		this.alumno = alumno;
 	}
 
@@ -57,7 +57,7 @@ public abstract class Evaluacion {
 		return nota;
 	}
 
-	public void setNota(final Integer nota) {
+	public void setNota(Integer nota) {
 		this.nota = nota;
 	}
 

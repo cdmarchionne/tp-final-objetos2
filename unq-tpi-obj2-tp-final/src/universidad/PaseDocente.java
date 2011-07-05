@@ -27,8 +27,7 @@ public class PaseDocente {
 	// * Constructores *
 	// *****************
 
-	public PaseDocente(final String descripcion, final Docente solicitante, final Area areaOrigen,
-			final Area areaDestino) {
+	public PaseDocente(String descripcion, Docente solicitante, Area areaOrigen, Area areaDestino) {
 		super();
 		concejo = new HashSet<Autoridad>();
 		this.descripcion = descripcion;
@@ -38,8 +37,8 @@ public class PaseDocente {
 		resultado = new PaseSolicitado(this);
 	}
 
-	public PaseDocente(final Set<Autoridad> concejo, final String descripcion,
-			final Docente solicitante, final Area areaOrigen, final Area areaDestino) {
+	public PaseDocente(Set<Autoridad> concejo, String descripcion, Docente solicitante,
+			Area areaOrigen, Area areaDestino) {
 		super();
 		this.concejo = concejo;
 		this.descripcion = descripcion;
@@ -57,11 +56,11 @@ public class PaseDocente {
 		return concejo;
 	}
 
-	public void addAutoridad(final Autoridad autoridad) {
+	public void addAutoridad(Autoridad autoridad) {
 		concejo.add(autoridad);
 	}
 
-	public void removeAutoridad(final Autoridad autoridad) {
+	public void removeAutoridad(Autoridad autoridad) {
 		concejo.remove(autoridad);
 	}
 
@@ -69,7 +68,7 @@ public class PaseDocente {
 		return descripcion;
 	}
 
-	public void setDescripcion(final String descripcion) {
+	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
 	}
 
@@ -100,19 +99,19 @@ public class PaseDocente {
 		}
 	}
 
-	public void setPaseAprobado(final Autoridad autoridad) {
+	public void setPaseAprobado(Autoridad autoridad) {
 		this.setPase(autoridad, new PaseAprobado(this));
 	}
 
-	public void setPaseEnConcejo(final Autoridad autoridad) {
+	public void setPaseEnConcejo(Autoridad autoridad) {
 		this.setPase(autoridad, new PaseEnConsejo(this));
 	}
 
-	public void setPaseRechazado(final Autoridad autoridad) {
+	public void setPaseRechazado(Autoridad autoridad) {
 		this.setPase(autoridad, new PaseRechazado(this));
 	}
 
-	public void setPaseSolicitado(final Autoridad autoridad) {
+	public void setPaseSolicitado(Autoridad autoridad) {
 		this.setPase(autoridad, new PaseSolicitado(this));
 	}
 
