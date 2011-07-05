@@ -46,31 +46,26 @@ public class Universidad implements Nombrable, UniversidadIMPL {
 		return universidad;
 	}
 
-	private Universidad() {
-		super();
-//		Utils.GeneradorDeDatos.init();
-	}
-
 	private Universidad(String nombre, Persona jefeOficinaAlumnos) {
-		this();
+		super();
 		this.nombre = nombre;
 		carreras = new HashSet<Carrera>();
 		areas = new HashSet<Area>();
-		oficinaDeAlumnos = new OficinaAlumnos(jefeOficinaAlumnos);
+		oficinaDeAlumnos = new OficinaAlumnos(this,jefeOficinaAlumnos);
 	}
 
 	public Set<Carrera> getCarreras() {
 		return carreras;
 	}
 
-	public void addCarreras(Carrera carrera) {
+	public void addCarrera(Carrera carrera) {
 		carreras.add(carrera);
 	}
 
-	public void removeCarreras(Carrera carrera) {
+	public void removeCarrera(Carrera carrera) {
 		carreras.remove(carrera);
 	}
-
+	
 	public Set<Area> getAreas() {
 		return areas;
 	}
@@ -120,8 +115,7 @@ public class Universidad implements Nombrable, UniversidadIMPL {
 		List<MateriaIMPL> materias = new ArrayList<MateriaIMPL>();
 
 		for (Area area : areas) {
-			materias.addAll(new ArrayList<MateriaIMPL>(area.getMateriasDictadas().getElementos(
-					new Date())));
+			materias.addAll(new ArrayList<MateriaIMPL>(area.getMaterias(new Date())));
 		}
 
 		return materias;

@@ -5,14 +5,18 @@ package universidad;
  */
 public class PaseSolicitado extends EstadoPase {
 
+	public PaseSolicitado(PaseDocente memorandum) {
+		super(memorandum);
+	}
+
 	@Override
 	public String getNombre() {
 		return "Solicitado";
 	}
 
-	// @Override
-	// public EstadoPase next() {
-	// return new PaseEnConsejo();
-	// }
+	@Override
+	public void run() {
+		
+	}
 
 }

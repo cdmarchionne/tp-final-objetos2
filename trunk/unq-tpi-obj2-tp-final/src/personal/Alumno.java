@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import materias.InscripcionMateria;
@@ -75,8 +74,12 @@ public class Alumno implements AlumnoIMPL {
 		this.carrerasInscriptas = carrerasInscriptas;
 	}
 
-	public void setMateriasInscriptas(List<InscripcionMateria> materiasInscriptas) {
-		this.materiasInscriptas = materiasInscriptas;
+//	public void setMateriasInscriptas(List<InscripcionMateria> materiasInscriptas) {
+//		this.materiasInscriptas = materiasInscriptas;
+//	}
+	
+	public void inscribirEnMateria(InscripcionMateria materiaInscripta) {
+		this.materiasInscriptas.add(materiaInscripta);
 	}
 
 	public void setArrayFechasAprobadas(List<Date> arrayFechasAprobadas) {
@@ -195,21 +198,26 @@ public class Alumno implements AlumnoIMPL {
 	}
 
 
+	@SuppressWarnings("deprecation")
 	public void calcularRegularidad() {
 		Date date = new Date();
-		int var = 0;	
-		for (int i = 0; i < (this.getArrayFechasAprobadas()).size(); i++) {
-			if ((this.getArrayFechasAprobadas().get(i)).getYear() == date.getYear()){
+		int var = 0;
+		for (Date fecha : this.getArrayFechasAprobadas()) {
+			if (fecha.getYear() == date.getYear()){
 				var = var + 1;
-				}
+			}
 		}
-			
-		if ((this.getCantAusentes() > 6) &&(var < 2)){
-			this.setRegularidad(false);
-			System.out.println("El Alumno esta libre.");}
-			else
-			{System.out.println("El Alumno es regular.");}
+		
+		this.setRegularidad(!((this.getCantAusentes() > 6) && (var < 2)));
+		
+		if (getRegularidad()){
+			System.out.println("El Alumno esta libre.");
+		} else {
+			System.out.println("El Alumno es regular.");
 		}
+		
+	}
+	
 	public String getNombre() {
 		return this.getDatosPersonales().getNombre();
 	}
@@ -311,9 +319,5 @@ public class Alumno implements AlumnoIMPL {
 
 		return false;
 	}
-
-
-
-
 
 }
