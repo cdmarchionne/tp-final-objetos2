@@ -15,8 +15,8 @@ public class StaffCatedra {
 	private List<Docente> instructores;
 	private List<Alumno> colaboradores;
 
-	public StaffCatedra(final Docente responsable, final Docente jefeTP,
-			final List<Docente> instructores, final List<Alumno> colaboradores) {
+	public StaffCatedra(Docente responsable, Docente jefeTP, List<Docente> instructores,
+			List<Alumno> colaboradores) {
 		super();
 		this.responsable = responsable;
 		this.jefeTP = jefeTP;
@@ -28,7 +28,7 @@ public class StaffCatedra {
 		return responsable;
 	}
 
-	public void setResponsable(final Docente responsable) {
+	public void setResponsable(Docente responsable) {
 		this.responsable = responsable;
 	}
 
@@ -36,7 +36,7 @@ public class StaffCatedra {
 		return jefeTP;
 	}
 
-	public void setJefeTP(final Docente jefeTP) {
+	public void setJefeTP(Docente jefeTP) {
 		this.jefeTP = jefeTP;
 	}
 
@@ -44,7 +44,7 @@ public class StaffCatedra {
 		return instructores;
 	}
 
-	public void setInstructores(final List<Docente> instructores) {
+	public void setInstructores(List<Docente> instructores) {
 		this.instructores = instructores;
 	}
 
@@ -52,7 +52,7 @@ public class StaffCatedra {
 		return colaboradores;
 	}
 
-	public void setColaboradores(final List<Alumno> colaboradores) {
+	public void setColaboradores(List<Alumno> colaboradores) {
 		this.colaboradores = colaboradores;
 	}
 

@@ -9,12 +9,11 @@ import personal.Alumno;
  */
 public class EvaluacionParcial extends Evaluacion {
 
-	public EvaluacionParcial(final String titulo, final Date fecha) {
+	public EvaluacionParcial(String titulo, Date fecha) {
 		super(titulo, fecha);
 	}
 
-	public EvaluacionParcial(final String titulo, final Date fecha, final Alumno alumno,
-			final Integer nota) {
+	public EvaluacionParcial(String titulo, Date fecha, Alumno alumno, Integer nota) {
 		super(titulo, fecha, alumno, nota);
 	}
 

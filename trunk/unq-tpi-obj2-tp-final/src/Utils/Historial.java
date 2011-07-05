@@ -27,7 +27,7 @@ public class Historial<T> {
 		elementosRecordables = new HashSet<Antecedente<T>>();
 	}
 
-	public Historial(final Date fechaInicio, final Date fechaFin, final T elemento) {
+	public Historial(Date fechaInicio, Date fechaFin, T elemento) {
 		this();
 		this.addAntecedente(fechaInicio, fechaFin, elemento);
 	}
@@ -35,12 +35,12 @@ public class Historial<T> {
 	// ********************
 	// * Getter & Setters *
 	// ********************
-	public void addAntecedente(final Antecedente<T> antecedente) {
+	public void addAntecedente(Antecedente<T> antecedente) {
 		this.closeAntecedente(antecedente.getFechaInicio());
 		elementosRecordables.add(antecedente);
 	}
 
-	public void addAntecedente(final Date fechaInicio, final Date fechaFin, final T elemento) {
+	public void addAntecedente(Date fechaInicio, Date fechaFin, T elemento) {
 		this.addAntecedente(new Antecedente<T>(elemento, fechaInicio, fechaFin));
 	}
 
@@ -52,7 +52,7 @@ public class Historial<T> {
 	// * Funciones Utiles *
 	// ********************
 	/** Devuelvo las ocurrencias historicas de un elemento determinado */
-	public Historial<T> getHistorialDelElemento(final T elemento) {
+	public Historial<T> getHistorialDelElemento(T elemento) {
 		Historial<T> elementosHitoricos = new Historial<T>();
 
 		for (Antecedente<T> antecedente : this.getAntecedentes()) {
@@ -65,7 +65,7 @@ public class Historial<T> {
 	}
 
 	/** Devuelvo si existe el elemento que correspode a una fecha determinada */
-	public T getElemento(final Date fecha) {
+	public T getElemento(Date fecha) {
 		T elemento = null;
 
 		for (Antecedente<T> antecedente : elementosRecordables) {
@@ -78,7 +78,7 @@ public class Historial<T> {
 	}
 
 	/** Devuelvo los elementos que correspode a una fecha determinada */
-	public Set<T> getElementos(final Date fecha) {
+	public Set<T> getElementos(Date fecha) {
 		Set<T> elementos = new HashSet<T>();
 
 		for (Antecedente<T> antecedente : elementosRecordables) {
@@ -91,7 +91,7 @@ public class Historial<T> {
 	}
 
 	/** Devuelvo el elemento que correspode a una fecha determinada */
-	public T getElementoEn(final T elemento, final Date fecha) {
+	public T getElementoEn(T elemento, Date fecha) {
 		T elementoBuscado = null;
 
 		for (Antecedente<T> antecedente : this.getHistorialDelElemento(elemento).getAntecedentes()) {
@@ -104,7 +104,7 @@ public class Historial<T> {
 	}
 
 	/** Cierro un antecedente abierto en una fecha */
-	public void closeAntecedente(final Date fecha) {
+	public void closeAntecedente(Date fecha) {
 
 		for (Antecedente<T> antecedente : elementosRecordables) {
 			if (antecedente.transcurrioEn(fecha) && antecedente.getFechaFin() == null) {

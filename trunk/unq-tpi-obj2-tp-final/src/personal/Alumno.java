@@ -19,7 +19,6 @@ import entregas.EntregaTP;
 
 public class Alumno implements AlumnoIMPL {
 
-
 	private Persona datosPersonales;
 	private List<EntregaTP> entregas;
 	private List<InscripcionCarrera> carrerasInscriptas;
@@ -61,7 +60,7 @@ public class Alumno implements AlumnoIMPL {
 	public int getCantLicencias() {
 		return cantLicencias;
 	}
-	
+
 	public void setAñosLicencia(List<Integer> añosLicencia) {
 		this.añosLicencia = añosLicencia;
 	}
@@ -74,18 +73,19 @@ public class Alumno implements AlumnoIMPL {
 		this.carrerasInscriptas = carrerasInscriptas;
 	}
 
-//	public void setMateriasInscriptas(List<InscripcionMateria> materiasInscriptas) {
-//		this.materiasInscriptas = materiasInscriptas;
-//	}
-	
+	// public void setMateriasInscriptas(List<InscripcionMateria>
+	// materiasInscriptas) {
+	// this.materiasInscriptas = materiasInscriptas;
+	// }
+
 	public void inscribirEnMateria(InscripcionMateria materiaInscripta) {
 		this.materiasInscriptas.add(materiaInscripta);
 	}
 
 	public void setArrayFechasAprobadas(List<Date> arrayFechasAprobadas) {
 		this.arrayFechasAprobadas = arrayFechasAprobadas;
-	}	
-	
+	}
+
 	public List<EntregaTP> getEntregas() {
 		return entregas;
 	}
@@ -93,7 +93,7 @@ public class Alumno implements AlumnoIMPL {
 	public void addEntregas(EntregaTP entrega) {
 		this.entregas.add(entrega);
 	}
-	
+
 	public void setEntregas(List<EntregaTP> entregas) {
 		this.entregas = entregas;
 	}
@@ -105,7 +105,7 @@ public class Alumno implements AlumnoIMPL {
 	public void addCarreraIncripta(InscripcionCarrera carreraInscripta) {
 		carrerasInscriptas.add(carreraInscripta);
 	}
-	
+
 	public void removeCarreras(InscripcionCarrera carreraInscripta) {
 		carrerasInscriptas.remove(carreraInscripta);
 	}
@@ -129,20 +129,23 @@ public class Alumno implements AlumnoIMPL {
 	public void setDatosPersonales(Persona datosPersonales) {
 		this.datosPersonales = datosPersonales;
 	}
-	
-	public int getCantAusentes(){
+
+	public int getCantAusentes() {
 		return this.cantAusentes;
 	}
-	public void setCantAusentes(int cant){
+
+	public void setCantAusentes(int cant) {
 		this.cantAusentes = cant;
 	}
-	public void setRegularidad(Boolean bool){
+
+	public void setRegularidad(Boolean bool) {
 		this.regularidad = bool;
 	}
-	public Boolean getRegularidad(){
+
+	public Boolean getRegularidad() {
 		return this.regularidad;
 	}
-	
+
 	/**
 	 * Obtengo la inscripcion de una carrera para poder trabajar mas comodo con
 	 * los datos del Adapter
@@ -159,7 +162,7 @@ public class Alumno implements AlumnoIMPL {
 
 		return carreraBuscada;
 	}
-	
+
 	private InscripcionCarrera getCarreraInscripta(Carrera carrera) {
 		InscripcionCarrera carreraBuscada = null;
 
@@ -174,50 +177,49 @@ public class Alumno implements AlumnoIMPL {
 	}
 
 	/** Averiguo el legajo de un Alumno */
-	public Integer getLegajo( PlanDeEstudio planDeEstudio) {
+	public Integer getLegajo(PlanDeEstudio planDeEstudio) {
 		return this.getCarreraInscripta(planDeEstudio).getLegajo();
 	}
 
-	public Integer getLegajo( Carrera carrera) {
+	public Integer getLegajo(Carrera carrera) {
 		return this.getCarreraInscripta(carrera).getLegajo();
 	}
 
 	/** Modofico el legajo de un Alumno */
-	public void setLegajo( PlanDeEstudio planDeEstudio,  Integer legajo) {
-		boolean existe=false;
+	public void setLegajo(PlanDeEstudio planDeEstudio, Integer legajo) {
+		boolean existe = false;
 		for (InscripcionCarrera carreraInscripta : carrerasInscriptas) {
-			if(carreraInscripta.getPlanDeEstudio().equals(planDeEstudio)){
+			if (carreraInscripta.getPlanDeEstudio().equals(planDeEstudio)) {
 				carreraInscripta.setLegajo(legajo);
-				existe=true;
+				existe = true;
 			}
 		}
-		
-		if(!existe){
+
+		if (!existe) {
 			this.addCarreraIncripta(new InscripcionCarrera(planDeEstudio, legajo));
 		}
 	}
-
 
 	@SuppressWarnings("deprecation")
 	public void calcularRegularidad() {
 		Date date = new Date();
 		int var = 0;
 		for (Date fecha : this.getArrayFechasAprobadas()) {
-			if (fecha.getYear() == date.getYear()){
+			if (fecha.getYear() == date.getYear()) {
 				var = var + 1;
 			}
 		}
-		
+
 		this.setRegularidad(!((this.getCantAusentes() > 6) && (var < 2)));
-		
-		if (getRegularidad()){
+
+		if (getRegularidad()) {
 			System.out.println("El Alumno esta libre.");
 		} else {
 			System.out.println("El Alumno es regular.");
 		}
-		
+
 	}
-	
+
 	public String getNombre() {
 		return this.getDatosPersonales().getNombre();
 	}
@@ -233,12 +235,16 @@ public class Alumno implements AlumnoIMPL {
 	public Boolean getCursoDeIngreso() {
 		return cursoDeIngreso;
 	}
-	/** es un getter de las fechas de las materias aprobadas*/
-	public List<Date> getArrayFechasAprobadas(){
+
+	/** es un getter de las fechas de las materias aprobadas */
+	public List<Date> getArrayFechasAprobadas() {
 		return this.arrayFechasAprobadas;
 	}
-	
-	/** agrega materia aprobada y setea fecha actual en lista de fechas para calcular regularidad */
+
+	/**
+	 * agrega materia aprobada y setea fecha actual en lista de fechas para
+	 * calcular regularidad
+	 */
 	public void agregarMateriaAprobada(Materia materia, float nota) {
 		Date date = new Date();
 		materiasAprobadas.add(new MateriaAprobada(materia, nota));

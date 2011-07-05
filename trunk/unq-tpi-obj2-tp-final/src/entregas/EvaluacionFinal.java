@@ -14,21 +14,20 @@ public class EvaluacionFinal extends Evaluacion {
 
 	private Map<Duracion, Integer> limiteRendiciones;
 
-	public EvaluacionFinal(final String titulo, final Date fecha) {
+	public EvaluacionFinal(String titulo, Date fecha) {
 		super(titulo, fecha);
 		limiteRendiciones = new HashMap<Duracion, Integer>();
 	}
 
-	public EvaluacionFinal(final String titulo, final Date fecha, final Alumno alumno,
-			final Integer nota) {
+	public EvaluacionFinal(String titulo, Date fecha, Alumno alumno, Integer nota) {
 		super(titulo, fecha, alumno, nota);
 	}
 
-	public void addLimiteRendiciones(final Duracion duracion, final Integer limite) {
+	public void addLimiteRendiciones(Duracion duracion, Integer limite) {
 		limiteRendiciones.put(duracion, limite);
 	}
 
-	public Integer getLimiteRendiciones(final Duracion duracion) {
+	public Integer getLimiteRendiciones(Duracion duracion) {
 		return limiteRendiciones.get(duracion);
 	}
 

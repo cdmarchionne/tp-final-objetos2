@@ -20,17 +20,17 @@ public class Antecedente<T> {
 		super();
 	}
 
-	public Antecedente(final T elemento) {
+	public Antecedente(T elemento) {
 		this();
 		this.elemento = elemento;
 	}
 
-	public Antecedente(final T elemento, final Date fechaInicio) {
+	public Antecedente(T elemento, Date fechaInicio) {
 		this(elemento);
 		this.fechaInicio = fechaInicio;
 	}
 
-	public Antecedente(final T elemento, final Date fechaInicio, final Date fechaFin) {
+	public Antecedente(T elemento, Date fechaInicio, Date fechaFin) {
 		this(elemento, fechaInicio);
 		this.fechaFin = fechaFin;
 	}
@@ -42,7 +42,7 @@ public class Antecedente<T> {
 		return fechaInicio;
 	}
 
-	public void setFechaInicio(final Date fechaInicio) {
+	public void setFechaInicio(Date fechaInicio) {
 		this.fechaInicio = fechaInicio;
 	}
 
@@ -50,7 +50,7 @@ public class Antecedente<T> {
 		return fechaFin;
 	}
 
-	public void setFechaFin(final Date fechaFin) {
+	public void setFechaFin(Date fechaFin) {
 		this.fechaFin = fechaFin;
 	}
 
@@ -58,21 +58,19 @@ public class Antecedente<T> {
 		return elemento;
 	}
 
-	public void setElemento(final T elemento) {
+	public void setElemento(T elemento) {
 		this.elemento = elemento;
 	}
 
-	public boolean sameElement(final T elemento) {
+	public boolean sameElement(T elemento) {
 		return this.elemento.equals(elemento);
 	}
-	
-	
 
 	// ********************
 	// * Funciones Utiles *
 	// ********************
 	/** Verifico si un elemento esta en una fecha */
-	public boolean transcurrioEn(final Date fecha) {
+	public boolean transcurrioEn(Date fecha) {
 		boolean rta = false;
 
 		if (fechaInicio != null) {
@@ -87,7 +85,7 @@ public class Antecedente<T> {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public boolean equals(final Object obj) {
+	public boolean equals(Object obj) {
 		boolean rta = false;
 
 		if (!(obj == null || this.getClass() != obj.getClass())) {
@@ -100,7 +98,7 @@ public class Antecedente<T> {
 		return rta;
 	}
 
-	public boolean isSame(final Antecedente<T> antecedente) {
+	public boolean isSame(Antecedente<T> antecedente) {
 		boolean rta;
 
 		if (this.sameElement(antecedente) && this.sameFechaInicio(antecedente)
@@ -114,17 +112,17 @@ public class Antecedente<T> {
 	}
 
 	/** Comparo que el Antecedente este hablando del mismo elemento */
-	public boolean sameElement(final Antecedente<T> antecedente) {
+	public boolean sameElement(Antecedente<T> antecedente) {
 		return this.getElemento() == null ? antecedente.getElemento() == null : this.getElemento()
 				.equals(antecedente.getElemento());
 	}
 
-	private boolean sameFechaInicio(final Antecedente<T> antecedente) {
+	private boolean sameFechaInicio(Antecedente<T> antecedente) {
 		return this.getFechaInicio() == null ? antecedente.getFechaInicio() == null : this
 				.getFechaInicio().equals(antecedente.getFechaInicio());
 	}
 
-	private boolean sameFechaFin(final Antecedente<T> antecedente) {
+	private boolean sameFechaFin(Antecedente<T> antecedente) {
 		return this.getFechaFin() == null ? antecedente.getFechaFin() == null : this.getFechaFin()
 				.equals(antecedente.getFechaFin());
 	}

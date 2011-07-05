@@ -13,6 +13,7 @@ import model.interfaces.MateriaIMPL;
 import model.interfaces.UniversidadIMPL;
 import personal.Alumno;
 import personal.Persona;
+import Utils.GeneradorDeDatos;
 import Utils.Nombrable;
 
 public class Universidad implements Nombrable, UniversidadIMPL {
@@ -28,9 +29,9 @@ public class Universidad implements Nombrable, UniversidadIMPL {
 	private OficinaAlumnos oficinaDeAlumnos;
 
 	public static Universidad getInstance() {
-		return getInstance("",null);
+		return getInstance("", null);
 	}
-	
+
 	public static Universidad getInstance(String nombre, Persona jefeOficinaAlumnos) {
 		if (getUniversidad() == null) {
 			setUniversidad(new Universidad(nombre, jefeOficinaAlumnos));
@@ -51,7 +52,11 @@ public class Universidad implements Nombrable, UniversidadIMPL {
 		this.nombre = nombre;
 		carreras = new HashSet<Carrera>();
 		areas = new HashSet<Area>();
-		oficinaDeAlumnos = new OficinaAlumnos(this,jefeOficinaAlumnos);
+		oficinaDeAlumnos = new OficinaAlumnos(this, jefeOficinaAlumnos);
+
+		GeneradorDeDatos.loadDataSystem();
+		// crearMaterias();
+		// crearAlumnos();
 	}
 
 	public Set<Carrera> getCarreras() {
@@ -65,11 +70,11 @@ public class Universidad implements Nombrable, UniversidadIMPL {
 	public void removeCarrera(Carrera carrera) {
 		carreras.remove(carrera);
 	}
-	
+
 	public Set<Area> getAreas() {
 		return areas;
 	}
-	
+
 	public void addArea(Area areas) {
 		this.areas.add(areas);
 	}
@@ -128,7 +133,7 @@ public class Universidad implements Nombrable, UniversidadIMPL {
 
 	@Override
 	public void inscribirAlumno(AlumnoIMPL alumno, CatedraIMPL catedra) {
-		this.getOficinaDeAlumnos().inscribirAlumnoEnCatedra((Alumno) alumno,(Catedra) catedra);
+		this.getOficinaDeAlumnos().inscribirAlumnoEnCatedra((Alumno) alumno, (Catedra) catedra);
 	}
 
 }
