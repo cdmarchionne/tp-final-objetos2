@@ -1,6 +1,7 @@
 package personal;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -24,6 +25,7 @@ public class Alumno implements AlumnoIMPL {
 	private List<InscripcionMateria> materiasInscriptas;
 	private List<MateriaAprobada> materiasAprobadas;
 	private Boolean cursoDeIngreso;
+	private List<Date> arrayFechasAprobadas;
 
 	// *****************
 	// * Constructores *
@@ -141,7 +143,7 @@ public class Alumno implements AlumnoIMPL {
 	}
 
 	public void calcularRegularidad() {
-
+		
 	}
 
 	public String getNombre() {
@@ -159,14 +161,19 @@ public class Alumno implements AlumnoIMPL {
 	public Boolean getCursoDeIngreso() {
 		return cursoDeIngreso;
 	}
+	public List<Date> getArrayFechasAprobadas(){
+		return this.arrayFechasAprobadas;
+	}
 
 	public void inscribirEnMateria( InscripcionMateria materiaInscripta) {
 		// El alumno no se inscribe en la catedra eso lo sabe la materia.
 		materiasInscriptas.add(materiaInscripta);
 	}
-
-	public void agregarMateriaAprobada( Materia materia, float nota) {
+	/** agrega materia aprobada y setea fecha actual en lista de fechas para calcular regularidad */
+	public void agregarMateriaAprobada(Materia materia, float nota) {
+		Date date = new Date();
 		materiasAprobadas.add(new MateriaAprobada(materia, nota));
+		this.getArrayFechasAprobadas().add(date);
 	}
 
 	/** Calcula el promedio de las materias aprobadas */
