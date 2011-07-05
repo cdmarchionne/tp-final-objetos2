@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import materias.InscripcionMateria;
@@ -19,6 +20,7 @@ import entregas.EntregaTP;
 
 public class Alumno implements AlumnoIMPL {
 
+
 	private Persona datosPersonales;
 	private List<EntregaTP> entregas;
 	private List<InscripcionCarrera> carrerasInscriptas;
@@ -28,6 +30,8 @@ public class Alumno implements AlumnoIMPL {
 	private List<Date> arrayFechasAprobadas;
 	private int cantAusentes;
 	private Boolean regularidad;
+	private List<Integer> añosLicencia;
+	private int cantLicencias;
 
 	// *****************
 	// * Constructores *
@@ -43,12 +47,42 @@ public class Alumno implements AlumnoIMPL {
 		cursoDeIngreso = false;
 		cantAusentes = 0;
 		regularidad = true;
-
+		arrayFechasAprobadas = new ArrayList<Date>();
+		añosLicencia = new ArrayList<Integer>();
+		cantLicencias = 0;
 	}
 
 	// ********************
 	// * Getter & Setters *
 	// ********************
+	public void setCantLicencias(int cantLicencias) {
+		this.cantLicencias = cantLicencias;
+	}
+
+	public int getCantLicencias() {
+		return cantLicencias;
+	}
+	
+	public void setAñosLicencia(List<Integer> añosLicencia) {
+		this.añosLicencia = añosLicencia;
+	}
+
+	public List<Integer> getAñosLicencia() {
+		return añosLicencia;
+	}
+
+	public void setCarrerasInscriptas(List<InscripcionCarrera> carrerasInscriptas) {
+		this.carrerasInscriptas = carrerasInscriptas;
+	}
+
+	public void setMateriasInscriptas(List<InscripcionMateria> materiasInscriptas) {
+		this.materiasInscriptas = materiasInscriptas;
+	}
+
+	public void setArrayFechasAprobadas(List<Date> arrayFechasAprobadas) {
+		this.arrayFechasAprobadas = arrayFechasAprobadas;
+	}	
+	
 	public List<EntregaTP> getEntregas() {
 		return entregas;
 	}
@@ -102,6 +136,10 @@ public class Alumno implements AlumnoIMPL {
 	public void setRegularidad(Boolean bool){
 		this.regularidad = bool;
 	}
+	public Boolean getRegularidad(){
+		return this.regularidad;
+	}
+	
 	/**
 	 * Obtengo la inscripcion de una carrera para poder trabajar mas comodo con
 	 * los datos del Adapter
@@ -156,7 +194,7 @@ public class Alumno implements AlumnoIMPL {
 		}
 	}
 
-	@SuppressWarnings("deprecation")
+
 	public void calcularRegularidad() {
 		Date date = new Date();
 		int var = 0;	
@@ -172,8 +210,6 @@ public class Alumno implements AlumnoIMPL {
 			else
 			{System.out.println("El Alumno es regular.");}
 		}
-	
-
 	public String getNombre() {
 		return this.getDatosPersonales().getNombre();
 	}
@@ -275,4 +311,9 @@ public class Alumno implements AlumnoIMPL {
 
 		return false;
 	}
+
+
+
+
+
 }
