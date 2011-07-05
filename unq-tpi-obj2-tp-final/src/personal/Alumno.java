@@ -26,6 +26,8 @@ public class Alumno implements AlumnoIMPL {
 	private List<MateriaAprobada> materiasAprobadas;
 	private Boolean cursoDeIngreso;
 	private List<Date> arrayFechasAprobadas;
+	private int cantAusentes;
+	private Boolean regularidad;
 
 	// *****************
 	// * Constructores *
@@ -39,6 +41,9 @@ public class Alumno implements AlumnoIMPL {
 		materiasInscriptas = new ArrayList<InscripcionMateria>();
 		materiasAprobadas = new ArrayList<MateriaAprobada>();
 		cursoDeIngreso = false;
+		cantAusentes = 0;
+		regularidad = true;
+
 	}
 
 	// ********************
@@ -87,7 +92,16 @@ public class Alumno implements AlumnoIMPL {
 	public void setDatosPersonales(Persona datosPersonales) {
 		this.datosPersonales = datosPersonales;
 	}
-
+	
+	public int getCantAusentes(){
+		return this.cantAusentes;
+	}
+	public void setCantAusentes(int cant){
+		this.cantAusentes = cant;
+	}
+	public void setRegularidad(Boolean bool){
+		this.regularidad = bool;
+	}
 	/**
 	 * Obtengo la inscripcion de una carrera para poder trabajar mas comodo con
 	 * los datos del Adapter
@@ -104,7 +118,7 @@ public class Alumno implements AlumnoIMPL {
 
 		return carreraBuscada;
 	}
-
+	
 	private InscripcionCarrera getCarreraInscripta(Carrera carrera) {
 		InscripcionCarrera carreraBuscada = null;
 
@@ -142,9 +156,23 @@ public class Alumno implements AlumnoIMPL {
 		}
 	}
 
+	@SuppressWarnings("deprecation")
 	public void calcularRegularidad() {
-		
-	}
+		Date date = new Date();
+		int var = 0;	
+		for (int i = 0; i < (this.getArrayFechasAprobadas()).size(); i++) {
+			if ((this.getArrayFechasAprobadas().get(i)).getYear() == date.getYear()){
+				var = var + 1;
+				}
+		}
+			
+		if ((this.getCantAusentes() > 6) &&(var < 2)){
+			this.setRegularidad(false);
+			System.out.println("El Alumno esta libre.");}
+			else
+			{System.out.println("El Alumno es regular.");}
+		}
+	
 
 	public String getNombre() {
 		return this.getDatosPersonales().getNombre();
@@ -161,14 +189,11 @@ public class Alumno implements AlumnoIMPL {
 	public Boolean getCursoDeIngreso() {
 		return cursoDeIngreso;
 	}
+	/** es un getter de las fechas de las materias aprobadas*/
 	public List<Date> getArrayFechasAprobadas(){
 		return this.arrayFechasAprobadas;
 	}
-
-	public void inscribirEnMateria( InscripcionMateria materiaInscripta) {
-		// El alumno no se inscribe en la catedra eso lo sabe la materia.
-		materiasInscriptas.add(materiaInscripta);
-	}
+	
 	/** agrega materia aprobada y setea fecha actual en lista de fechas para calcular regularidad */
 	public void agregarMateriaAprobada(Materia materia, float nota) {
 		Date date = new Date();
