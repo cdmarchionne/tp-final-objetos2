@@ -1,9 +1,11 @@
 package materias;
 
+import Utils.Nombrable;
+
 /**
  * Recuerda la nota con la que le cerro una Materia al Alumno
  */
-public class MateriaAprobada {
+public class MateriaAprobada implements Nombrable{
 
 	private Materia materia;
 
@@ -23,4 +25,16 @@ public class MateriaAprobada {
 		return nota;
 	}
 
+	@Override
+	public String toString() {
+		return getNombre();
+	}
+
+	@Override
+	public String getNombre() {
+		return getMateria().getNombre()+" = "+getNota();
+	}
+
+	
+	
 }

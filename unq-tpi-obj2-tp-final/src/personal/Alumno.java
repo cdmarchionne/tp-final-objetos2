@@ -29,7 +29,7 @@ public class Alumno implements Nombrable, AlumnoIMPL {
 	private List<Date> arrayFechasAprobadas;
 	private int cantAusentes;
 	private Boolean regularidad;
-	private List<Integer> añosLicencia;
+	private List<Integer> aÃ±osLicencia;
 	private int cantLicencias;
 
 	// *****************
@@ -47,7 +47,7 @@ public class Alumno implements Nombrable, AlumnoIMPL {
 		cantAusentes = 0;
 		regularidad = true;
 		arrayFechasAprobadas = new ArrayList<Date>();
-		añosLicencia = new ArrayList<Integer>();
+		aÃ±osLicencia = new ArrayList<Integer>();
 		cantLicencias = 0;
 	}
 
@@ -66,12 +66,12 @@ public class Alumno implements Nombrable, AlumnoIMPL {
 		return cantLicencias;
 	}
 
-	public void addAñosLicencia(Integer año) {
-		this.añosLicencia.add(año);
+	public void addAÃ±osLicencia(Integer aÃ±o) {
+		this.aÃ±osLicencia.add(aÃ±o);
 	}
 
-	public List<Integer> getAñosLicencia() {
-		return añosLicencia;
+	public List<Integer> getAÃ±osLicencia() {
+		return aÃ±osLicencia;
 	}
 
 	public void setCarrerasInscriptas(List<InscripcionCarrera> carrerasInscriptas) {

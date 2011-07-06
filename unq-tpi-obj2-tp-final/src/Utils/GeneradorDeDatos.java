@@ -69,6 +69,8 @@ public class GeneradorDeDatos {
 	/** Lista de datos personales de Alumnos */
 	private static List<Persona> listaAlumnos() {
 		List<Persona> alumnos = new ArrayList<Persona>();
+		
+		  
 
 		alumnos.add(new Persona(DNI_ALUMNO1, NOMBRE_ALUMNO1, APELLIDO_ALUMNO1, "M"));
 		alumnos.add(new Persona(18597326, "Toto", "Gomez", "M"));
@@ -140,6 +142,7 @@ public class GeneradorDeDatos {
 		Alumno alumno1 = (Alumno) buscar(NOMBRE_ALUMNO1, Universidad.getInstance().getAlumnos()
 				.toArray());
 		new InscripcionMateria(analisis1, catedraAnalisis1, alumno1);
+		alumno1.agregarMateriaAprobada(analisis1, 6);
 	}
 
 	/** Creo una Carrera */
