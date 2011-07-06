@@ -3,6 +3,7 @@ package universidad;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
+import java.util.Date;
 
 import materias.Catedra;
 import materias.InscripcionMateria;
@@ -148,6 +149,17 @@ public class OficinaAlumnos implements OficinaAlumnosIMPL {
 
 		return carreraBuscada;
 	}
+
+
+public void otorgarLicenciasAlumno(Alumno alumno){
+	Date fechaActual = new Date();
+	if (alumno.getCantLicencias() < 6 && !(alumno.getAñosLicencia().contains(fechaActual.getYear()))){
+		alumno.addAñosLicencia(fechaActual.getYear());
+		alumno.sumCantLicencias();
+		
+	}
+}
+
 
 
 }
