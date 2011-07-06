@@ -24,8 +24,22 @@ import universidad.Universidad;
 /**
  * Genero los datos minimos de las Clases
  */
-@SuppressWarnings("unused")
 public class GeneradorDeDatos {
+
+	private static final int DNI_ALUMNO1 = 32640573;
+	private static final int DNI_DOC1 = 1345672;
+	private static final int DNI_DOC2 = 12345678;
+	private static final int DNI_DOC3 = 21587149;
+
+	private static final String APELLIDO_ALUMNO1 = "Prieto";
+	private static final String APELLIDO_DOC1 = "Petrolas";
+	private static final String APELLIDO_DOC2 = "Lopez";
+	private static final String APELLIDO_DOC3 = "Frente";
+
+	private static final String NOMBRE_ALUMNO1 = "Mariano";
+	private static final String NOMBRE_DOC1 = "Juan";
+	private static final String NOMBRE_DOC2 = "Pablo";
+	private static final String NOMBRE_DOC3 = "Eduardo";
 
 	private static final String AREA_MATEMATICA = "Matematicas";
 	private static final String AREA_FISICA = "Fisica";
@@ -47,16 +61,16 @@ public class GeneradorDeDatos {
 		initArea();
 		initCargarPersonas();
 
-		// initCarreraYPlanDeEstudio();
-		// initMateriaYCatedra();
-		// inscribirAlumnoEnCatedra();
+		initCarreraYPlanDeEstudio();
+		initMateriaYCatedra();
+		inscribirAlumnoEnCatedra();
 	}
 
 	/** Lista de datos personales de Alumnos */
 	private static List<Persona> listaAlumnos() {
 		List<Persona> alumnos = new ArrayList<Persona>();
 
-		alumnos.add(new Persona(32640573, "Mariano", "Prieto", "M"));
+		alumnos.add(new Persona(DNI_ALUMNO1, NOMBRE_ALUMNO1, APELLIDO_ALUMNO1, "M"));
 		alumnos.add(new Persona(18597326, "Toto", "Gomez", "M"));
 		alumnos.add(new Persona(26418759, "Julian", "Perez", "M"));
 		alumnos.add(new Persona(23658974, "Agustin", "Diaz", "M"));
@@ -69,9 +83,9 @@ public class GeneradorDeDatos {
 	private static List<Persona> listaDocentes() {
 		List<Persona> docentes = new ArrayList<Persona>();
 
-		docentes.add(new Persona(1345672, "Juan", "Petrolas", "M"));
-		docentes.add(new Persona(12345678, "Pablo", "Lopez", "M"));
-		docentes.add(new Persona(21587149, "Eduardo", "Frente", "M"));
+		docentes.add(new Persona(DNI_DOC1, NOMBRE_DOC1, APELLIDO_DOC1, "M"));
+		docentes.add(new Persona(DNI_DOC2, NOMBRE_DOC2, APELLIDO_DOC2, "M"));
+		docentes.add(new Persona(DNI_DOC3, NOMBRE_DOC3, APELLIDO_DOC3, "M"));
 
 		return docentes;
 	}
@@ -103,33 +117,29 @@ public class GeneradorDeDatos {
 				oficinaDeAlumnos.nuevoAlumno(datosAlumno);
 			}
 		}
-
 	}
 
 	private static void inscribirAlumnoEnCatedra() {
 
-		PlanDeEstudio planDeEstudio = (PlanDeEstudio) buscar(PLAN_DE_ESTUDIO, Universidad
-				.getInstance().getAreas().toArray());
+		OficinaAlumnos oficinaDeAlumnos = Universidad.getInstance().getOficinaDeAlumnos();
+		PlanDeEstudio planDeEstudio = (PlanDeEstudio) buscar(PLAN_DE_ESTUDIO, oficinaDeAlumnos
+				.getPlanesDeEstudio().toArray());
 
 		/* Inscribo a un alumno en una carrera */
-		OficinaAlumnos oficinaDeAlumnos = Universidad.getInstance().getOficinaDeAlumnos();
-
-		Alumno[] alumnos = (Alumno[]) oficinaDeAlumnos.getAlumnos().toArray();
-		if (alumnos.length > 0) {
-			Alumno alumno = alumnos[0];
+		for (Alumno alumno : oficinaDeAlumnos.getAlumnos()) {
 			alumno.setCursoDeIngreso(true);
 			oficinaDeAlumnos.inscribirAlumnoEnCarrera(alumno, planDeEstudio);
-
-			/* Inscribo al alumno para que curse una materia */
-			Materia analisis1 = (Materia) buscar(MATERIA_ANALISIS_I, Universidad.getInstance()
-					.getMaterias().toArray());
-			Catedra catedraAnalisis1 = ((Catedra[]) analisis1.getCatedras().toArray())[0];
-
-			// alumno.inscribirEnMateria(new InscripcionMateria(analisis1,
-			// catedraAnalisis1, alumno));
-			new InscripcionMateria(analisis1, catedraAnalisis1, alumno);
 		}
 
+		/* Inscribo al alumno para que curse una materia */
+		Materia analisis1 = (Materia) buscar(MATERIA_ANALISIS_I, Universidad.getInstance()
+				.getMaterias().toArray());
+		Catedra catedraAnalisis1 = (Catedra) buscar(CATEDRA_ANALISIS_1, analisis1.getCatedras()
+				.toArray());
+
+		Alumno alumno1 = (Alumno) buscar(NOMBRE_ALUMNO1, Universidad.getInstance().getAlumnos()
+				.toArray());
+		new InscripcionMateria(analisis1, catedraAnalisis1, alumno1);
 	}
 
 	/** Creo una Carrera */
@@ -140,19 +150,17 @@ public class GeneradorDeDatos {
 		Universidad.getInstance().addCarrera(carreraVieja);
 		Universidad.getInstance().addCarrera(carreraNueva);
 
-		// initPlanDeEstudio(carreraNueva,PLAN_DE_ESTUDIO);
+		initPlanDeEstudio(carreraNueva, PLAN_DE_ESTUDIO);
 	}
 
 	/** Creo una Plan de Estudio Nuevo para una Carrera existente */
 	private static void initPlanDeEstudio(Carrera carrera, String nombrePlan) {
 
-		Docente[] docentes = (Docente[]) Universidad.getInstance().getOficinaDeAlumnos()
-				.getDocentes().toArray();
-		if (docentes.length > 0) {
-			/* Creo Planes de Estudio para una Carrera */
-			carrera.addPlanDeEstudio(new PlanDeEstudio(nombrePlan, new Date(), docentes[0]), true);
-		}
+		Docente docente = (Docente) buscar(NOMBRE_DOC1, Universidad.getInstance()
+				.getOficinaDeAlumnos().getDocentes().toArray());
 
+		/* Creo Planes de Estudio para una Carrera */
+		carrera.addPlanDeEstudio(new PlanDeEstudio(nombrePlan, new Date(), docente), true);
 	}
 
 	/** Creo una Materias y Catedras */
@@ -178,7 +186,7 @@ public class GeneradorDeDatos {
 
 		/* Agrego las materias al Plan de Estudio */
 		PlanDeEstudio planDeEstudio = (PlanDeEstudio) buscar(PLAN_DE_ESTUDIO, Universidad
-				.getInstance().getAreas().toArray());
+				.getInstance().getOficinaDeAlumnos().getPlanesDeEstudio().toArray());
 
 		planDeEstudio.addMaterias(new MateriaAsignadaAPlanDeEstudio(analisis1, new Obligatoria(),
 				new Cuatrimestral()));
@@ -187,31 +195,17 @@ public class GeneradorDeDatos {
 	}
 
 	/** Metodo que ayuda a encontrar objectos en una lista de elementos */
-	private static Nombrable buscar(String nombre, Object[] lista) {
-		Nombrable objetoBuscado = null;
-		Nombrable[] objetos = (Nombrable[]) lista;
+	private static Object buscar(Object objetoBuscado, Object[] lista) {
+		Object objetoEncontrado = null;
+		Object[] objetos = (Object[]) lista;
 
-		for (Nombrable objeto : objetos) {
-			if (objeto.getNombre().equals(nombre)) {
-				objetoBuscado = objeto;
+		for (Object objeto : objetos) {
+			if (((Nombrable) objeto).getNombre().equals(objetoBuscado)) {
+				objetoEncontrado = objeto;
 			}
 		}
 
-		return objetoBuscado;
+		return objetoEncontrado;
 	}
-
-	// private static Carrera buscarCarrera(String nombre) {
-	// Carrera carreraBuscado = null;
-	// Carrera[] carreras = (Carrera[])
-	// Universidad.getInstance().getCarreras().toArray();
-	//
-	// for (Carrera carrera: carreras) {
-	// if(carrera.getNombre().equals(nombre)){
-	// carreraBuscado = carrera;
-	// }
-	// }
-	//
-	// return carreraBuscado;
-	// }
 
 }

@@ -1,9 +1,11 @@
 package personal;
 
+import Utils.Nombrable;
+
 /**
  * Administracion de los Datos personales
  */
-public class Persona {
+public class Persona implements Nombrable {
 
 	private Integer dni;
 
@@ -57,6 +59,7 @@ public class Persona {
 		this.dni = dni;
 	}
 
+	@Override
 	public String getNombre() {
 		return nombre;
 	}

@@ -15,9 +15,10 @@ import model.interfaces.MateriaIMPL;
 import universidad.Carrera;
 import universidad.InscripcionCarrera;
 import universidad.PlanDeEstudio;
+import Utils.Nombrable;
 import entregas.EntregaTP;
 
-public class Alumno implements AlumnoIMPL {
+public class Alumno implements Nombrable, AlumnoIMPL {
 
 	private Persona datosPersonales;
 	private List<EntregaTP> entregas;
@@ -56,7 +57,8 @@ public class Alumno implements AlumnoIMPL {
 	public void setCantLicencias(int cantLicencias) {
 		this.cantLicencias = cantLicencias;
 	}
-	public void sumCantLicencias(){
+
+	public void sumCantLicencias() {
 		this.cantLicencias = this.cantLicencias + 1;
 	}
 
@@ -202,7 +204,11 @@ public class Alumno implements AlumnoIMPL {
 			this.addCarreraIncripta(new InscripcionCarrera(planDeEstudio, legajo));
 		}
 	}
-	/** Calcula la regularidad de un alumno en base a sus ausentes y materias aprobadas*/
+
+	/**
+	 * Calcula la regularidad de un alumno en base a sus ausentes y materias
+	 * aprobadas
+	 */
 	@SuppressWarnings("deprecation")
 	public void calcularRegularidad() {
 		Date date = new Date();
@@ -223,8 +229,14 @@ public class Alumno implements AlumnoIMPL {
 
 	}
 
+	@Override
 	public String getNombre() {
 		return this.getDatosPersonales().getNombre();
+	}
+
+	@Override
+	public String toString() {
+		return getNombre();
 	}
 
 	public String getApellido() {

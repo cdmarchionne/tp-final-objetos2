@@ -1,9 +1,9 @@
 package universidad;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
-import java.util.Date;
 
 import materias.Catedra;
 import materias.InscripcionMateria;
@@ -20,7 +20,7 @@ import personal.Persona;
 public class OficinaAlumnos implements OficinaAlumnosIMPL {
 
 	private Universidad universidad;
-	
+
 	private Persona jefeOficina;
 	private Set<Persona> secretarios;
 
@@ -31,44 +31,55 @@ public class OficinaAlumnos implements OficinaAlumnosIMPL {
 	public OficinaAlumnos() {
 		super();
 	}
-	
-	public OficinaAlumnos(Universidad universidad,Persona jefeOficina) {
+
+	public OficinaAlumnos(Universidad universidad, Persona jefeOficina) {
 		this();
 		this.universidad = universidad;
 		this.jefeOficina = jefeOficina;
 		secretarios = new HashSet<Persona>();
 		alumnos = new HashSet<Alumno>();
-		docentes= new HashSet<Docente>();
-		legajoDocente=0;
+		docentes = new HashSet<Docente>();
+		legajoDocente = 0;
 	}
 
 	/** Inscribo a un alumno en un Plan de Estudio especifico de una Carrera */
 	public void inscribirAlumnoEnCarrera(Alumno alumno, PlanDeEstudio planDeEstudio) {
 		if (alumno.getCursoDeIngreso()) {
 			Carrera carrera = getCarrera(planDeEstudio);
-			if(carrera.getPlanesVigentes().contains(planDeEstudio)){
-				alumno.addCarreraIncripta(new InscripcionCarrera(planDeEstudio,carrera.obtenerLegajo()));
+			if (carrera.getPlanesVigentes().contains(planDeEstudio)) {
+				alumno.addCarreraIncripta(new InscripcionCarrera(planDeEstudio, carrera
+						.obtenerLegajo()));
 			}
 		}
 	}
-	
+
 	public void inscribirAlumnoEnCarrera(Alumno alumno, Carrera carrera) {
-		if(!carrera.getPlanesVigentes().isEmpty()){
+		if (!carrera.getPlanesVigentes().isEmpty()) {
 			Object[] planDeEstudio = carrera.getPlanesVigentes().toArray();
 			inscribirAlumnoEnCarrera(alumno, (PlanDeEstudio) planDeEstudio[0]);
 		}
 	}
 
-	/** Inscribo a un alumno en un Catedra especifico de una Materia */
-	public void inscribirAlumnoEnCatedra(Alumno alumno, Catedra catedra) {
-		for (Materia materia : (Materia[]) alumno.getMateriasInscribibles().toArray()) {
-			if(materia.getCatedras().contains(catedra)){
-				new InscripcionMateria(materia, catedra, alumno);
-				break;
-			}
+	/**
+	 * Inscribo a un alumno en un Catedra especifico de una Materia
+	 * 
+	 * @param materia2
+	 */
+	public void inscribirAlumnoEnCatedra(Alumno alumno, Catedra catedra, Materia materia) {
+		if (materia.getCatedras().contains(catedra)) {
+			new InscripcionMateria(materia, catedra, alumno);
 		}
+
+		// for (Materia materia : (Materia[])
+		// alumno.getMateriasInscribibles().toArray()) {
+		// if (materia.getCatedras().contains(catedra)) {
+		// new InscripcionMateria(materia, catedra, alumno);
+		// break;
+		// }
+		// }
+
 	}
-	
+
 	/** Creo un docente nuevo y lo agrego a la lista de docentes */
 	public void nuevoDocente(Persona datosPersonales) {
 		Docente docente = new Docente(datosPersonales, this.incrementarLegajoDocente());
@@ -123,6 +134,20 @@ public class OficinaAlumnos implements OficinaAlumnosIMPL {
 		return universidad.getCarreras();
 	}
 
+	/**
+	 * Obtengo todos los Planes de Estudio Vigentes en todas las Carreras
+	 * Universitarias
+	 */
+	public Set<PlanDeEstudio> getPlanesDeEstudio() {
+		Set<PlanDeEstudio> planes = new HashSet<PlanDeEstudio>();
+
+		for (Carrera carrera : getCarreras()) {
+			planes.addAll(carrera.getPlanesVigentes());
+		}
+
+		return planes;
+	}
+
 	@Override
 	public String analiticoDe(AlumnoIMPL alumno) {
 		return this.entregarAnalitico((Alumno) alumno);
@@ -133,14 +158,14 @@ public class OficinaAlumnos implements OficinaAlumnosIMPL {
 		return this.getCoeficiente((Alumno) alumno);
 	}
 
-	/** Busco a que Carrera pertenece un Plan de Estudio*/
-	public Carrera getCarrera(PlanDeEstudio planDeEstudio){
+	/** Busco a que Carrera pertenece un Plan de Estudio */
+	public Carrera getCarrera(PlanDeEstudio planDeEstudio) {
 		Carrera carreraBuscada = null;
 
 		Iterator<Carrera> iteradorCarrera = getCarreras().iterator();
-		Carrera carrera=null;
-		while(iteradorCarrera.hasNext()){
-			carrera=iteradorCarrera.next();
+		Carrera carrera = null;
+		while (iteradorCarrera.hasNext()) {
+			carrera = iteradorCarrera.next();
 			if (carrera.getPlanesDeEstudio().contains(planDeEstudio)) {
 				carreraBuscada = carrera;
 				break;
@@ -150,16 +175,15 @@ public class OficinaAlumnos implements OficinaAlumnosIMPL {
 		return carreraBuscada;
 	}
 
+	@SuppressWarnings("deprecation")
+	public void otorgarLicenciasAlumno(Alumno alumno) {
+		Date fechaActual = new Date();
+		if (alumno.getCantLicencias() < 6
+				&& !(alumno.getAñosLicencia().contains(fechaActual.getYear()))) {
+			alumno.addAñosLicencia(fechaActual.getYear());
+			alumno.sumCantLicencias();
 
-public void otorgarLicenciasAlumno(Alumno alumno){
-	Date fechaActual = new Date();
-	if (alumno.getCantLicencias() < 6 && !(alumno.getAñosLicencia().contains(fechaActual.getYear()))){
-		alumno.addAñosLicencia(fechaActual.getYear());
-		alumno.sumCantLicencias();
-		
+		}
 	}
-}
-
-
 
 }

@@ -8,8 +8,9 @@ import java.util.Set;
 
 import materias.MateriaAsignadaAPlanDeEstudio;
 import personal.Docente;
+import Utils.Nombrable;
 
-public class PlanDeEstudio {
+public class PlanDeEstudio implements Nombrable {
 
 	private String nombre;
 
@@ -54,6 +55,7 @@ public class PlanDeEstudio {
 		this.ordenesSugeridos.add(ordenesSugeridos);
 	}
 
+	@Override
 	public String getNombre() {
 		return nombre;
 	}
@@ -66,5 +68,4 @@ public class PlanDeEstudio {
 		return director;
 	}
 
-	
 }
