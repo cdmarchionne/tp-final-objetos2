@@ -56,9 +56,11 @@ public class InscribirAlumnoFrame extends AbstractGUIFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				CatedraIMPL catedra = (CatedraIMPL) InscribirAlumnoFrame.this.getListaCatedras()
 						.getSelectedValue();
+				MateriaIMPL materia = (MateriaIMPL) InscribirAlumnoFrame.this.getListaMaterias()
+						.getSelectedValue();
 				AlumnoIMPL alumno = (AlumnoIMPL) InscribirAlumnoFrame.this.getListaAlumnos()
 						.getSelectedValue();
-				Universidad.getInstance().inscribirAlumno(alumno, catedra);
+				Universidad.getInstance().inscribirAlumno(alumno, catedra, materia);
 
 				InscribirAlumnoFrame.this.actualizar();
 			}

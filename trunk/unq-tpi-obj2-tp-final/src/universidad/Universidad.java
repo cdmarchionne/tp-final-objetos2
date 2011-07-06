@@ -7,13 +7,13 @@ import java.util.List;
 import java.util.Set;
 
 import materias.Catedra;
+import materias.Materia;
 import model.interfaces.AlumnoIMPL;
 import model.interfaces.CatedraIMPL;
 import model.interfaces.MateriaIMPL;
 import model.interfaces.UniversidadIMPL;
 import personal.Alumno;
 import personal.Persona;
-import Utils.GeneradorDeDatos;
 import Utils.Nombrable;
 
 public class Universidad implements Nombrable, UniversidadIMPL {
@@ -54,7 +54,7 @@ public class Universidad implements Nombrable, UniversidadIMPL {
 		areas = new HashSet<Area>();
 		oficinaDeAlumnos = new OficinaAlumnos(this, jefeOficinaAlumnos);
 
-		GeneradorDeDatos.loadDataSystem();
+		// GeneradorDeDatos.loadDataSystem();
 		// crearMaterias();
 		// crearAlumnos();
 	}
@@ -132,8 +132,9 @@ public class Universidad implements Nombrable, UniversidadIMPL {
 	}
 
 	@Override
-	public void inscribirAlumno(AlumnoIMPL alumno, CatedraIMPL catedra) {
-		this.getOficinaDeAlumnos().inscribirAlumnoEnCatedra((Alumno) alumno, (Catedra) catedra);
+	public void inscribirAlumno(AlumnoIMPL alumno, CatedraIMPL catedra, MateriaIMPL materia) {
+		this.getOficinaDeAlumnos().inscribirAlumnoEnCatedra((Alumno) alumno, (Catedra) catedra,
+				(Materia) materia);
 	}
 
 }

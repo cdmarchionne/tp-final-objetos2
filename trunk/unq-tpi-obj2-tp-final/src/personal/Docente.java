@@ -7,11 +7,12 @@ import materias.Materia;
 import universidad.Carrera;
 import Utils.Antecedente;
 import Utils.Historial;
+import Utils.Nombrable;
 
 /**
  * Docente
  */
-public class Docente {
+public class Docente implements Nombrable {
 
 	private Persona datosPersonales;
 
@@ -48,6 +49,16 @@ public class Docente {
 
 	public void setDatosPersonales(Persona datosPersonales) {
 		this.datosPersonales = datosPersonales;
+	}
+
+	@Override
+	public String getNombre() {
+		return this.getDatosPersonales().getNombre();
+	}
+
+	@Override
+	public String toString() {
+		return getNombre();
 	}
 
 	public Integer getLegajo() {
