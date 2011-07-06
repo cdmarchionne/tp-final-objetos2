@@ -56,13 +56,16 @@ public class Alumno implements AlumnoIMPL {
 	public void setCantLicencias(int cantLicencias) {
 		this.cantLicencias = cantLicencias;
 	}
+	public void sumCantLicencias(){
+		this.cantLicencias = this.cantLicencias + 1;
+	}
 
 	public int getCantLicencias() {
 		return cantLicencias;
 	}
 
-	public void setAñosLicencia(List<Integer> añosLicencia) {
-		this.añosLicencia = añosLicencia;
+	public void addAñosLicencia(Integer año) {
+		this.añosLicencia.add(año);
 	}
 
 	public List<Integer> getAñosLicencia() {
@@ -199,7 +202,7 @@ public class Alumno implements AlumnoIMPL {
 			this.addCarreraIncripta(new InscripcionCarrera(planDeEstudio, legajo));
 		}
 	}
-
+	/** Calcula la regularidad de un alumno en base a sus ausentes y materias aprobadas*/
 	@SuppressWarnings("deprecation")
 	public void calcularRegularidad() {
 		Date date = new Date();
