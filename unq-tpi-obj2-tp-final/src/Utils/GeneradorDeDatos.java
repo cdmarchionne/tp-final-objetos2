@@ -7,7 +7,6 @@ import java.util.List;
 import materias.Anual;
 import materias.Catedra;
 import materias.Cuatrimestral;
-import materias.InscripcionMateria;
 import materias.Materia;
 import materias.MateriaAsignadaAPlanDeEstudio;
 import materias.Obligatoria;
@@ -69,8 +68,6 @@ public class GeneradorDeDatos {
 	/** Lista de datos personales de Alumnos */
 	private static List<Persona> listaAlumnos() {
 		List<Persona> alumnos = new ArrayList<Persona>();
-		
-		  
 
 		alumnos.add(new Persona(DNI_ALUMNO1, NOMBRE_ALUMNO1, APELLIDO_ALUMNO1, "M"));
 		alumnos.add(new Persona(18597326, "Toto", "Gomez", "M"));
@@ -130,7 +127,12 @@ public class GeneradorDeDatos {
 		/* Inscribo a un alumno en una carrera */
 		for (Alumno alumno : oficinaDeAlumnos.getAlumnos()) {
 			alumno.setCursoDeIngreso(true);
-			oficinaDeAlumnos.inscribirAlumnoEnCarrera(alumno, planDeEstudio);
+			try {
+				oficinaDeAlumnos.inscribirAlumnoEnCarrera(alumno, planDeEstudio);
+			} catch (IngresoNoAprobadoExcepcion e) {
+				System.out.println();
+				e.printStackTrace();
+			}
 		}
 
 		/* Inscribo al alumno para que curse una materia */
@@ -141,14 +143,21 @@ public class GeneradorDeDatos {
 
 		Alumno alumno1 = (Alumno) buscar(NOMBRE_ALUMNO1, Universidad.getInstance().getAlumnos()
 				.toArray());
-		new InscripcionMateria(analisis1, catedraAnalisis1, alumno1);
-		alumno1.agregarMateriaAprobada(analisis1, 6);
+
+		oficinaDeAlumnos.inscribirAlumnoEnCatedra(alumno1, catedraAnalisis1, analisis1,
+				planDeEstudio);
+
+		alumno1.agregarMateriaAprobada(planDeEstudio, analisis1, 6);
 	}
 
 	/** Creo una Carrera */
 	private static void initCarreraYPlanDeEstudio() {
-		Carrera carreraVieja = new Carrera(CARRERA_VIEJA);
-		Carrera carreraNueva = new Carrera(CARRERA_NUEVA);
+
+		Docente docente = (Docente) buscar(NOMBRE_DOC1, Universidad.getInstance()
+				.getOficinaDeAlumnos().getDocentes().toArray());
+
+		Carrera carreraVieja = new Carrera(CARRERA_VIEJA, docente);
+		Carrera carreraNueva = new Carrera(CARRERA_NUEVA, docente);
 
 		Universidad.getInstance().addCarrera(carreraVieja);
 		Universidad.getInstance().addCarrera(carreraNueva);
@@ -171,7 +180,7 @@ public class GeneradorDeDatos {
 		/* Creo Materias y Catedras */
 		Materia analisis1 = new Materia(MATERIA_ANALISIS_I, 3);
 		analisis1.setHorasSemanales(8);
-		// analisis1.setPromocionable(false);
+		analisis1.setPromocionable(false);
 		new Catedra(CATEDRA_ANALISIS_1, analisis1);
 
 		Materia ingles1 = new Materia(MATERIA_INGLES_I, 2);
@@ -200,7 +209,7 @@ public class GeneradorDeDatos {
 	/** Metodo que ayuda a encontrar objectos en una lista de elementos */
 	private static Object buscar(Object objetoBuscado, Object[] lista) {
 		Object objetoEncontrado = null;
-		Object[] objetos = (Object[]) lista;
+		Object[] objetos = lista;
 
 		for (Object objeto : objetos) {
 			if (((Nombrable) objeto).getNombre().equals(objetoBuscado)) {

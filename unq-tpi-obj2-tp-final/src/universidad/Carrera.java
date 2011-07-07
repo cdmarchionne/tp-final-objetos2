@@ -16,11 +16,11 @@ public class Carrera implements Nombrable {
 
 	private Map<PlanDeEstudio, Boolean> planesVigentes;
 
-	public Carrera(String nombre) {
+	public Carrera(String nombre, Docente director) {
 		super();
 		this.nombre = nombre;
 		legajoCarrera = 0;
-		director = null;
+		this.director = director;
 		planesVigentes = new HashMap<PlanDeEstudio, Boolean>();
 	}
 

@@ -12,15 +12,15 @@ import Utils.Nombrable;
 
 public class PlanDeEstudio implements Nombrable {
 
-	private String nombre;
+	private final String nombre;
 
-	private Date fechaDeCreacion;
+	private final Date fechaDeCreacion;
 
-	private Docente director;
+	private final Docente director;
 
-	private List<MateriaAsignadaAPlanDeEstudio> materias;
+	private final List<MateriaAsignadaAPlanDeEstudio> materias;
 
-	private Set<RecorridoSugerido> ordenesSugeridos;
+	private final Set<RecorridoSugerido> ordenesSugeridos;
 
 	// *****************
 	// * Constructores *
@@ -60,12 +60,28 @@ public class PlanDeEstudio implements Nombrable {
 		return nombre;
 	}
 
+	@Override
+	public String toString() {
+		return getNombre();
+	}
+
 	public Date getFechaDeCreacion() {
 		return fechaDeCreacion;
 	}
 
 	public Docente getDirector() {
 		return director;
+	}
+
+	/** Calculo los creditos del plan de estudios */
+	public Integer getCreditos() {
+		Integer creditos = 0;
+
+		for (MateriaAsignadaAPlanDeEstudio materiaPlanDeEstudio : getMaterias()) {
+			creditos = creditos + materiaPlanDeEstudio.getMateria().getCreditos();
+		}
+
+		return creditos;
 	}
 
 }

@@ -6,14 +6,13 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import materias.InscripcionMateria;
+import materias.Catedra;
 import materias.Materia;
-import materias.MateriaAprobada;
-import materias.MateriaAsignadaAPlanDeEstudio;
+import materias.MateriaCursada;
 import model.interfaces.AlumnoIMPL;
 import model.interfaces.MateriaIMPL;
 import universidad.Carrera;
-import universidad.InscripcionCarrera;
+import universidad.InscripcionPlanDeEstudio;
 import universidad.PlanDeEstudio;
 import Utils.Nombrable;
 import entregas.EntregaTP;
@@ -22,27 +21,22 @@ public class Alumno implements Nombrable, AlumnoIMPL {
 
 	private Persona datosPersonales;
 	private List<EntregaTP> entregas;
-	private List<InscripcionCarrera> carrerasInscriptas;
-	private List<InscripcionMateria> materiasInscriptas;
-	private List<MateriaAprobada> materiasAprobadas;
+	private List<InscripcionPlanDeEstudio> planesInscriptos;
 	private Boolean cursoDeIngreso;
 	private List<Date> arrayFechasAprobadas;
 	private int cantAusentes;
 	private Boolean regularidad;
-	private List<Integer> añosLicencia;
+	private final List<Integer> añosLicencia;
 	private int cantLicencias;
 
 	// *****************
 	// * Constructores *
 	// *****************
 	public Alumno(Persona datosPersonales) {
-
 		super();
 		this.datosPersonales = datosPersonales;
 		entregas = new ArrayList<EntregaTP>();
-		carrerasInscriptas = new ArrayList<InscripcionCarrera>();
-		materiasInscriptas = new ArrayList<InscripcionMateria>();
-		materiasAprobadas = new ArrayList<MateriaAprobada>();
+		planesInscriptos = new ArrayList<InscripcionPlanDeEstudio>();
 		cursoDeIngreso = false;
 		cantAusentes = 0;
 		regularidad = true;
@@ -74,8 +68,8 @@ public class Alumno implements Nombrable, AlumnoIMPL {
 		return añosLicencia;
 	}
 
-	public void setCarrerasInscriptas(List<InscripcionCarrera> carrerasInscriptas) {
-		this.carrerasInscriptas = carrerasInscriptas;
+	public void setCarrerasInscriptas(List<InscripcionPlanDeEstudio> carrerasInscriptas) {
+		this.planesInscriptos = carrerasInscriptas;
 	}
 
 	// public void setMateriasInscriptas(List<InscripcionMateria>
@@ -83,8 +77,9 @@ public class Alumno implements Nombrable, AlumnoIMPL {
 	// this.materiasInscriptas = materiasInscriptas;
 	// }
 
-	public void inscribirEnMateria(InscripcionMateria materiaInscripta) {
-		this.materiasInscriptas.add(materiaInscripta);
+	public void inscribirEnMateria(PlanDeEstudio plan, Materia materia, Catedra catedra) {
+		getPlanInscripto(plan).inscribirEnMateria(materia, catedra);
+		catedra.agregarAlumnoInscripto(this);
 	}
 
 	public void setArrayFechasAprobadas(List<Date> arrayFechasAprobadas) {
@@ -103,28 +98,16 @@ public class Alumno implements Nombrable, AlumnoIMPL {
 		this.entregas = entregas;
 	}
 
-	public List<InscripcionCarrera> getCarrerasInscriptas() {
-		return carrerasInscriptas;
+	public List<InscripcionPlanDeEstudio> getCarrerasInscriptas() {
+		return planesInscriptos;
 	}
 
-	public void addCarreraIncripta(InscripcionCarrera carreraInscripta) {
-		carrerasInscriptas.add(carreraInscripta);
+	public void addCarreraIncripta(InscripcionPlanDeEstudio carreraInscripta) {
+		planesInscriptos.add(carreraInscripta);
 	}
 
-	public void removeCarreras(InscripcionCarrera carreraInscripta) {
-		carrerasInscriptas.remove(carreraInscripta);
-	}
-
-	public List<InscripcionMateria> getMateriasInscriptas() {
-		return materiasInscriptas;
-	}
-
-	public List<MateriaAprobada> getMateriasAprobadas() {
-		return materiasAprobadas;
-	}
-
-	public void setMateriasAprobadas(List<MateriaAprobada> materiasAprobadas) {
-		this.materiasAprobadas = materiasAprobadas;
+	public void removeCarreras(InscripcionPlanDeEstudio carreraInscripta) {
+		planesInscriptos.remove(carreraInscripta);
 	}
 
 	public Persona getDatosPersonales() {
@@ -155,10 +138,10 @@ public class Alumno implements Nombrable, AlumnoIMPL {
 	 * Obtengo la inscripcion de una carrera para poder trabajar mas comodo con
 	 * los datos del Adapter
 	 */
-	private InscripcionCarrera getCarreraInscripta(PlanDeEstudio planDeEstudio) {
-		InscripcionCarrera carreraBuscada = null;
+	private InscripcionPlanDeEstudio getPlanInscripto(PlanDeEstudio planDeEstudio) {
+		InscripcionPlanDeEstudio carreraBuscada = null;
 
-		for (InscripcionCarrera carreraInscripta : carrerasInscriptas) {
+		for (InscripcionPlanDeEstudio carreraInscripta : planesInscriptos) {
 			if (carreraInscripta.getPlanDeEstudio().equals(planDeEstudio)) {
 				carreraBuscada = carreraInscripta;
 				break;
@@ -168,12 +151,12 @@ public class Alumno implements Nombrable, AlumnoIMPL {
 		return carreraBuscada;
 	}
 
-	private InscripcionCarrera getCarreraInscripta(Carrera carrera) {
-		InscripcionCarrera carreraBuscada = null;
+	private InscripcionPlanDeEstudio getCarreraInscripta(Carrera carrera) {
+		InscripcionPlanDeEstudio carreraBuscada = null;
 
 		for (PlanDeEstudio plan : carrera.getPlanesVigentes()) {
-			if (this.getCarreraInscripta(plan) != null) {
-				carreraBuscada = this.getCarreraInscripta(plan);
+			if (this.getPlanInscripto(plan) != null) {
+				carreraBuscada = this.getPlanInscripto(plan);
 				break;
 			}
 		}
@@ -183,7 +166,7 @@ public class Alumno implements Nombrable, AlumnoIMPL {
 
 	/** Averiguo el legajo de un Alumno */
 	public Integer getLegajo(PlanDeEstudio planDeEstudio) {
-		return this.getCarreraInscripta(planDeEstudio).getLegajo();
+		return this.getPlanInscripto(planDeEstudio).getLegajo();
 	}
 
 	public Integer getLegajo(Carrera carrera) {
@@ -193,7 +176,7 @@ public class Alumno implements Nombrable, AlumnoIMPL {
 	/** Modofico el legajo de un Alumno */
 	public void setLegajo(PlanDeEstudio planDeEstudio, Integer legajo) {
 		boolean existe = false;
-		for (InscripcionCarrera carreraInscripta : carrerasInscriptas) {
+		for (InscripcionPlanDeEstudio carreraInscripta : planesInscriptos) {
 			if (carreraInscripta.getPlanDeEstudio().equals(planDeEstudio)) {
 				carreraInscripta.setLegajo(legajo);
 				existe = true;
@@ -201,7 +184,7 @@ public class Alumno implements Nombrable, AlumnoIMPL {
 		}
 
 		if (!existe) {
-			this.addCarreraIncripta(new InscripcionCarrera(planDeEstudio, legajo));
+			this.addCarreraIncripta(new InscripcionPlanDeEstudio(planDeEstudio, legajo));
 		}
 	}
 
@@ -260,27 +243,49 @@ public class Alumno implements Nombrable, AlumnoIMPL {
 	 * agrega materia aprobada y setea fecha actual en lista de fechas para
 	 * calcular regularidad
 	 */
-	public void agregarMateriaAprobada(Materia materia, float nota) {
-		Date date = new Date();
-		materiasAprobadas.add(new MateriaAprobada(materia, nota));
-		this.getArrayFechasAprobadas().add(date);
+	public void agregarMateriaAprobada(PlanDeEstudio plan, Materia materia, float nota) {
+		getPlanInscripto(plan).agregarMateriaAprobada(materia, nota);
+		this.getArrayFechasAprobadas().add(new Date());
 	}
 
 	/** Calcula el promedio de las materias aprobadas */
 	public float calcularPromedio() {
-		float notas = 0;
+		float promedio = 0;
 
-		for (MateriaAprobada materiaAprobada : materiasAprobadas) {
-			notas = notas + materiaAprobada.getNota();
+		if (getPlanesDeEstudio().size() > 0) {
+
+			for (PlanDeEstudio planDeEstudio : getPlanesDeEstudio()) {
+				promedio = promedio + calcularPromedio(planDeEstudio);
+			}
+
+			promedio = promedio + getPlanesDeEstudio().size();
 		}
 
-		return notas / materiasAprobadas.size();
+		return promedio;
+	}
+
+	public float calcularPromedio(PlanDeEstudio planDeEstudio) {
+		float notas = 0;
+
+		List<MateriaCursada> materiasAprobadas = getPlanInscripto(planDeEstudio)
+				.getMateriasCursadas();
+
+		if (materiasAprobadas.size() > 0) {
+			for (MateriaCursada materiaAprobada : materiasAprobadas) {
+				notas = notas + materiaAprobada.getNota();
+			}
+
+			notas = notas / materiasAprobadas.size();
+		}
+
+		return notas;
+
 	}
 
 	/** Obtengo todos los planes de estudio del alumno */
-	public Set<PlanDeEstudio> getPlanDeEstudio() {
+	public Set<PlanDeEstudio> getPlanesDeEstudio() {
 		Set<PlanDeEstudio> planDeEstudio = new HashSet<PlanDeEstudio>();
-		for (InscripcionCarrera carreraInscripta : carrerasInscriptas) {
+		for (InscripcionPlanDeEstudio carreraInscripta : planesInscriptos) {
 			planDeEstudio.add(carreraInscripta.getPlanDeEstudio());
 		}
 
@@ -294,7 +299,7 @@ public class Alumno implements Nombrable, AlumnoIMPL {
 	public List<MateriaIMPL> getMateriasInscribibles() {
 		List<MateriaIMPL> materiasInscribibles = new ArrayList<MateriaIMPL>();
 
-		for (PlanDeEstudio planDeEstudio : this.getPlanDeEstudio()) {
+		for (PlanDeEstudio planDeEstudio : this.getPlanesDeEstudio()) {
 			materiasInscribibles.addAll(this.getMateriasInscribibles(planDeEstudio));
 		}
 
@@ -306,39 +311,19 @@ public class Alumno implements Nombrable, AlumnoIMPL {
 	 * Plan de Estudio determinado
 	 */
 	public List<MateriaIMPL> getMateriasInscribibles(PlanDeEstudio planDeEstudio) {
-		List<MateriaIMPL> materiasInscribibles = new ArrayList<MateriaIMPL>();
-		Materia materia = null;
-
-		for (MateriaAsignadaAPlanDeEstudio materiaPlanDeEstudio : planDeEstudio.getMaterias()) {
-			materia = materiaPlanDeEstudio.getMateria();
-			if (!this.estaAprobada(materia) && !this.estaInscripto(materia)) {
-				materiasInscribibles.add(materia);
-			}
-		}
-
-		return materiasInscribibles;
+		return getPlanInscripto(planDeEstudio).getMateriasInscribibles();
 	}
 
-	/** Comprueba si una materia esta en la lista de Aprobadas */
-	private boolean estaAprobada(Materia materia) {
-
-		for (MateriaAprobada materiaAprobada : this.getMateriasAprobadas()) {
-			if (materiaAprobada.getMateria().equals(materia))
-				return true;
-		}
-
-		return false;
+	/**
+	 * Devuelve los creditos de las materias aprobadas
+	 */
+	public float getCreditos(PlanDeEstudio plan) {
+		// DEL PLAN De ESTUDIO
+		return 0;
 	}
 
-	/** Comprueba si una materia esta en la lista de Inscriptas */
-	public boolean estaInscripto(Materia materia) {
-
-		for (InscripcionMateria materiaInscripto : this.getMateriasInscriptas()) {
-			if (materiaInscripto.getMateriaElegida().equals(materia))
-				return true;
-		}
-
-		return false;
+	public List<MateriaCursada> getMateriasCursadas(PlanDeEstudio planDeEstudio) {
+		return getPlanInscripto(planDeEstudio).getMateriasCursadas();
 	}
 
 }

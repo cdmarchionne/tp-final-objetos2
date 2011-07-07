@@ -17,28 +17,28 @@ import Utils.Nombrable;
  */
 public class Materia implements Nombrable, MateriaIMPL {
 
-	private String nombre;
+	private final String nombre;
 	private Docente titular;
 
 	// Lista de Temas, es un SET para poder eliminar los repetidos sin hacer
 	// ningun calculo.
-	private Set<String> programa;
-	private List<String> requisitos;
-	private Integer dificultad;
+	private final Set<String> programa;
+	private final List<String> requisitos;
+	private final Integer dificultad;
 	private Integer horasSemanales;
-	private Set<Catedra> catedras;
+	private final Set<Catedra> catedras;
 	private boolean promocionable;
 
 	/**
 	 * La materia se crea solo con el nombre y la dificultad, el resto de las
 	 * caracteristicas se van agregando luego
 	 */
-	public Materia( String nombre,  int dificultad) {
+	public Materia(String nombre, int dificultad) {
 		this.nombre = nombre;
 		this.dificultad = dificultad;
 		programa = new HashSet<String>();
 		requisitos = new ArrayList<String>();
-		horasSemanales=0;
+		horasSemanales = 0;
 		catedras = new HashSet<Catedra>();
 		promocionable = false;
 	}
@@ -48,7 +48,7 @@ public class Materia implements Nombrable, MateriaIMPL {
 		return horasSemanales * dificultad;
 	}
 
-	public void setHorasSemanales( int horas) {
+	public void setHorasSemanales(int horas) {
 		horasSemanales = horas;
 	}
 
@@ -56,7 +56,7 @@ public class Materia implements Nombrable, MateriaIMPL {
 		return requisitos;
 	}
 
-	public void agregarRequisito( String requisito) {
+	public void agregarRequisito(String requisito) {
 		this.getRequisitos().add(requisito);
 	}
 
@@ -72,7 +72,7 @@ public class Materia implements Nombrable, MateriaIMPL {
 		catedras.remove(catedra);
 	}
 
-	public void setTitular( Docente titular) {
+	public void setTitular(Docente titular) {
 		this.titular = titular;
 	}
 
@@ -90,32 +90,33 @@ public class Materia implements Nombrable, MateriaIMPL {
 	}
 
 	/** Agrega un tema al programa */
-	public void agregarTema( String tema) {
+	public void agregarTema(String tema) {
 		this.getPrograma().add(tema);
 	}
 
 	public List<Alumno> getAlumnosInscriptosEn() {
 		ArrayList<Alumno> listaFinal = new ArrayList<Alumno>();
-		
-		for (Catedra catedra: (Catedra[]) this.getCatedras().toArray()) {
+
+		for (Catedra catedra : (Catedra[]) this.getCatedras().toArray()) {
 			listaFinal.addAll(catedra.getAlumnosInscriptos());
 		}
-		
+
 		return listaFinal;
 	}
-	
+
 	public List<Alumno> getAlumnosInscriptosEn(Date fecha) {
 		ArrayList<Alumno> listaFinal = new ArrayList<Alumno>();
 
-		for (Catedra catedra: (Catedra[]) this.getCatedras().toArray()) {
+		for (Catedra catedra : (Catedra[]) this.getCatedras().toArray()) {
 			for (Alumno alumno : catedra.getAlumnosInscriptos()) {
-				// Ver quien lleva el historial de materias inscriptas alguna fecha determinada
-//				if(alumno.getCursoDeIngreso()){
-					listaFinal.add(alumno);
-//				}
+				// Ver quien lleva el historial de materias inscriptas alguna
+				// fecha determinada
+				// if(alumno.getCursoDeIngreso()){
+				listaFinal.add(alumno);
+				// }
 			}
 		}
-		
+
 		return listaFinal;
 	}
 
@@ -143,6 +144,7 @@ public class Materia implements Nombrable, MateriaIMPL {
 		this.setPromocionable(true);
 	}
 
+	@Override
 	public List<CatedraIMPL> getCatedras() {
 		return new ArrayList<CatedraIMPL>(this.getTodasLasCatedras());
 	}

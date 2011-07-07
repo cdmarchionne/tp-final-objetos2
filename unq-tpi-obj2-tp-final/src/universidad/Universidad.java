@@ -22,11 +22,11 @@ public class Universidad implements Nombrable, UniversidadIMPL {
 
 	private String nombre;
 
-	private Set<Carrera> carreras;
+	private final Set<Carrera> carreras;
 
-	private Set<Area> areas;
+	private final Set<Area> areas;
 
-	private OficinaAlumnos oficinaDeAlumnos;
+	private final OficinaAlumnos oficinaDeAlumnos;
 
 	public static Universidad getInstance() {
 		return getInstance("", null);
@@ -134,7 +134,10 @@ public class Universidad implements Nombrable, UniversidadIMPL {
 	@Override
 	public void inscribirAlumno(AlumnoIMPL alumno, CatedraIMPL catedra, MateriaIMPL materia) {
 		this.getOficinaDeAlumnos().inscribirAlumnoEnCatedra((Alumno) alumno, (Catedra) catedra,
-				(Materia) materia);
-	}
+				(Materia) materia, null);
+		// this.getOficinaDeAlumnos().inscribirAlumnoEnCatedra((Alumno) alumno,
+		// (Catedra) catedra,
+		// (Materia) materia, plan);
 
+	}
 }
