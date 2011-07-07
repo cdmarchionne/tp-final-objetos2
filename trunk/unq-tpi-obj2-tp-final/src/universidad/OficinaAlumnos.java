@@ -1,21 +1,25 @@
 package universidad;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import materias.Catedra;
-import materias.InscripcionMateria;
 import materias.Materia;
+import materias.MateriaCursada;
 import model.interfaces.AlumnoIMPL;
 import model.interfaces.OficinaAlumnosIMPL;
 import personal.Alumno;
 import personal.Docente;
 import personal.Persona;
+import Utils.IngresoNoAprobadoExcepcion;
 
 /**
- * TODO: description
+ * OficinaAlumnos
  */
 public class OficinaAlumnos implements OficinaAlumnosIMPL {
 
@@ -42,33 +46,37 @@ public class OficinaAlumnos implements OficinaAlumnosIMPL {
 		legajoDocente = 0;
 	}
 
-	/** Inscribo a un alumno en un Plan de Estudio especifico de una Carrera */
-	public void inscribirAlumnoEnCarrera(Alumno alumno, PlanDeEstudio planDeEstudio) {
+	/**
+	 * Inscribo a un alumno en un Plan de Estudio especifico de una Carrera
+	 * 
+	 * @throws IngresoNoAprobadoExcepcion
+	 */
+	public void inscribirAlumnoEnCarrera(Alumno alumno, PlanDeEstudio planDeEstudio)
+			throws IngresoNoAprobadoExcepcion
+	{
 		if (alumno.getCursoDeIngreso()) {
 			Carrera carrera = getCarrera(planDeEstudio);
 			if (carrera.getPlanesVigentes().contains(planDeEstudio)) {
-				alumno.addCarreraIncripta(new InscripcionCarrera(planDeEstudio, carrera
+				alumno.addCarreraIncripta(new InscripcionPlanDeEstudio(planDeEstudio, carrera
 						.obtenerLegajo()));
+			} else {
+				throw new IngresoNoAprobadoExcepcion();
 			}
-		}
-	}
-
-	public void inscribirAlumnoEnCarrera(Alumno alumno, Carrera carrera) {
-		if (!carrera.getPlanesVigentes().isEmpty()) {
-			Object[] planDeEstudio = carrera.getPlanesVigentes().toArray();
-			inscribirAlumnoEnCarrera(alumno, (PlanDeEstudio) planDeEstudio[0]);
 		}
 	}
 
 	/**
 	 * Inscribo a un alumno en un Catedra especifico de una Materia
 	 * 
+	 * @param plan
+	 * 
 	 * @param materia2
 	 */
-	public void inscribirAlumnoEnCatedra(Alumno alumno, Catedra catedra, Materia materia) {
-		if (materia.getCatedras().contains(catedra)) {
-			new InscripcionMateria(materia, catedra, alumno);
-		}
+	public void inscribirAlumnoEnCatedra(Alumno alumno, Catedra catedra, Materia materia,
+			PlanDeEstudio plan)
+	{
+		// new InscripcionMateria(materia, catedra, alumno);
+		alumno.inscribirEnMateria(plan, materia, catedra);
 
 		// for (Materia materia : (Materia[])
 		// alumno.getMateriasInscribibles().toArray()) {
@@ -103,7 +111,17 @@ public class OficinaAlumnos implements OficinaAlumnosIMPL {
 	}
 
 	public String entregarAnalitico(Alumno alumno) {
-		return alumno.getMateriasAprobadas().toString();
+		Map<PlanDeEstudio, List<MateriaCursada>> analitico = new HashMap<PlanDeEstudio, List<MateriaCursada>>();
+
+		for (PlanDeEstudio plan : alumno.getPlanesDeEstudio()) {
+			analitico.put(plan, this.entregarAnalitico(alumno, plan));
+		}
+
+		return analitico.toString();
+	}
+
+	private List<MateriaCursada> entregarAnalitico(Alumno alumno, PlanDeEstudio planDeEstudio) {
+		return alumno.getMateriasCursadas(planDeEstudio);
 	}
 
 	public Persona getJefeOficina() {
@@ -126,8 +144,9 @@ public class OficinaAlumnos implements OficinaAlumnosIMPL {
 		return legajoDocente;
 	}
 
-	public float getCoeficiente(Alumno alumno) {
-		return alumno.calcularPromedio();
+	public float getCoeficiente(Alumno alumno, PlanDeEstudio plan) {
+		return (alumno.calcularPromedio() / 2) + (alumno.getCreditos(plan) / plan.getCreditos())
+				* 5;
 	}
 
 	private Set<Carrera> getCarreras() {
@@ -155,7 +174,10 @@ public class OficinaAlumnos implements OficinaAlumnosIMPL {
 
 	@Override
 	public float coeficienteDe(AlumnoIMPL alumno) {
-		return this.getCoeficiente((Alumno) alumno);
+		// TODO: El coeficiente del alumno depende del Plan de estudio?
+		return 8;
+		// public float coeficienteDe(AlumnoIMPL alumno, PlanDeEstudio plan) {
+		// return this.getCoeficiente((Alumno) alumno, plan);
 	}
 
 	/** Busco a que Carrera pertenece un Plan de Estudio */

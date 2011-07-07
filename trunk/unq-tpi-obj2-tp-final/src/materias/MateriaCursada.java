@@ -5,13 +5,13 @@ import Utils.Nombrable;
 /**
  * Recuerda la nota con la que le cerro una Materia al Alumno
  */
-public class MateriaAprobada implements Nombrable{
+public class MateriaCursada implements Nombrable{
 
 	private Materia materia;
 
 	private float nota;
 
-	public MateriaAprobada(Materia materia, float nota) {
+	public MateriaCursada(Materia materia, float nota) {
 		super();
 		this.materia = materia;
 		this.nota = nota;
