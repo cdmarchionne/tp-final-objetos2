@@ -10,11 +10,11 @@ import model.interfaces.AlumnoIMPL;
 import model.interfaces.CatedraIMPL;
 import personal.Alumno;
 import Utils.Historial;
+import Utils.NoSeEncuentraTPException;
 import Utils.Nombrable;
 import entregas.EntregaTP;
 import entregas.Evaluacion;
 import entregas.TrabajoPractico;
-import entregas.TrabajoPracticoIndividual;
 
 /**
  * Catedra
@@ -23,27 +23,27 @@ import entregas.TrabajoPracticoIndividual;
 public class Catedra implements Nombrable, CatedraIMPL {
 
 	/** Guardar el historial de Docentes */
-	private Historial<StaffCatedra> staff;
-	private String nombre;
-	private Set<TrabajoPractico> tp;
+	private final Historial<StaffCatedra> staff;
+	private final String nombre;
+	private final Set<TrabajoPractico> tp;// Lista de trabajos practicos.
 	private Set<Evaluacion> examenes;
-	private Set<Alumno> alumnosInscriptos;
+	private final Set<Alumno> alumnosInscriptos;
+
 	// Cuando un alumno entrega un TP, se guarda tmb en la catedra
-	private List<EntregaTP> entregasDeAlumnos; 
 
 	public Catedra(String nombre, Materia materia) {
 		this(nombre);
 		materia.addCatedra(this);
 	}
-	
+
 	private Catedra(String nombre) {
 		super();
-		this.nombre=nombre;
+		this.nombre = nombre;
 		staff = new Historial<StaffCatedra>();
 		tp = new HashSet<TrabajoPractico>();
 		examenes = new HashSet<Evaluacion>();
 		alumnosInscriptos = new HashSet<Alumno>();
-		entregasDeAlumnos = new ArrayList<EntregaTP>();
+
 	}
 
 	@Override
@@ -97,76 +97,76 @@ public class Catedra implements Nombrable, CatedraIMPL {
 		this.getTp().add(tp);
 	}
 
-	public List<EntregaTP> getEntregasTPs() {
-		return entregasDeAlumnos;
-	}
-
-	public void addEntrega(EntregaTP entrega) {
-		this.getEntregasTPs().add(entrega);
-	}
-
-	public ArrayList<EntregaTP> getTPSDe(Alumno alumno) { /*
-														 * Devuelve la
-														 * lista de tps
-														 * de un alumno
-														 */
-		ArrayList<EntregaTP> listaEntregas = new ArrayList<EntregaTP>();
-		for (EntregaTP entrega : this.getEntregasTPs()) {
-			if (entrega.getAlumno().equals(alumno)) {
-				listaEntregas.add(entrega);
+	/** Devuelve el trabajo practico indicado por parametro */
+	public TrabajoPractico getTP(TrabajoPractico tp) throws NoSeEncuentraTPException {
+		for (TrabajoPractico trabajo : this.tp) {
+			if (trabajo.equals(tp)) {
+				return trabajo;
 			}
+		}// Si no lo encuentra lanza la exepcion.
+		throw new NoSeEncuentraTPException();
+
+	}
+
+	/**
+	 * Devuelve las entregas de TPS de un alumno en particular. Si no hay
+	 * ninguna devuelve la lista vacia.
+	 */
+	public Set<EntregaTP> getTPSDe(Alumno alumno) {
+		Set<EntregaTP> resultado = new HashSet<EntregaTP>();
+		for (TrabajoPractico trabajo : this.tp) {
+			if (trabajo.alumnoHizoEntrega(alumno)) {
+				resultado.add(trabajo.getEntregaDe(alumno));
+			}
+
 		}
 
-		return listaEntregas;
+		return resultado;
+
 	}
 
 	/** Devuelve los alumnos que entregaron cierto TP */
-	public ArrayList<Alumno> getAlumnosEntregaronTP(TrabajoPractico tp) {
-		ArrayList<Alumno> listaAlumnos = new ArrayList<Alumno>();
-		for (EntregaTP entrega : this.getEntregasTPs()) {
-			if (entrega.getTp().equals(tp)) {
-				listaAlumnos.add(entrega.getAlumno());
-			}
-		}
-		return listaAlumnos;
+	public Set<Alumno> getAlumnosEntregaronTP(TrabajoPractico tp)
 
+	{
+		return tp.alumnosQueEntregaron();
 	}
 
-	/** Devuelve las entregas de cierto TP */
-	public ArrayList<EntregaTP> getEntregasTP(TrabajoPractico tp) {
-		ArrayList<EntregaTP> listaEntregas = new ArrayList<EntregaTP>();
-		for (EntregaTP entrega : this.getEntregasTPs()) {
-			if (entrega.getTp().equals(tp)) {
-				listaEntregas.add(entrega);
-			}
-		}
-		return listaEntregas;
-
+	/** Devuelve las entregas de un cierto Trabajo Practico */
+	public Set<EntregaTP> getEntregasTP(TrabajoPractico tp) {
+		return tp.getEntregas();
 	}
 
-	public Alumno getMejorAlumnoDeEntrega(TrabajoPracticoIndividual tp) {
-		TrabajoPracticoIndividual ganador = tp;
+	/**
+	 * Devuelve el mejor alumno del un determinado Trabajo
+	 * Practico
+	 */
+	public Alumno getMejorAlumnoDeEntrega(TrabajoPractico tp) {
 
-		for (EntregaTP entrega : this.getEntregasTP(tp)) {
-			if (!this.mayorNota(ganador, entrega)) {
-				ganador = (TrabajoPracticoIndividual) entrega.getTp();
+		EntregaTP entregaGanadora = tp.getEntregas().iterator().next();
+
+		for (EntregaTP entrega : tp.getEntregas()) {
+			if (!this.mayorNota(entregaGanadora, entrega)) {
+				entregaGanadora = entrega;
 			} else {
-				if (this.compararNombre(ganador.getAlumnos(), tp.getAlumnos())) {
-					ganador = (TrabajoPracticoIndividual) entrega.getTp();
+				Alumno alumnoEntrega = entrega.getAlumnoMenorNombre();
+				if (this.compararNombre(entregaGanadora.getAlumnoMenorNombre(), alumnoEntrega)) {
+					entregaGanadora = entrega;
 				}
 			}
 		}
 
-		return ganador.getAlumnos();
-
+		return entregaGanadora.getAlumnoMenorNombre();// Devuelve el menor
+														// alumno por decicion
+														// nuestra.
 	}
 
 	/** Devuelve True la nota Mayor la tiene el ganador o lo entrego antes */
-	private boolean mayorNota(TrabajoPracticoIndividual ganador, EntregaTP entrega) {
+	private boolean mayorNota(EntregaTP ganador, EntregaTP entrega) {
 		boolean rta = false;
 
 		if (ganador.getNota() == entrega.getNota()) {
-			rta = ganador.getFechaReal().before(entrega.getTp().getFechaReal());
+			rta = ganador.getFechaEntregado().before(entrega.getFechaEntregado());
 		} else {
 			rta = ganador.getNota() > entrega.getNota();
 		}
