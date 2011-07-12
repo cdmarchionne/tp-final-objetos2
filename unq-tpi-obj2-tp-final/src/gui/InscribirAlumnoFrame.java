@@ -23,13 +23,14 @@ import javax.swing.event.ListSelectionListener;
 import model.interfaces.AlumnoIMPL;
 import model.interfaces.CatedraIMPL;
 import model.interfaces.MateriaIMPL;
+import model.interfaces.PlanDeEstudioIMPL;
 import model.interfaces.UniversidadIMPL;
 import universidad.Universidad;
 
 public class InscribirAlumnoFrame extends AbstractGUIFrame {
 	private static final long serialVersionUID = 1L;
 
-	private JList listaAlumnos, listaMaterias, listaCatedras;
+	private JList listaAlumnos, listaPlanes, listaMaterias, listaCatedras;
 
 	public InscribirAlumnoFrame(JFrame frame) {
 		super(frame);
@@ -41,6 +42,7 @@ public class InscribirAlumnoFrame extends AbstractGUIFrame {
 		panel.setLayout(new FlowLayout());
 
 		panel.add(this.mkListaAlumnos());
+		panel.add(this.mkListaPlanes());
 		panel.add(this.mkListaMaterias());
 		panel.add(this.mkListaCatedras());
 
@@ -54,23 +56,36 @@ public class InscribirAlumnoFrame extends AbstractGUIFrame {
 		botonInscribir.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				CatedraIMPL catedra = (CatedraIMPL) InscribirAlumnoFrame.this.getListaCatedras()
-						.getSelectedValue();
-				MateriaIMPL materia = (MateriaIMPL) InscribirAlumnoFrame.this.getListaMaterias()
-						.getSelectedValue();
 				AlumnoIMPL alumno = (AlumnoIMPL) InscribirAlumnoFrame.this.getListaAlumnos()
 						.getSelectedValue();
-				Universidad.getInstance().inscribirAlumno(alumno, catedra, materia);
+				PlanDeEstudioIMPL plan = (PlanDeEstudioIMPL) InscribirAlumnoFrame.this
+						.getListaPlanes().getSelectedValue();
+				MateriaIMPL materia = (MateriaIMPL) InscribirAlumnoFrame.this.getListaMaterias()
+						.getSelectedValue();
+				CatedraIMPL catedra = (CatedraIMPL) InscribirAlumnoFrame.this.getListaCatedras()
+						.getSelectedValue();
 
-				InscribirAlumnoFrame.this.actualizar();
+				Universidad.getInstance().inscribirAlumno(alumno, catedra, materia, plan);
+
+				InscribirAlumnoFrame.this.actualizarListaPlanes();
 			}
 		});
 
 		return botonInscribir;
 	}
 
-	protected void actualizar() {
-		this.actualizarListaMaterias();
+	// protected void actualizar() {
+	// this.resetearListaCatedras();
+	// this.resetearListaMaterias();
+	// this.actualizarListaPlanes();
+	// }
+
+	protected void resetearListaPlanes() {
+		this.getListaPlanes().setListData(new Vector<PlanDeEstudioIMPL>());
+	}
+
+	protected void resetearListaMaterias() {
+		this.getListaMaterias().setListData(new Vector<MateriaIMPL>());
 		this.resetearListaCatedras();
 	}
 
@@ -84,8 +99,17 @@ public class InscribirAlumnoFrame extends AbstractGUIFrame {
 	protected void actualizarListaMaterias() {
 		Universidad universidad = Universidad.getInstance();
 		AlumnoIMPL alumno = (AlumnoIMPL) this.getListaAlumnos().getSelectedValue();
-		this.getListaMaterias().setListData(
-				new Vector<MateriaIMPL>(universidad.materiasInscribibles(alumno)));
+		PlanDeEstudioIMPL plan = (PlanDeEstudioIMPL) this.getListaPlanes().getSelectedValue();
+
+		// Si hay seleccionado un Plan tambien hay seleccionado un alumno
+		if (plan == null) {
+			this.resetearListaMaterias();
+		} else {
+			this.getListaMaterias().setListData(
+					new Vector<MateriaIMPL>(universidad.materiasInscribibles(alumno, plan)));
+
+			this.actualizarListaCatedras();
+		}
 	}
 
 	private Component mkListaCatedras() {
@@ -93,10 +117,10 @@ public class InscribirAlumnoFrame extends AbstractGUIFrame {
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 		panel.add(new JLabel("Catedras"));
 
-		JList listaCatedras = new JList();
-		// listaCatedras.setSize(new Dimension(100, 50));
-		listaCatedras.setPreferredSize(new Dimension(100, 150));
-		this.setListaCatedras(listaCatedras);
+		JList listaDeCatedra = new JList();
+		// listaDeCatedra.setSize(new Dimension(100, 50));
+		listaDeCatedra.setPreferredSize(new Dimension(100, 150));
+		this.setListaCatedras(listaDeCatedra);
 
 		panel.add(new JScrollPane(this.getListaCatedras()));
 
@@ -112,11 +136,11 @@ public class InscribirAlumnoFrame extends AbstractGUIFrame {
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 		panel.add(new JLabel("Materias"));
 
-		JList listaMaterias = new JList();
-		// listaMaterias.setSize(new Dimension(100, 50));
-		listaMaterias.setPreferredSize(new Dimension(100, 150));
+		JList listaDeMaterias = new JList();
+		// listaDeMaterias.setSize(new Dimension(100, 50));
+		listaDeMaterias.setPreferredSize(new Dimension(100, 150));
 		//
-		listaMaterias.addListSelectionListener(new ListSelectionListener() {
+		listaDeMaterias.addListSelectionListener(new ListSelectionListener() {
 			@Override
 			public void valueChanged(ListSelectionEvent arg0) {
 				if (!(InscribirAlumnoFrame.this.getListaMaterias().getSelectedValue() == null)) {
@@ -125,15 +149,19 @@ public class InscribirAlumnoFrame extends AbstractGUIFrame {
 			}
 		});
 
-		this.setListaMaterias(listaMaterias);
+		this.setListaMaterias(listaDeMaterias);
 
-		panel.add(new JScrollPane(listaMaterias));
+		panel.add(new JScrollPane(listaDeMaterias));
 		return panel;
 	}
 
 	protected void actualizarListaCatedras() {
 		MateriaIMPL materia = (MateriaIMPL) this.getListaMaterias().getSelectedValue();
-		this.getListaCatedras().setListData(new Vector<CatedraIMPL>(materia.getCatedras()));
+		if (materia == null) {
+			this.resetearListaCatedras();
+		} else {
+			this.getListaCatedras().setListData(new Vector<CatedraIMPL>(materia.getCatedras()));
+		}
 	}
 
 	/**
@@ -149,24 +177,60 @@ public class InscribirAlumnoFrame extends AbstractGUIFrame {
 		UniversidadIMPL universidad = Universidad.getInstance();
 		Vector<AlumnoIMPL> alumnos = new Vector<AlumnoIMPL>(universidad.getAlumnos()); // por
 																						// si
-																						// devuelven
-																						// ArrayList
+		JList listaDeAlumnos = new JList(alumnos);
+		// listaDeAlumnos.setSize(new Dimension(100, 50));
+		listaDeAlumnos.setPreferredSize(new Dimension(100, 150));
 
-		JList listaAlumnos = new JList(alumnos);
-		// listaAlumnos.setSize(new Dimension(100, 50));
-		listaAlumnos.setPreferredSize(new Dimension(100, 150));
-
-		listaAlumnos.addListSelectionListener(new ListSelectionListener() {
+		listaDeAlumnos.addListSelectionListener(new ListSelectionListener() {
 			@Override
 			public void valueChanged(ListSelectionEvent arg0) {
-				InscribirAlumnoFrame.this.actualizar();
+				InscribirAlumnoFrame.this.actualizarListaPlanes();
 			}
 		});
 
-		this.setListaAlumnos(listaAlumnos);
+		this.setListaAlumnos(listaDeAlumnos);
 
-		panel.add(new JScrollPane(listaAlumnos));
+		panel.add(new JScrollPane(listaDeAlumnos));
 		return panel;
+	}
+
+	/**
+	 * Crea la lista de Planes de Estudio del Alumno
+	 */
+	private JComponent mkListaPlanes() {
+		JPanel panel = new JPanel();
+		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+		panel.add(new JLabel("Planes de Estudio"));
+
+		JList listaDePlanes = new JList();
+		// listaDePlanes.setSize(new Dimension(100, 50));
+		listaDePlanes.setPreferredSize(new Dimension(100, 150));
+
+		listaDePlanes.addListSelectionListener(new ListSelectionListener() {
+			@Override
+			public void valueChanged(ListSelectionEvent arg0) {
+				InscribirAlumnoFrame.this.actualizarListaMaterias();
+			}
+		});
+
+		this.setListaPlanes(listaDePlanes);
+		panel.add(new JScrollPane(listaDePlanes));
+		return panel;
+	}
+
+	protected void actualizarListaPlanes() {
+		AlumnoIMPL alumno = (AlumnoIMPL) InscribirAlumnoFrame.this.getListaAlumnos()
+				.getSelectedValue();
+
+		if (alumno == null) {
+			this.resetearListaPlanes();
+		} else {
+			Vector<PlanDeEstudioIMPL> planes = new Vector<PlanDeEstudioIMPL>(Universidad
+					.getInstance().getPlanesDeEstudio(alumno));
+			this.getListaPlanes().setListData(new Vector<PlanDeEstudioIMPL>(planes));
+
+			this.actualizarListaMaterias();
+		}
 	}
 
 	/**
@@ -184,6 +248,14 @@ public class InscribirAlumnoFrame extends AbstractGUIFrame {
 
 	public JList getListaAlumnos() {
 		return listaAlumnos;
+	}
+
+	public void setListaPlanes(JList planes) {
+		listaPlanes = planes;
+	}
+
+	public JList getListaPlanes() {
+		return listaPlanes;
 	}
 
 	private void setListaMaterias(JList materias) {

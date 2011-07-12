@@ -3,7 +3,7 @@ package materias;
 import Utils.Nombrable;
 
 /**
- * TODO: description
+ * Respresentacion de la duracion de una Materia
  */
 public abstract class Duracion implements Nombrable {
 

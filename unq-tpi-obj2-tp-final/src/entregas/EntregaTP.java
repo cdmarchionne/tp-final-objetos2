@@ -9,7 +9,7 @@ import personal.Alumno;
 import personal.Docente;
 
 /**
- * TODO: description
+ * Manejo las entregas de TP de una Catedra
  */
 public class EntregaTP {
 
@@ -32,9 +32,9 @@ public class EntregaTP {
 		this.setNota(0);// Se inicia en 0 ya que no se corrigio aun.
 		// Faltaria ver como hacer para que al crear la EntregaTP se agregue a
 		// la lista de ENTREGASTPS de la CATEDRA,
-		this.alumnos = new ArrayList<Alumno>();// se genera el array y se agrega
-												// el unico alumno.
-		this.alumnos.add(alumno);
+		alumnos = new ArrayList<Alumno>();// se genera el array y se agrega
+											// el unico alumno.
+		alumnos.add(alumno);
 	}
 
 	/**
@@ -80,7 +80,7 @@ public class EntregaTP {
 
 	/** Devuelve true si la lista de alumnos tiene UN solo integrante */
 	public boolean isIndividual() {
-		return this.alumnos.size() == 1;
+		return alumnos.size() == 1;
 	}
 
 	public void setListaEjercicios(Map<String, String> listaEjercicios) {
@@ -99,27 +99,34 @@ public class EntregaTP {
 		aprobado = false;
 	}
 
+	public boolean getAprobado() {
+		return aprobado;
+	}
+
 	public Date getFechaEntregado() {
-		return this.fechaEntregado;
+		return fechaEntregado;
 	}
 
 	/** Devuelve true si encuentra el alumno en su lista */
-	public boolean tieneAlumno(Alumno alumno) {
-		for (Alumno supuestoAlumno : this.alumnos) {
-			if (supuestoAlumno.equals(alumno)) {
+	public boolean contains(Alumno alumno) {
+		for (Alumno supuestoAlumno : alumnos) {
+			if (supuestoAlumno.equals(alumno))
 				return true;
-			}
 		}
 		return false;
 	}
 
+	/**
+	 * Comparo los apellidos de los alumnos de forma Ascendente. Devuelvo el
+	 * primero
+	 */
 	public Alumno comprarPorApellido(Alumno alumno1, Alumno alumno2) {
 		int compApellido = alumno1.getApellido().compareTo(alumno2.getApellido());
-		if (compApellido > 0) {
+
+		if (compApellido > 0)
 			return alumno2;
-		} else {
+		else
 			return alumno1;
-		}
 
 	}
 

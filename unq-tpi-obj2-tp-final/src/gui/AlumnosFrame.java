@@ -120,12 +120,12 @@ public class AlumnosFrame extends AbstractGUIFrame {
 																						// devuelven
 																						// ArrayList
 
-		JList listaAlumnos = new JList(alumnos);
+		JList listaDeAlumnos = new JList(alumnos);
 		// listaAlumnos.setSize(new Dimension(100, 50));
-		listaAlumnos.setPreferredSize(new Dimension(100, 150));
-		this.setListaAlumnos(listaAlumnos);
+		listaDeAlumnos.setPreferredSize(new Dimension(100, 150));
+		this.setListaAlumnos(listaDeAlumnos);
 
-		return new JScrollPane(listaAlumnos);
+		return new JScrollPane(listaDeAlumnos);
 	}
 
 	// setters&getters

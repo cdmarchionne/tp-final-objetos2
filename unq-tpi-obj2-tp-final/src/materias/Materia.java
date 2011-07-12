@@ -109,8 +109,9 @@ public class Materia implements Nombrable, MateriaIMPL {
 
 		for (Catedra catedra : (Catedra[]) this.getCatedras().toArray()) {
 			for (Alumno alumno : catedra.getAlumnosInscriptos()) {
-				// Ver quien lleva el historial de materias inscriptas alguna
-				// fecha determinada
+				// TODO: Ver quien lleva el historial de materias inscriptas
+				// alguna fecha determinada
+
 				// if(alumno.getCursoDeIngreso()){
 				listaFinal.add(alumno);
 				// }

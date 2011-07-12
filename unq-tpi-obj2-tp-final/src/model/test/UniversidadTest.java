@@ -1,7 +1,5 @@
 package model.test;
 
-
-
 import junit.framework.TestCase;
 import universidad.Universidad;
 

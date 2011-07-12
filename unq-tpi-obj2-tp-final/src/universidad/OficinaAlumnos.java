@@ -13,10 +13,11 @@ import materias.Materia;
 import materias.MateriaCursada;
 import model.interfaces.AlumnoIMPL;
 import model.interfaces.OficinaAlumnosIMPL;
+import model.interfaces.PlanDeEstudioIMPL;
 import personal.Alumno;
 import personal.Docente;
 import personal.Persona;
-import Utils.IngresoNoAprobadoExcepcion;
+import excepciones.IngresoNoAprobadoExcepcion;
 
 /**
  * OficinaAlumnos
@@ -51,41 +52,24 @@ public class OficinaAlumnos implements OficinaAlumnosIMPL {
 	 * 
 	 * @throws IngresoNoAprobadoExcepcion
 	 */
-	public void inscribirAlumnoEnCarrera(Alumno alumno, PlanDeEstudio planDeEstudio)
-			throws IngresoNoAprobadoExcepcion
-	{
+	public void inscribirAlumnoEnCarrera(Alumno alumno, PlanDeEstudio planDeEstudio) {
 		if (alumno.getCursoDeIngreso()) {
-			Carrera carrera = getCarrera(planDeEstudio);
+			Carrera carrera = this.getCarrera(planDeEstudio);
 			if (carrera.getPlanesVigentes().contains(planDeEstudio)) {
 				alumno.addCarreraIncripta(new InscripcionPlanDeEstudio(planDeEstudio, carrera
 						.obtenerLegajo()));
-			} else {
+			} else
 				throw new IngresoNoAprobadoExcepcion();
-			}
 		}
 	}
 
 	/**
 	 * Inscribo a un alumno en un Catedra especifico de una Materia
-	 * 
-	 * @param plan
-	 * 
-	 * @param materia2
 	 */
 	public void inscribirAlumnoEnCatedra(Alumno alumno, Catedra catedra, Materia materia,
 			PlanDeEstudio plan)
 	{
-		// new InscripcionMateria(materia, catedra, alumno);
 		alumno.inscribirEnMateria(plan, materia, catedra);
-
-		// for (Materia materia : (Materia[])
-		// alumno.getMateriasInscribibles().toArray()) {
-		// if (materia.getCatedras().contains(catedra)) {
-		// new InscripcionMateria(materia, catedra, alumno);
-		// break;
-		// }
-		// }
-
 	}
 
 	/** Creo un docente nuevo y lo agrego a la lista de docentes */
@@ -144,9 +128,8 @@ public class OficinaAlumnos implements OficinaAlumnosIMPL {
 		return legajoDocente;
 	}
 
-	public float getCoeficiente(Alumno alumno, PlanDeEstudio plan) {
-		return (alumno.calcularPromedio() / 2) + (alumno.getCreditos(plan) / plan.getCreditos())
-				* 5;
+	private float getCoeficiente(Alumno alumno, PlanDeEstudio plan) {
+		return alumno.calcularPromedio() / 2 + 5 * alumno.getCreditos(plan) / plan.getCreditos();
 	}
 
 	private Set<Carrera> getCarreras() {
@@ -160,7 +143,7 @@ public class OficinaAlumnos implements OficinaAlumnosIMPL {
 	public Set<PlanDeEstudio> getPlanesDeEstudio() {
 		Set<PlanDeEstudio> planes = new HashSet<PlanDeEstudio>();
 
-		for (Carrera carrera : getCarreras()) {
+		for (Carrera carrera : this.getCarreras()) {
 			planes.addAll(carrera.getPlanesVigentes());
 		}
 
@@ -173,18 +156,15 @@ public class OficinaAlumnos implements OficinaAlumnosIMPL {
 	}
 
 	@Override
-	public float coeficienteDe(AlumnoIMPL alumno) {
-		// TODO: El coeficiente del alumno depende del Plan de estudio?
-		return 8;
-		// public float coeficienteDe(AlumnoIMPL alumno, PlanDeEstudio plan) {
-		// return this.getCoeficiente((Alumno) alumno, plan);
+	public float coeficienteDe(AlumnoIMPL alumno, PlanDeEstudioIMPL plan) {
+		return this.getCoeficiente((Alumno) alumno, (PlanDeEstudio) plan);
 	}
 
 	/** Busco a que Carrera pertenece un Plan de Estudio */
 	public Carrera getCarrera(PlanDeEstudio planDeEstudio) {
 		Carrera carreraBuscada = null;
 
-		Iterator<Carrera> iteradorCarrera = getCarreras().iterator();
+		Iterator<Carrera> iteradorCarrera = this.getCarreras().iterator();
 		Carrera carrera = null;
 		while (iteradorCarrera.hasNext()) {
 			carrera = iteradorCarrera.next();
@@ -201,7 +181,7 @@ public class OficinaAlumnos implements OficinaAlumnosIMPL {
 	public void otorgarLicenciasAlumno(Alumno alumno) {
 		Date fechaActual = new Date();
 		if (alumno.getCantLicencias() < 6
-				&& !(alumno.getAñosLicencia().contains(fechaActual.getYear()))) {
+				&& !alumno.getAñosLicencia().contains(fechaActual.getYear())) {
 			alumno.addAñosLicencia(fechaActual.getYear());
 			alumno.sumCantLicencias();
 

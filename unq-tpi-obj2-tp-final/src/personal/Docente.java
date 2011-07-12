@@ -58,7 +58,7 @@ public class Docente implements Nombrable {
 
 	@Override
 	public String toString() {
-		return getNombre();
+		return this.getNombre();
 	}
 
 	public Integer getLegajo() {
@@ -101,8 +101,8 @@ public class Docente implements Nombrable {
 		return materiasDictadas;
 	}
 
-	public void addMateriasDictadas(Antecedente<Materia> materiasDictadas) {
-		this.materiasDictadas.addAntecedente(materiasDictadas);
+	public void addMateriasDictadas(Antecedente<Materia> materiaDictada) {
+		materiasDictadas.addAntecedente(materiaDictada);
 	}
 
 	@Override
@@ -117,15 +117,15 @@ public class Docente implements Nombrable {
 		return alumno != null;
 	}
 
-	public boolean isSameAlumno(Alumno alumno) {
-		return this.isAlumno() && this.alumno.equals(alumno);
+	public boolean isSameAlumno(Alumno otroAlumno) {
+		return this.isAlumno() && this.alumno.equals(otroAlumno);
 	}
 
-	public boolean isSamePerson(Alumno alumno) {
-		return this.getDatosPersonales().equals(alumno.getDatosPersonales());
+	public boolean isSamePerson(Alumno otroAlumno) {
+		return this.getDatosPersonales().equals(otroAlumno.getDatosPersonales());
 	}
 
-	public boolean isSamePerson(Persona datosPersonales) {
-		return this.getDatosPersonales().equals(datosPersonales);
+	public boolean isSamePerson(Persona datosPersona) {
+		return this.getDatosPersonales().equals(datosPersona);
 	}
 }

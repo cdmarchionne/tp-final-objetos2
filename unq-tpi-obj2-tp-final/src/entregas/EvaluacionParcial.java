@@ -5,7 +5,7 @@ import java.util.Date;
 import personal.Alumno;
 
 /**
- * TODO: description
+ * Evaluacion Parcial
  */
 public class EvaluacionParcial extends Evaluacion {
 
