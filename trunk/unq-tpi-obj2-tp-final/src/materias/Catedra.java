@@ -10,11 +10,11 @@ import model.interfaces.AlumnoIMPL;
 import model.interfaces.CatedraIMPL;
 import personal.Alumno;
 import Utils.Historial;
-import Utils.NoSeEncuentraTPException;
 import Utils.Nombrable;
 import entregas.EntregaTP;
 import entregas.Evaluacion;
 import entregas.TrabajoPractico;
+import excepciones.NoSeEncuentraTPException;
 
 /**
  * Catedra
@@ -25,7 +25,8 @@ public class Catedra implements Nombrable, CatedraIMPL {
 	/** Guardar el historial de Docentes */
 	private final Historial<StaffCatedra> staff;
 	private final String nombre;
-	private final Set<TrabajoPractico> tp;// Lista de trabajos practicos.
+	private final Set<TrabajoPractico> trabajosPracticos;// Lista de trabajos
+															// practicos.
 	private Set<Evaluacion> examenes;
 	private final Set<Alumno> alumnosInscriptos;
 
@@ -40,7 +41,7 @@ public class Catedra implements Nombrable, CatedraIMPL {
 		super();
 		this.nombre = nombre;
 		staff = new Historial<StaffCatedra>();
-		tp = new HashSet<TrabajoPractico>();
+		trabajosPracticos = new HashSet<TrabajoPractico>();
 		examenes = new HashSet<Evaluacion>();
 		alumnosInscriptos = new HashSet<Alumno>();
 
@@ -64,8 +65,8 @@ public class Catedra implements Nombrable, CatedraIMPL {
 		staff.addAntecedente(new Date(), null, staffNuevo);
 	}
 
-	public Set<TrabajoPractico> getTp() {
-		return tp;
+	public Set<TrabajoPractico> getTPs() {
+		return trabajosPracticos;
 	}
 
 	public Set<Evaluacion> getExamenes() {
@@ -94,18 +95,19 @@ public class Catedra implements Nombrable, CatedraIMPL {
 	}
 
 	public void agregarTrabajoPractico(TrabajoPractico tp) {
-		this.getTp().add(tp);
+		trabajosPracticos.add(tp);
 	}
 
 	/** Devuelve el trabajo practico indicado por parametro */
-	public TrabajoPractico getTP(TrabajoPractico tp) throws NoSeEncuentraTPException {
-		for (TrabajoPractico trabajo : this.tp) {
-			if (trabajo.equals(tp)) {
-				return trabajo;
-			}
-		}// Si no lo encuentra lanza la exepcion.
-		throw new NoSeEncuentraTPException();
+	public TrabajoPractico getTP(TrabajoPractico tp) {
 
+		for (TrabajoPractico trabajo : this.getTPs()) {
+			if (trabajo.equals(tp))
+				return trabajo;
+		}
+
+		// Si no lo encuentra lanza la exepcion.
+		throw new NoSeEncuentraTPException();
 	}
 
 	/**
@@ -114,7 +116,8 @@ public class Catedra implements Nombrable, CatedraIMPL {
 	 */
 	public Set<EntregaTP> getTPSDe(Alumno alumno) {
 		Set<EntregaTP> resultado = new HashSet<EntregaTP>();
-		for (TrabajoPractico trabajo : this.tp) {
+
+		for (TrabajoPractico trabajo : trabajosPracticos) {
 			if (trabajo.alumnoHizoEntrega(alumno)) {
 				resultado.add(trabajo.getEntregaDe(alumno));
 			}
@@ -126,14 +129,12 @@ public class Catedra implements Nombrable, CatedraIMPL {
 	}
 
 	/** Devuelve los alumnos que entregaron cierto TP */
-	public Set<Alumno> getAlumnosEntregaronTP(TrabajoPractico tp)
-
-	{
+	public Set<Alumno> getAlumnosEntregaronTP(TrabajoPractico tp) {
 		return tp.alumnosQueEntregaron();
 	}
 
 	/** Devuelve las entregas de un cierto Trabajo Practico */
-	public Set<EntregaTP> getEntregasTP(TrabajoPractico tp) {
+	private Set<EntregaTP> getEntregasTP(TrabajoPractico tp) {
 		return tp.getEntregas();
 	}
 
@@ -143,9 +144,9 @@ public class Catedra implements Nombrable, CatedraIMPL {
 	 */
 	public Alumno getMejorAlumnoDeEntrega(TrabajoPractico tp) {
 
-		EntregaTP entregaGanadora = tp.getEntregas().iterator().next();
+		EntregaTP entregaGanadora = this.getEntregasTP(tp).iterator().next();
 
-		for (EntregaTP entrega : tp.getEntregas()) {
+		for (EntregaTP entrega : this.getEntregasTP(tp)) {
 			if (!this.mayorNota(entregaGanadora, entrega)) {
 				entregaGanadora = entrega;
 			} else {
@@ -156,9 +157,8 @@ public class Catedra implements Nombrable, CatedraIMPL {
 			}
 		}
 
-		return entregaGanadora.getAlumnoMenorNombre();// Devuelve el menor
-														// alumno por decicion
-														// nuestra.
+		// Devuelve el menor alumno por decicion nuestra.
+		return entregaGanadora.getAlumnoMenorNombre();
 	}
 
 	/** Devuelve True la nota Mayor la tiene el ganador o lo entrego antes */

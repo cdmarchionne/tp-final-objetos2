@@ -1,7 +1,7 @@
 package materias;
 
 /**
- * TODO: description
+ * Respresentacion de la duracion Cuatrimestral de una Materia
  */
 public class Cuatrimestral extends Duracion {
 

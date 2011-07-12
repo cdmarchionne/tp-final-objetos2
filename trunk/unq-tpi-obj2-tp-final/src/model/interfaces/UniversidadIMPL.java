@@ -7,7 +7,11 @@ public interface UniversidadIMPL {
 
 	public List<MateriaIMPL> getMaterias();
 
-	public List<MateriaIMPL> materiasInscribibles(AlumnoIMPL alumno);
+	public List<MateriaIMPL> materiasInscribibles(AlumnoIMPL alumno, PlanDeEstudioIMPL plan);
 
-	public void inscribirAlumno(AlumnoIMPL alumno, CatedraIMPL catedra, MateriaIMPL materia);
+	public List<PlanDeEstudioIMPL> getPlanesDeEstudio(AlumnoIMPL alumno);
+
+	public void inscribirAlumno(AlumnoIMPL alumno, CatedraIMPL catedra, MateriaIMPL materia,
+			PlanDeEstudioIMPL plan);
+
 }

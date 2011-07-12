@@ -11,6 +11,7 @@ import materias.Materia;
 import materias.MateriaAsignadaAPlanDeEstudio;
 import materias.Obligatoria;
 import materias.Optativa;
+import model.interfaces.MateriaIMPL;
 import personal.Alumno;
 import personal.Docente;
 import personal.Persona;
@@ -24,6 +25,9 @@ import universidad.Universidad;
  * Genero los datos minimos de las Clases
  */
 public class GeneradorDeDatos {
+
+	public static final int NOTA_MATERIA_PROMOCIONADA = 7;
+	public static final int NOTA_MATERIA_APROBADA = 4;
 
 	private static final int DNI_ALUMNO1 = 32640573;
 	private static final int DNI_DOC1 = 1345672;
@@ -49,10 +53,14 @@ public class GeneradorDeDatos {
 	private static final String PLAN_DE_ESTUDIO = "Plan Nuevo";
 
 	private static final String MATERIA_INGLES_I = "Ingles I";
+	private static final String MATERIA_INGLES_II = "Ingles II";
 	private static final String MATERIA_ANALISIS_I = "Analisis I";
+	private static final String MATERIA_ANALISIS_II = "Analisis II";
 
-	private static final String CATEDRA_INGLES_1 = "Duch";
-	private static final String CATEDRA_ANALISIS_1 = "Baragati";
+	private static final String CATEDRA_INGLES_1 = "Grieta";
+	private static final String CATEDRA_INGLES_2 = "Duch";
+	private static final String CATEDRA_ANALISIS_1 = "Serra";
+	private static final String CATEDRA_ANALISIS_2 = "Baragati";
 
 	/** Cargo el sistema con Datos para que funcione */
 	public static void loadDataSystem() {
@@ -61,7 +69,9 @@ public class GeneradorDeDatos {
 		initCargarPersonas();
 
 		initCarreraYPlanDeEstudio();
-		initMateriaYCatedra();
+		initMatematicas();
+		initIdiomas();
+		inscribirAlumnoEnCarrera();
 		inscribirAlumnoEnCatedra();
 	}
 
@@ -118,36 +128,53 @@ public class GeneradorDeDatos {
 		}
 	}
 
-	private static void inscribirAlumnoEnCatedra() {
+	private static void inscribirAlumnoEnCarrera() {
 
 		OficinaAlumnos oficinaDeAlumnos = Universidad.getInstance().getOficinaDeAlumnos();
-		PlanDeEstudio planDeEstudio = (PlanDeEstudio) buscar(PLAN_DE_ESTUDIO, oficinaDeAlumnos
+		PlanDeEstudio plan = (PlanDeEstudio) buscar(PLAN_DE_ESTUDIO, oficinaDeAlumnos
 				.getPlanesDeEstudio().toArray());
 
 		/* Inscribo a un alumno en una carrera */
 		for (Alumno alumno : oficinaDeAlumnos.getAlumnos()) {
 			alumno.setCursoDeIngreso(true);
-			try {
-				oficinaDeAlumnos.inscribirAlumnoEnCarrera(alumno, planDeEstudio);
-			} catch (IngresoNoAprobadoExcepcion e) {
-				System.out.println();
-				e.printStackTrace();
-			}
+			oficinaDeAlumnos.inscribirAlumnoEnCarrera(alumno, plan);
 		}
 
-		/* Inscribo al alumno para que curse una materia */
-		Materia analisis1 = (Materia) buscar(MATERIA_ANALISIS_I, Universidad.getInstance()
-				.getMaterias().toArray());
-		Catedra catedraAnalisis1 = (Catedra) buscar(CATEDRA_ANALISIS_1, analisis1.getCatedras()
-				.toArray());
+	}
+
+	private static void inscribirAlumnoEnCatedra() {
 
 		Alumno alumno1 = (Alumno) buscar(NOMBRE_ALUMNO1, Universidad.getInstance().getAlumnos()
 				.toArray());
+		PlanDeEstudio plan = (PlanDeEstudio) buscar(PLAN_DE_ESTUDIO, Universidad.getInstance()
+				.getPlanesDeEstudio(alumno1).toArray());
 
-		oficinaDeAlumnos.inscribirAlumnoEnCatedra(alumno1, catedraAnalisis1, analisis1,
-				planDeEstudio);
+		/* Inscribo al alumno para que curse una materia */
+		List<MateriaIMPL> materiasInscribibles = Universidad.getInstance().materiasInscribibles(
+				alumno1, plan);
+		Materia ingles1 = (Materia) buscar(MATERIA_INGLES_I, materiasInscribibles.toArray());
+		Catedra catedraIngles1 = (Catedra) buscar(CATEDRA_INGLES_1, ingles1.getTodasLasCatedras()
+				.toArray());
 
-		alumno1.agregarMateriaAprobada(planDeEstudio, analisis1, 6);
+		Materia analisis1 = (Materia) buscar(MATERIA_ANALISIS_I, materiasInscribibles.toArray());
+		Catedra catedraAnalisis1 = (Catedra) buscar(CATEDRA_ANALISIS_1, analisis1
+				.getTodasLasCatedras().toArray());
+
+		Materia analisis2 = (Materia) buscar(MATERIA_ANALISIS_II, materiasInscribibles.toArray());
+		Catedra catedraAnalisis2 = (Catedra) buscar(CATEDRA_ANALISIS_2, analisis2
+				.getTodasLasCatedras().toArray());
+
+		/* Inscribo al Alumno en una materia y se la apruebo */
+		OficinaAlumnos oficinaDeAlumnos = Universidad.getInstance().getOficinaDeAlumnos();
+
+		oficinaDeAlumnos.inscribirAlumnoEnCatedra(alumno1, catedraIngles1, ingles1, plan);
+		alumno1.agregarMateriaAprobada(plan, ingles1, 8);
+
+		oficinaDeAlumnos.inscribirAlumnoEnCatedra(alumno1, catedraAnalisis1, analisis1, plan);
+		alumno1.agregarMateriaAprobada(plan, analisis1, 6);
+
+		oficinaDeAlumnos.inscribirAlumnoEnCatedra(alumno1, catedraAnalisis2, analisis2, plan);
+		alumno1.agregarMateriaAprobada(plan, analisis2, 4);
 	}
 
 	/** Creo una Carrera */
@@ -175,26 +202,29 @@ public class GeneradorDeDatos {
 		carrera.addPlanDeEstudio(new PlanDeEstudio(nombrePlan, new Date(), docente), true);
 	}
 
-	/** Creo una Materias y Catedras */
-	private static void initMateriaYCatedra() {
+	/**
+	 * Creo Materias Y Catedras .
+	 * Las agrego a su correspondiente Area
+	 * Las inscribo en un Plan de Estudio junto con sus correlatrividades
+	 */
+	private static void initMatematicas() {
 		/* Creo Materias y Catedras */
 		Materia analisis1 = new Materia(MATERIA_ANALISIS_I, 3);
 		analisis1.setHorasSemanales(8);
 		analisis1.setPromocionable(false);
 		new Catedra(CATEDRA_ANALISIS_1, analisis1);
 
-		Materia ingles1 = new Materia(MATERIA_INGLES_I, 2);
-		ingles1.setHorasSemanales(4);
-		ingles1.setPromocionable(true);
-		new Catedra(CATEDRA_INGLES_1, ingles1);
+		Materia analisis2 = new Materia(MATERIA_ANALISIS_II, 4);
+		analisis1.setHorasSemanales(8);
+		analisis1.setPromocionable(false);
+		new Catedra(CATEDRA_ANALISIS_2, analisis2);
 
 		/* Agrego Materias a las Areas */
-		Area areaIdioma = (Area) buscar(AREA_IDIOMA, Universidad.getInstance().getAreas().toArray());
 		Area areaMatematica = (Area) buscar(AREA_MATEMATICA, Universidad.getInstance().getAreas()
 				.toArray());
 
-		areaIdioma.addMateria(ingles1, new Date());
 		areaMatematica.addMateria(analisis1, new Date());
+		areaMatematica.addMateria(analisis2, new Date());
 
 		/* Agrego las materias al Plan de Estudio */
 		PlanDeEstudio planDeEstudio = (PlanDeEstudio) buscar(PLAN_DE_ESTUDIO, Universidad
@@ -202,8 +232,49 @@ public class GeneradorDeDatos {
 
 		planDeEstudio.addMaterias(new MateriaAsignadaAPlanDeEstudio(analisis1, new Obligatoria(),
 				new Cuatrimestral()));
+
+		MateriaAsignadaAPlanDeEstudio analisis2AsignadaAPlan = new MateriaAsignadaAPlanDeEstudio(
+				analisis2, new Optativa(), new Anual());
+		analisis2AsignadaAPlan.addMateriaCorrelativa(analisis1);
+
+		planDeEstudio.addMaterias(analisis2AsignadaAPlan);
+	}
+
+	/**
+	 * Creo Materias Y Catedras .
+	 * Las agrego a su correspondiente Area
+	 * Las inscribo en un Plan de Estudio junto con sus correlatrividades
+	 */
+	private static void initIdiomas() {
+		/* Creo Materias y Catedras */
+		Materia ingles1 = new Materia(MATERIA_INGLES_I, 2);
+		ingles1.setHorasSemanales(4);
+		ingles1.setPromocionable(true);
+		new Catedra(CATEDRA_INGLES_1, ingles1);
+
+		Materia ingles2 = new Materia(MATERIA_INGLES_II, 3);
+		ingles1.setHorasSemanales(5);
+		ingles1.setPromocionable(true);
+		new Catedra(CATEDRA_INGLES_2, ingles2);
+
+		/* Agrego Materias a las Areas */
+		Area areaIdioma = (Area) buscar(AREA_IDIOMA, Universidad.getInstance().getAreas().toArray());
+
+		areaIdioma.addMateria(ingles1, new Date());
+		areaIdioma.addMateria(ingles2, new Date());
+
+		/* Agrego las materias al Plan de Estudio */
+		PlanDeEstudio planDeEstudio = (PlanDeEstudio) buscar(PLAN_DE_ESTUDIO, Universidad
+				.getInstance().getOficinaDeAlumnos().getPlanesDeEstudio().toArray());
+
 		planDeEstudio.addMaterias(new MateriaAsignadaAPlanDeEstudio(ingles1, new Optativa(),
 				new Anual()));
+
+		MateriaAsignadaAPlanDeEstudio ingles2AsignadaAPlan = new MateriaAsignadaAPlanDeEstudio(
+				ingles2, new Optativa(), new Anual());
+		ingles2AsignadaAPlan.addMateriaCorrelativa(ingles1);
+
+		planDeEstudio.addMaterias(ingles2AsignadaAPlan);
 	}
 
 	/** Metodo que ayuda a encontrar objectos en una lista de elementos */

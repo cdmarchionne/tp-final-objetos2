@@ -5,8 +5,9 @@ import java.util.Date;
 import personal.Alumno;
 
 /**
- * TODO: description
+ * Manejo de Tutorias
  */
+// TODO: Verificar el funcionamiento de las Tutorias
 public abstract class Tutoria {
 
 	private String nombre;

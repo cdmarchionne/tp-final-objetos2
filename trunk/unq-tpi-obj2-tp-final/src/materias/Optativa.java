@@ -1,7 +1,7 @@
 package materias;
 
 /**
- * TODO: description
+ * Tipo de Materia Optativa
  */
 public class Optativa extends TipoDeMateria {
 

@@ -13,13 +13,9 @@ public class InscripcionMateria {
 	public Catedra catedraElegida;
 
 	public InscripcionMateria(Materia materia, Catedra catedra) {
-		this.fechaInscripcion = new Date(); // Fecha actual del sistema.
-		this.materiaElegida = materia;
-		this.setCatedraElegida(catedra);
-	}
-
-	private void setCatedraElegida(Catedra catedra) {
-		this.catedraElegida = catedra;
+		fechaInscripcion = new Date(); // Fecha actual del sistema.
+		materiaElegida = materia;
+		catedraElegida = catedra;
 	}
 
 	public Catedra getCatedraElegida() {

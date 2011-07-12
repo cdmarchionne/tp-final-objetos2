@@ -39,10 +39,10 @@ public class MateriasFrame extends AbstractGUIFrame {
 	}
 
 	private JScrollPane mkListaCatedras() {
-		JList listaCatedras = new JList();
+		JList listaDeCatedras = new JList();
 		// listaCatedras.setSize(new Dimension(100, 50));
-		listaCatedras.setPreferredSize(new Dimension(100, 150));
-		this.setListaCatedras(listaCatedras);
+		listaDeCatedras.setPreferredSize(new Dimension(100, 150));
+		this.setListaCatedras(listaDeCatedras);
 
 		return new JScrollPane(this.getListaCatedras());
 	}
@@ -53,20 +53,20 @@ public class MateriasFrame extends AbstractGUIFrame {
 	private JScrollPane mkListaMaterias() {
 		UniversidadIMPL universidad = Universidad.getInstance();
 		Vector<MateriaIMPL> materias = new Vector<MateriaIMPL>(universidad.getMaterias());
-		JList listaMaterias = new JList(materias);
+		JList listaDeMaterias = new JList(materias);
 		// listaMaterias.setSize(new Dimension(100, 50));
-		listaMaterias.setPreferredSize(new Dimension(100, 150));
+		listaDeMaterias.setPreferredSize(new Dimension(100, 150));
 
-		listaMaterias.addListSelectionListener(new ListSelectionListener() {
+		listaDeMaterias.addListSelectionListener(new ListSelectionListener() {
 			@Override
 			public void valueChanged(ListSelectionEvent arg0) {
 				MateriasFrame.this.actualizarListaCatedras();
 			}
 		});
 
-		this.setListaMaterias(listaMaterias);
+		this.setListaMaterias(listaDeMaterias);
 
-		return new JScrollPane(listaMaterias);
+		return new JScrollPane(listaDeMaterias);
 	}
 
 	protected void actualizarListaCatedras() {

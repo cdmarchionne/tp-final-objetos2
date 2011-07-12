@@ -9,6 +9,7 @@ import materias.Materia;
 import materias.MateriaAsignadaAPlanDeEstudio;
 import materias.MateriaCursada;
 import model.interfaces.MateriaIMPL;
+import personal.Alumno;
 
 /**
  * Clase que coopera con los Alumnos para designar a que Plan de Estudio
@@ -107,9 +108,46 @@ public class InscripcionPlanDeEstudio {
 		return false;
 	}
 
-	// public void inscribirEnMateria(InscripcionMateria materiaInscripta) {
-	public void inscribirEnMateria(Materia materia, Catedra catedra) {
-		this.materiasInscriptas.add(new InscripcionMateria(materia, catedra));
+	public void inscribirEnMateria(Alumno alumno, Materia materia, Catedra catedra) {
+		// Revisar la aprobacion de materias correlativas
+		if (this.aproboCorrelativas(alumno, materia)) {
+			materiasInscriptas.add(new InscripcionMateria(materia, catedra));
+			catedra.agregarAlumnoInscripto(alumno);
+		}
+
+	}
+
+	/**
+	 * Compruebo que el alumno aprobo todas las materias correlativas de una
+	 * Materia M determinada segun las correlatividades correspondientes al plan
+	 * de estudio en cuestion
+	 */
+	private boolean aproboCorrelativas(Alumno alumno, Materia materia) {
+		PlanDeEstudio plan = this.getPlanDeEstudio();
+
+		boolean rta = true;
+
+		boolean correlativaAprobada;
+
+		for (Materia materiaCorrelativa : plan.getCorrelatividades(materia)) {
+			correlativaAprobada = false;
+			/* Verifico si la materia correlativa esta aprobada */
+			for (MateriaCursada materiaCursada : alumno.getMateriasAprobadas(plan)) {
+				if (materiaCorrelativa.equals(materiaCursada.getMateria())) {
+					correlativaAprobada = true;
+					break;
+				}
+			}
+
+			rta = correlativaAprobada;
+			/* Si Reviso todas las materias aprobadas y no esta la correlativa */
+			if (!correlativaAprobada) {
+				break;
+			}
+
+		}
+
+		return rta;
 	}
 
 	/**
@@ -117,7 +155,7 @@ public class InscripcionPlanDeEstudio {
 	 * calcular regularidad
 	 */
 	public void agregarMateriaAprobada(Materia materia, float nota) {
-		agregarMateriaAprobada(new MateriaCursada(materia, nota));
+		this.agregarMateriaAprobada(new MateriaCursada(materia, nota));
 	}
 
 	public void agregarMateriaAprobada(MateriaCursada materiaAprobada) {

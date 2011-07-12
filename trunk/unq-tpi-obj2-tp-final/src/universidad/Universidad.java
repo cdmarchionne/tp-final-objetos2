@@ -11,10 +11,12 @@ import materias.Materia;
 import model.interfaces.AlumnoIMPL;
 import model.interfaces.CatedraIMPL;
 import model.interfaces.MateriaIMPL;
+import model.interfaces.PlanDeEstudioIMPL;
 import model.interfaces.UniversidadIMPL;
 import personal.Alumno;
 import personal.Persona;
 import Utils.Nombrable;
+import excepciones.NoHayInscripcionDelAlumnoEnPlanDeEstudioExcepcion;
 
 public class Universidad implements Nombrable, UniversidadIMPL {
 
@@ -53,10 +55,6 @@ public class Universidad implements Nombrable, UniversidadIMPL {
 		carreras = new HashSet<Carrera>();
 		areas = new HashSet<Area>();
 		oficinaDeAlumnos = new OficinaAlumnos(this, jefeOficinaAlumnos);
-
-		// GeneradorDeDatos.loadDataSystem();
-		// crearMaterias();
-		// crearAlumnos();
 	}
 
 	public Set<Carrera> getCarreras() {
@@ -75,12 +73,12 @@ public class Universidad implements Nombrable, UniversidadIMPL {
 		return areas;
 	}
 
-	public void addArea(Area areas) {
-		this.areas.add(areas);
+	public void addArea(Area area) {
+		areas.add(area);
 	}
 
-	public void removeArea(Area areas) {
-		this.areas.remove(areas);
+	public void removeArea(Area area) {
+		areas.remove(area);
 	}
 
 	public OficinaAlumnos getOficinaDeAlumnos() {
@@ -111,6 +109,20 @@ public class Universidad implements Nombrable, UniversidadIMPL {
 	}
 
 	@Override
+	public List<PlanDeEstudioIMPL> getPlanesDeEstudio(AlumnoIMPL alumno) {
+		List<PlanDeEstudioIMPL> planesBuscados = new ArrayList<PlanDeEstudioIMPL>();
+
+		for (AlumnoIMPL alumnoIMPL : this.getAlumnos()) {
+			if (alumnoIMPL.equals(alumno)) {
+				planesBuscados.addAll(((Alumno) alumnoIMPL).getPlanesDeEstudio());
+				break;
+			}
+		}
+
+		return planesBuscados;
+	}
+
+	@Override
 	public List<AlumnoIMPL> getAlumnos() {
 		return new ArrayList<AlumnoIMPL>(this.getOficinaDeAlumnos().getAlumnos());
 	}
@@ -127,17 +139,20 @@ public class Universidad implements Nombrable, UniversidadIMPL {
 	}
 
 	@Override
-	public List<MateriaIMPL> materiasInscribibles(AlumnoIMPL alumno) {
-		return ((Alumno) alumno).getMateriasInscribibles();
+	public List<MateriaIMPL> materiasInscribibles(AlumnoIMPL alumno, PlanDeEstudioIMPL plan) {
+		try {
+			return ((Alumno) alumno).getMateriasInscribibles((PlanDeEstudio) plan);
+		} catch (NoHayInscripcionDelAlumnoEnPlanDeEstudioExcepcion e) {
+			throw new UnsupportedOperationException();
+		}
 	}
 
 	@Override
-	public void inscribirAlumno(AlumnoIMPL alumno, CatedraIMPL catedra, MateriaIMPL materia) {
+	public void inscribirAlumno(AlumnoIMPL alumno, CatedraIMPL catedra, MateriaIMPL materia,
+			PlanDeEstudioIMPL plan)
+	{
 		this.getOficinaDeAlumnos().inscribirAlumnoEnCatedra((Alumno) alumno, (Catedra) catedra,
-				(Materia) materia, null);
-		// this.getOficinaDeAlumnos().inscribirAlumnoEnCatedra((Alumno) alumno,
-		// (Catedra) catedra,
-		// (Materia) materia, plan);
-
+				(Materia) materia, (PlanDeEstudio) plan);
 	}
+
 }

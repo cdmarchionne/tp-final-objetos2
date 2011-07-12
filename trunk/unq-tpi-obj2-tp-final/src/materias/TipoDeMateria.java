@@ -3,7 +3,7 @@ package materias;
 import Utils.Nombrable;
 
 /**
- * TODO: description
+ * Tipo de Materia
  */
 public abstract class TipoDeMateria implements Nombrable {
 

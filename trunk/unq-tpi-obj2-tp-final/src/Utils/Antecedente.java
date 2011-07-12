@@ -3,7 +3,8 @@ package Utils;
 import java.util.Date;
 
 /**
- * TODO: description
+ * Clase que le agrega colaboradores a un objeto para poder lograr trasabilidad
+ * Gracias a los atributos de fecha podesmos ubicar un objeto en el tiempo.
  */
 public class Antecedente<T> {
 
@@ -62,8 +63,8 @@ public class Antecedente<T> {
 		this.elemento = elemento;
 	}
 
-	public boolean sameElement(T elemento) {
-		return this.elemento.equals(elemento);
+	public boolean sameElement(T otroElemento) {
+		return this.elemento.equals(otroElemento);
 	}
 
 	// ********************
@@ -71,12 +72,15 @@ public class Antecedente<T> {
 	// ********************
 	/** Verifico si un elemento esta en una fecha */
 	public boolean transcurrioEn(Date fecha) {
-		boolean rta = false;
+		boolean rta = fecha == null;
 
-		if (fechaInicio != null) {
-			rta = fecha.after(fechaInicio);
-			if (fechaFin != null) {
-				rta = rta && fecha.before(fechaFin);
+		// La fecha es valida, entonces hay que compararla
+		if (!rta) {
+			if (fechaInicio != null) {
+				rta = fecha.after(fechaInicio);
+				if (fechaFin != null) {
+					rta = rta && fecha.before(fechaFin);
+				}
 			}
 		}
 

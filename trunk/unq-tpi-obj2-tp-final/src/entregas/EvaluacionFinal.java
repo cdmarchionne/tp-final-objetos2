@@ -8,7 +8,7 @@ import materias.Duracion;
 import personal.Alumno;
 
 /**
- * TODO: description
+ * Evaluacion Final
  */
 public class EvaluacionFinal extends Evaluacion {
 
