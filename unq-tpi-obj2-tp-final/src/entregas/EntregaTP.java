@@ -158,4 +158,11 @@ public class EntregaTP {
 		return alumnoGanador;
 
 	}
+
+	public void agregarCorreccion(String ejercicio,String correccion){
+		this.getListaEjercicios().put(ejercicio, correccion);
+	}
+
 }
+
+
