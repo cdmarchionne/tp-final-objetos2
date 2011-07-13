@@ -4,8 +4,6 @@ import gui.abstractGui.AbstractGUIFrame;
 
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Vector;
 
 import javax.swing.BoxLayout;
@@ -16,19 +14,13 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
-import javax.swing.ListModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-
-import personal.Alumno;
 
 import model.interfaces.AlumnoIMPL;
 import model.interfaces.OficinaAlumnosIMPL;
 import model.interfaces.PlanDeEstudioIMPL;
-import universidad.OficinaAlumnos;
 import universidad.Universidad;
-
-// TODO: Agregar la seleccion del Plan de estudio para el calculo del coeficiente
 
 public class CoeficienteFrame extends AbstractGUIFrame {
 	private static final long serialVersionUID = 1L;
@@ -41,16 +33,9 @@ public class CoeficienteFrame extends AbstractGUIFrame {
 
 	public CoeficienteFrame(JFrame frame, AlumnoIMPL alumno) {
 		super(frame);
-		this.alumno = alumno;
-		
+		this.setAlumno(alumno);
 
-//		 OficinaAlumnosIMPL oficinaAlumnos = Universidad.getInstance().getOficinaDeAlumnos();
-//		 String mensaje = "el coeficiente de " + alumno.toString() + "\n" +
-//		 " es de: "
-//		 + oficinaAlumnos.coeficienteDe(alumno,(PlanDeEstudioIMPL) CoeficienteFrame.this
-//			.getListaPlanes().getSelectedValue());
-////		 this.actualizarListaPlanes(); //COMENTADA ANTES
-//		 this.getTexto().setText(mensaje);
+		this.actualizarListaPaneles();
 	}
 
 	@Override
@@ -60,7 +45,6 @@ public class CoeficienteFrame extends AbstractGUIFrame {
 
 		panel.add(this.mkListaPlanes());
 		this.getPanel().add(this.mkTextCoeficiente());
-
 		this.getPanel().add(panel);
 
 	}
@@ -82,15 +66,12 @@ public class CoeficienteFrame extends AbstractGUIFrame {
 		JPanel panel = new JPanel();
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 		panel.add(new JLabel("Planes de Estudio"));
-		    
-//		Object[] plan = (this.alumno).getPlanesDeEstudio().toArray(); 
 
-		Vector<PlanDeEstudioIMPL> plan = new Vector<PlanDeEstudioIMPL>(Universidad
-				.getInstance().getPlanesDeEstudio(this.getAlumno()));
-		
-		JList listaDePlanes = new JList(plan);
-		
-		//listaDePlanes.setSize(new Dimension(100, 50));
+		Vector<PlanDeEstudioIMPL> planes = new Vector<PlanDeEstudioIMPL>(Universidad.getInstance()
+				.getPlanesDeEstudio(this.getAlumno()));
+
+		JList listaDePlanes = new JList(planes);
+		// listaDePlanes.setSize(new Dimension(100, 50));
 		listaDePlanes.setPreferredSize(new Dimension(100, 150));
 
 		listaDePlanes.addListSelectionListener(new ListSelectionListener() {
@@ -103,6 +84,12 @@ public class CoeficienteFrame extends AbstractGUIFrame {
 		this.setListaPlanes(listaDePlanes);
 		panel.add(new JScrollPane(listaDePlanes));
 		return panel;
+	}
+
+	protected void actualizarListaPaneles() {
+		Vector<PlanDeEstudioIMPL> planes = new Vector<PlanDeEstudioIMPL>(Universidad.getInstance()
+				.getPlanesDeEstudio(this.getAlumno()));
+		this.getListaPlanes().setListData(planes);
 	}
 
 	protected void resetearTextCoeficiente() {
@@ -120,17 +107,17 @@ public class CoeficienteFrame extends AbstractGUIFrame {
 		PlanDeEstudioIMPL plan = (PlanDeEstudioIMPL) CoeficienteFrame.this.getListaPlanes()
 				.getSelectedValue();
 
-		 if (plan == null) {
-		 this.resetearTextCoeficiente();
-		 } else {
+		if (plan == null) {
+			this.resetearTextCoeficiente();
+		} else {
 
-		OficinaAlumnosIMPL oficinaAlumnos = Universidad.getInstance().getOficinaDeAlumnos();
-		String mensaje = "el coeficiente de " + alumno.toString() + "\n" + " es de: "
-				+ oficinaAlumnos.coeficienteDe(alumno, plan);
+			OficinaAlumnosIMPL oficinaAlumnos = Universidad.getInstance().getOficinaDeAlumnos();
+			String mensaje = "el coeficiente de " + alumno.toString() + "\n" + " es de: "
+					+ oficinaAlumnos.coeficienteDe(alumno, plan);
 
-		this.getTexto().setText(mensaje);
+			this.getTexto().setText(mensaje);
 
-		 }
+		}
 	}
 
 	// setters&getters
@@ -157,7 +144,5 @@ public class CoeficienteFrame extends AbstractGUIFrame {
 	private void setAlumno(AlumnoIMPL alumno) {
 		this.alumno = alumno;
 	}
-	
-	
 
 }

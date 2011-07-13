@@ -64,8 +64,9 @@ public class AlumnosFrame extends AbstractGUIFrame {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				AlumnosFrame.this.setVisible(false);
-				new CoeficienteFrame(AlumnosFrame.this, (AlumnoIMPL) AlumnosFrame.this
-						.getListaAlumnos().getSelectedValue());
+				AlumnoIMPL alumno = (AlumnoIMPL) AlumnosFrame.this
+						.getListaAlumnos().getSelectedValue();
+				new CoeficienteFrame(AlumnosFrame.this, alumno);
 			}
 		});
 
