@@ -4,6 +4,8 @@ import gui.abstractGui.AbstractGUIFrame;
 
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Vector;
 
 import javax.swing.BoxLayout;
@@ -17,10 +19,13 @@ import javax.swing.JTextArea;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import personal.Alumno;
+
 import model.interfaces.AlumnoIMPL;
 import model.interfaces.OficinaAlumnosIMPL;
 import model.interfaces.PlanDeEstudioIMPL;
 import universidad.OficinaAlumnos;
+import universidad.Universidad;
 
 // TODO: Agregar la seleccion del Plan de estudio para el calculo del coeficiente
 
@@ -36,14 +41,15 @@ public class CoeficienteFrame extends AbstractGUIFrame {
 	public CoeficienteFrame(JFrame frame, AlumnoIMPL alumno) {
 		super(frame);
 		this.alumno = alumno;
-		// this.actualizarListaPlanes();
+		
 
-		// OficinaAlumnosIMPL oficinaAlumnos = new OficinaAlumnos();
-		// String mensaje = "el coeficiente de " + alumno.toString() + "\n" +
-		// " es de: "
-		// + oficinaAlumnos.coeficienteDe(alumno);
-		//
-		// this.getTexto().setText(mensaje);
+//		 OficinaAlumnosIMPL oficinaAlumnos = Universidad.getInstance().getOficinaDeAlumnos();
+//		 String mensaje = "el coeficiente de " + alumno.toString() + "\n" +
+//		 " es de: "
+//		 + oficinaAlumnos.coeficienteDe(alumno,(PlanDeEstudioIMPL) CoeficienteFrame.this
+//			.getListaPlanes().getSelectedValue());
+////		 this.actualizarListaPlanes(); //COMENTADA ANTES
+//		 this.getTexto().setText(mensaje);
 	}
 
 	@Override
@@ -75,9 +81,12 @@ public class CoeficienteFrame extends AbstractGUIFrame {
 		JPanel panel = new JPanel();
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 		panel.add(new JLabel("Planes de Estudio"));
-
-		JList listaDePlanes = new JList();
-		// listaDePlanes.setSize(new Dimension(100, 50));
+		    
+		Vector<PlanDeEstudioIMPL> plan = new Vector<PlanDeEstudioIMPL>( ((Alumno)this.getAlumno()).getPlanesDeEstudio()        ); 
+		
+		JList listaDePlanes = new JList(plan);
+		
+		//listaDePlanes.setSize(new Dimension(100, 50));
 		listaDePlanes.setPreferredSize(new Dimension(100, 150));
 
 		listaDePlanes.addListSelectionListener(new ListSelectionListener() {
@@ -90,18 +99,6 @@ public class CoeficienteFrame extends AbstractGUIFrame {
 		this.setListaPlanes(listaDePlanes);
 		panel.add(new JScrollPane(listaDePlanes));
 		return panel;
-	}
-
-	protected void actualizarListaPlanes() {
-		PlanDeEstudioIMPL plan = (PlanDeEstudioIMPL) CoeficienteFrame.this.getListaPlanes()
-				.getSelectedValue();
-
-		if (plan == null) {
-			this.resetearTextCoeficiente();
-		} else {
-
-			this.actualizarCoeficiente();
-		}
 	}
 
 	protected void resetearTextCoeficiente() {
@@ -119,17 +116,17 @@ public class CoeficienteFrame extends AbstractGUIFrame {
 		PlanDeEstudioIMPL plan = (PlanDeEstudioIMPL) CoeficienteFrame.this.getListaPlanes()
 				.getSelectedValue();
 
-		// if (plan == null) {
-		// this.resetearTextCoeficiente();
-		// } else {
+		 if (plan == null) {
+		 this.resetearTextCoeficiente();
+		 } else {
 
-		OficinaAlumnosIMPL oficinaAlumnos = new OficinaAlumnos();
+		OficinaAlumnosIMPL oficinaAlumnos = Universidad.getInstance().getOficinaDeAlumnos();
 		String mensaje = "el coeficiente de " + alumno.toString() + "\n" + " es de: "
 				+ oficinaAlumnos.coeficienteDe(alumno, plan);
 
 		this.getTexto().setText(mensaje);
 
-		// }
+		 }
 	}
 
 	// setters&getters
@@ -148,5 +145,15 @@ public class CoeficienteFrame extends AbstractGUIFrame {
 	public JList getListaPlanes() {
 		return listaPlanes;
 	}
+
+	public AlumnoIMPL getAlumno() {
+		return alumno;
+	}
+
+	private void setAlumno(AlumnoIMPL alumno) {
+		this.alumno = alumno;
+	}
+	
+	
 
 }

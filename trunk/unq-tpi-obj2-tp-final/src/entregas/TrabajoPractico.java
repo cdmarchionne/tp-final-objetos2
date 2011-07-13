@@ -85,4 +85,9 @@ public class TrabajoPractico {
 
 		return resultado;
 	}
+	
+	public void agregarCorreccion(Alumno alumno,String ejercicio, String correccion){
+		this.getEntregaDe(alumno).agregarCorreccion(ejercicio, correccion);
+		
+	}
 }
