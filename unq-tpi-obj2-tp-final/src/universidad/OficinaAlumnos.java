@@ -181,8 +181,8 @@ public class OficinaAlumnos implements OficinaAlumnosIMPL {
 	public void otorgarLicenciasAlumno(Alumno alumno) {
 		Date fechaActual = new Date();
 		if (alumno.getCantLicencias() < 6
-				&& !alumno.getAñosLicencia().contains(fechaActual.getYear())) {
-			alumno.addAñosLicencia(fechaActual.getYear());
+				&& !alumno.getAniosLicencia().contains(fechaActual.getYear())) {
+			alumno.addAniosLicencia(fechaActual.getYear());
 			alumno.sumCantLicencias();
 
 		}
