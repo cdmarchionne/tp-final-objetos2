@@ -65,9 +65,21 @@ public class InscribirAlumnoFrame extends AbstractGUIFrame {
 				CatedraIMPL catedra = (CatedraIMPL) InscribirAlumnoFrame.this.getListaCatedras()
 						.getSelectedValue();
 
-				Universidad.getInstance().inscribirAlumno(alumno, catedra, materia, plan);
+				if ((alumno != null) && (plan != null) && (materia != null) && (catedra != null)) {
+					Universidad.getInstance().inscribirAlumno(alumno, catedra, materia, plan);
+					InscribirAlumnoFrame.this.actualizarListaPlanes();
+				} else {
+					String datos = "El alumno " + alumno + " esta inscripto en el plan de estudio "
+							+ plan + " y se quiere inscribir a la materia " + materia
+							+ " en la catedra " + catedra;
+					String mensajeError = "Debe seleccionar a un Alumno y una Catedra para poder realizar la Inscripcion";
 
-				InscribirAlumnoFrame.this.actualizarListaPlanes();
+					System.err.println(datos + "\n");
+					System.err.println("\nAlumno\t'" + alumno + "'\nPlan\t'" + plan
+							+ "'\nMateria\t'" + materia + "'\nCatedra\t'" + catedra + "'\n");
+					System.err.println(mensajeError + "\n");
+				}
+
 			}
 		});
 
