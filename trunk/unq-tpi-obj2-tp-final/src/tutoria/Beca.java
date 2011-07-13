@@ -24,4 +24,13 @@ public class Beca extends Tutoria {
 		return monto;
 	}
 
+	@Override
+	public boolean esBeca() {
+		return true;
+	}
+
+	@Override
+	public boolean esPasantia() {
+		return false;
+	}
 }
