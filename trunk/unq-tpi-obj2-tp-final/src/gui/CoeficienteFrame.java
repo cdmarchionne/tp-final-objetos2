@@ -16,6 +16,7 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.ListModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
@@ -82,7 +83,10 @@ public class CoeficienteFrame extends AbstractGUIFrame {
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 		panel.add(new JLabel("Planes de Estudio"));
 		    
-		Vector<PlanDeEstudioIMPL> plan = new Vector<PlanDeEstudioIMPL>( ((Alumno)this.getAlumno()).getPlanesDeEstudio()        ); 
+//		Object[] plan = (this.alumno).getPlanesDeEstudio().toArray(); 
+
+		Vector<PlanDeEstudioIMPL> plan = new Vector<PlanDeEstudioIMPL>(Universidad
+				.getInstance().getPlanesDeEstudio(this.getAlumno()));
 		
 		JList listaDePlanes = new JList(plan);
 		
