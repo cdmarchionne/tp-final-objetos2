@@ -30,6 +30,11 @@ public abstract class Tutoria {
 		// fechaFinal = fechaInicio.setYear(fechaInicio.getYear() + 1);
 	}
 
+	protected Tutoria(String nombre, Alumno alumno, Date fechaInicio, Date fechaFinal) {
+		this(nombre, alumno, fechaInicio);
+		this.fechaFinal = fechaFinal;
+	}
+
 	// ********************
 	// * Getter & Setters *
 	// ********************
@@ -49,5 +54,9 @@ public abstract class Tutoria {
 	public Date getFechaFinal() {
 		return fechaFinal;
 	}
+
+	public abstract boolean esBeca();
+
+	public abstract boolean esPasantia();
 
 }

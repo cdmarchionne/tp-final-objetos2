@@ -65,7 +65,7 @@ public class InscribirAlumnoFrame extends AbstractGUIFrame {
 				CatedraIMPL catedra = (CatedraIMPL) InscribirAlumnoFrame.this.getListaCatedras()
 						.getSelectedValue();
 
-				if ((alumno != null) && (plan != null) && (materia != null) && (catedra != null)) {
+				if (alumno != null && plan != null && materia != null && catedra != null) {
 					Universidad.getInstance().inscribirAlumno(alumno, catedra, materia, plan);
 					InscribirAlumnoFrame.this.actualizarListaPlanes();
 				} else {
@@ -74,7 +74,7 @@ public class InscribirAlumnoFrame extends AbstractGUIFrame {
 							+ " en la catedra " + catedra;
 					String mensajeError = "Debe seleccionar a un Alumno y una Catedra para poder realizar la Inscripcion";
 
-					System.err.println(datos + "\n");
+					System.err.println(datos);
 					System.err.println("\nAlumno\t'" + alumno + "'\nPlan\t'" + plan
 							+ "'\nMateria\t'" + materia + "'\nCatedra\t'" + catedra + "'\n");
 					System.err.println(mensajeError + "\n");
@@ -130,7 +130,7 @@ public class InscribirAlumnoFrame extends AbstractGUIFrame {
 		panel.add(new JLabel("Catedras"));
 
 		JList listaDeCatedra = new JList();
-		// listaDeCatedra.setSize(new Dimension(100, 50));
+		listaDeCatedra.setSize(new Dimension(100, 50));
 		listaDeCatedra.setPreferredSize(new Dimension(100, 150));
 		this.setListaCatedras(listaDeCatedra);
 

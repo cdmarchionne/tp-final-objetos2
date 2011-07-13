@@ -11,12 +11,14 @@ import materias.Materia;
 import materias.MateriaCursada;
 import model.interfaces.AlumnoIMPL;
 import model.interfaces.MateriaIMPL;
+import tutoria.Tutoria;
 import universidad.Carrera;
 import universidad.InscripcionPlanDeEstudio;
 import universidad.PlanDeEstudio;
 import Utils.GeneradorDeDatos;
 import Utils.Nombrable;
 import entregas.EntregaTP;
+import excepciones.FaltanEquivalenciasExcepcion;
 import excepciones.NoHayInscripcionDelAlumnoEnCarreraExcepcion;
 import excepciones.NoHayInscripcionDelAlumnoEnPlanDeEstudioExcepcion;
 import excepciones.NoSeEncuentraInscripcionDeCarreraExcepcion;
@@ -33,6 +35,8 @@ public class Alumno implements Nombrable, AlumnoIMPL {
 	private Boolean regularidad;
 	private final List<Integer> aniosLicencia;
 	private int cantLicencias;
+	private Tutoria tutoria;
+	private Boolean tutoriaHabilitada;
 
 	// *****************
 	// * Constructores *
@@ -48,11 +52,22 @@ public class Alumno implements Nombrable, AlumnoIMPL {
 		arrayFechasAprobadas = new ArrayList<Date>();
 		aniosLicencia = new ArrayList<Integer>();
 		cantLicencias = 0;
+		tutoria = null;
+		tutoriaHabilitada = false;
 	}
 
 	// ********************
 	// * Getter & Setters *
 	// ********************
+
+	public void setTutoria(Tutoria tutoria) {
+		this.tutoria = tutoria;
+	}
+
+	public Tutoria getTutoria() {
+		return tutoria;
+	}
+
 	public void setCantLicencias(int cantLicencias) {
 		this.cantLicencias = cantLicencias;
 	}
@@ -78,6 +93,9 @@ public class Alumno implements Nombrable, AlumnoIMPL {
 			this.getPlanInscripto(plan).inscribirEnMateria(this, materia, catedra);
 		} catch (NoSeEncuentraPlanDeEstudioException e) {
 			throw new NoHayInscripcionDelAlumnoEnPlanDeEstudioExcepcion(this, plan);
+		} catch (FaltanEquivalenciasExcepcion e) {
+			e.printStackTrace();
+			// System.err.println(e.getMessage());
 		}
 	}
 
@@ -423,6 +441,18 @@ public class Alumno implements Nombrable, AlumnoIMPL {
 		}
 
 		return materiasPromocionadas;
+	}
+
+	public boolean tieneTutoria() {
+		return tutoria != null;
+	}
+
+	public boolean getTutoriaHabilitada() {
+		return tutoriaHabilitada;
+	}
+
+	public void setTutoriaHabilitada(Boolean tutoriaHabilitada) {
+		this.tutoriaHabilitada = tutoriaHabilitada;
 	}
 
 }

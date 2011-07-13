@@ -17,6 +17,10 @@ import model.interfaces.PlanDeEstudioIMPL;
 import personal.Alumno;
 import personal.Docente;
 import personal.Persona;
+import tutoria.Beca;
+import tutoria.Pasantia;
+import tutoria.Tutoria;
+import Utils.Historial;
 import excepciones.IngresoNoAprobadoExcepcion;
 
 /**
@@ -32,6 +36,7 @@ public class OficinaAlumnos implements OficinaAlumnosIMPL {
 	private Set<Alumno> alumnos;
 	private Set<Docente> docentes;
 	private Integer legajoDocente;
+	private Historial<Tutoria> tutorias;
 
 	public OficinaAlumnos() {
 		super();
@@ -45,6 +50,7 @@ public class OficinaAlumnos implements OficinaAlumnosIMPL {
 		alumnos = new HashSet<Alumno>();
 		docentes = new HashSet<Docente>();
 		legajoDocente = 0;
+		tutorias = new Historial<Tutoria>();
 	}
 
 	/**
@@ -186,6 +192,34 @@ public class OficinaAlumnos implements OficinaAlumnosIMPL {
 			alumno.sumCantLicencias();
 
 		}
+	}
+
+	/** Inscribo al alumno en una Beca */
+	public void inscribirAlumnoEnBeca(Alumno alumno, Beca beca) {
+		boolean renuevoBeca = alumno.tieneTutoria() && alumno.getTutoria().esBeca();
+
+		if (!alumno.tieneTutoria() || renuevoBeca) {
+			this.inscribirAlumnoEnTutoria(alumno, beca);
+		}
+	}
+
+	/** Inscribo al alumno en una Pasantia */
+	public void inscribirAlumnoEnPasantia(Alumno alumno, Pasantia pasantia) {
+		if (!alumno.tieneTutoria()) {
+			this.inscribirAlumnoEnTutoria(alumno, pasantia);
+		}
+	}
+
+	private void inscribirAlumnoEnTutoria(Alumno alumno, Tutoria tutoria) {
+		if (alumno.getTutoriaHabilitada()) {
+			alumno.setTutoria(tutoria);
+			// Agrego a las lista de Tutorias Entgregadas
+			tutorias.addAntecedente(tutoria.getFechaInicio(), tutoria.getFechaFinal(), tutoria);
+		}
+	}
+
+	public Historial<Tutoria> getTutorias() {
+		return tutorias;
 	}
 
 }

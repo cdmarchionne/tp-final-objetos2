@@ -10,6 +10,7 @@ import materias.MateriaAsignadaAPlanDeEstudio;
 import materias.MateriaCursada;
 import model.interfaces.MateriaIMPL;
 import personal.Alumno;
+import excepciones.FaltanEquivalenciasExcepcion;
 
 /**
  * Clase que coopera con los Alumnos para designar a que Plan de Estudio
@@ -108,13 +109,17 @@ public class InscripcionPlanDeEstudio {
 		return false;
 	}
 
-	public void inscribirEnMateria(Alumno alumno, Materia materia, Catedra catedra) {
+	public void inscribirEnMateria(Alumno alumno, Materia materia, Catedra catedra)
+			throws FaltanEquivalenciasExcepcion
+	{
 		// Revisar la aprobacion de materias correlativas
 		if (this.aproboCorrelativas(alumno, materia)) {
 			materiasInscriptas.add(new InscripcionMateria(materia, catedra));
 			catedra.agregarAlumnoInscripto(alumno);
-		}
-
+		} else
+			throw new FaltanEquivalenciasExcepcion(alumno, materia, this.getPlanDeEstudio()
+					.getCorrelatividades(materia));
+		// throw new FaltanEquivalenciasExcepcion(alumno, materia);
 	}
 
 	/**

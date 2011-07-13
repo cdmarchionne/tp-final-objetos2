@@ -15,13 +15,23 @@ public class Pasantia extends Tutoria {
 	// * Constructores *
 	// *****************
 
-	public Pasantia(String nombre, Alumno alumno, Date fechaInicio,	String empresa) {
-		super(nombre, alumno, fechaInicio);
+	public Pasantia(String nombre, Alumno alumno, Date fecha, String empresa) {
+		super(nombre, alumno, fecha, fecha);
 		this.empresa = empresa;
 	}
 
 	public String getEmpresa() {
 		return empresa;
+	}
+
+	@Override
+	public boolean esBeca() {
+		return false;
+	}
+
+	@Override
+	public boolean esPasantia() {
+		return true;
 	}
 
 }
