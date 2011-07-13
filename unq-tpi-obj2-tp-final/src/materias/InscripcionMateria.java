@@ -3,7 +3,7 @@ package materias;
 import java.util.Date;
 
 /**
- * Adapter que agrupa los datos necesarios para Inscribir un Alumno en una
+ * Agrupa los datos necesarios para Inscribir un Alumno en una
  * Materia
  */
 public class InscripcionMateria {

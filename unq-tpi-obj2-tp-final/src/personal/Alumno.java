@@ -333,6 +333,7 @@ public class Alumno implements Nombrable, AlumnoIMPL {
 	}
 
 	/** Obtengo todos los planes de estudio del alumno */
+	@Override
 	public Set<PlanDeEstudio> getPlanesDeEstudio() {
 		Set<PlanDeEstudio> planDeEstudio = new HashSet<PlanDeEstudio>();
 		for (InscripcionPlanDeEstudio carreraInscripta : planesInscriptos) {

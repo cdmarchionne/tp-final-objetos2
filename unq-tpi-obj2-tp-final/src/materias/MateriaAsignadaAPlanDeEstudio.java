@@ -4,7 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Adapter de Materias que varian por Plan de Estudio
+ * Materias que varian por Plan de Estudio
  */
 public class MateriaAsignadaAPlanDeEstudio {
 

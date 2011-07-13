@@ -2,6 +2,7 @@ package universidad;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import materias.Catedra;
 import materias.InscripcionMateria;
@@ -116,10 +117,15 @@ public class InscripcionPlanDeEstudio {
 		if (this.aproboCorrelativas(alumno, materia)) {
 			materiasInscriptas.add(new InscripcionMateria(materia, catedra));
 			catedra.agregarAlumnoInscripto(alumno);
-		} else
-			throw new FaltanEquivalenciasExcepcion(alumno, materia, this.getPlanDeEstudio()
-					.getCorrelatividades(materia));
-		// throw new FaltanEquivalenciasExcepcion(alumno, materia);
+		} else {
+			Set<Materia> correlatividades = this.getPlanDeEstudio().getCorrelatividades(materia);
+			System.err.println("El alumno " + alumno.getNombre()
+					+ " no se puede inscribir a la materia " + materia.getNombre()
+					+ " hasta haber aprobado las materias correlativas: " + correlatividades);
+			// throw new FaltanEquivalenciasExcepcion(alumno,
+			// materia,correlatividades);
+			// throw new FaltanEquivalenciasExcepcion(alumno, materia);
+		}
 	}
 
 	/**
