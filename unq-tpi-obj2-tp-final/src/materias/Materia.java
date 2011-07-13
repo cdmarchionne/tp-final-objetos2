@@ -1,7 +1,6 @@
 package materias;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -99,23 +98,6 @@ public class Materia implements Nombrable, MateriaIMPL {
 
 		for (Catedra catedra : (Catedra[]) this.getCatedras().toArray()) {
 			listaFinal.addAll(catedra.getAlumnosInscriptos());
-		}
-
-		return listaFinal;
-	}
-
-	public List<Alumno> getAlumnosInscriptosEn(Date fecha) {
-		ArrayList<Alumno> listaFinal = new ArrayList<Alumno>();
-
-		for (Catedra catedra : (Catedra[]) this.getCatedras().toArray()) {
-			for (Alumno alumno : catedra.getAlumnosInscriptos()) {
-				// TODO: Ver quien lleva el historial de materias inscriptas
-				// alguna fecha determinada
-
-				// if(alumno.getCursoDeIngreso()){
-				listaFinal.add(alumno);
-				// }
-			}
 		}
 
 		return listaFinal;
