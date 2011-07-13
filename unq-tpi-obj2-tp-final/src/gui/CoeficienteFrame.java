@@ -52,7 +52,9 @@ public class CoeficienteFrame extends AbstractGUIFrame {
 		panel.setLayout(new FlowLayout());
 
 		panel.add(this.mkListaPlanes());
-		panel.add(this.mkTextCoeficiente());
+		this.getPanel().add(this.mkTextCoeficiente());
+
+		this.getPanel().add(panel);
 
 	}
 
@@ -61,7 +63,7 @@ public class CoeficienteFrame extends AbstractGUIFrame {
 		area.setEditable(false);
 		this.setTexto(area);
 
-		this.getPanel().add(area);
+		// this.getPanel().add(area);
 
 		return area;
 	}
