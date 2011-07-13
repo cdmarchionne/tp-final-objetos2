@@ -3,13 +3,12 @@ package personal;
 import java.util.HashSet;
 import java.util.Set;
 
-import entregas.TrabajoPractico;
-
 import materias.Materia;
 import universidad.Carrera;
 import Utils.Antecedente;
 import Utils.Historial;
 import Utils.Nombrable;
+import entregas.TrabajoPractico;
 
 /**
  * Docente
@@ -120,7 +119,7 @@ public class Docente implements Nombrable {
 	}
 
 	public boolean isSameAlumno(Alumno otroAlumno) {
-		return this.isAlumno() && this.alumno.equals(otroAlumno);
+		return this.isAlumno() && alumno.equals(otroAlumno);
 	}
 
 	public boolean isSamePerson(Alumno otroAlumno) {
@@ -130,11 +129,13 @@ public class Docente implements Nombrable {
 	public boolean isSamePerson(Persona datosPersona) {
 		return this.getDatosPersonales().equals(datosPersona);
 	}
-	
-	public void corregirEntrega(TrabajoPractico tp,Alumno alumno,String ejercicio,String correccion){
-		if(tp.alumnoHizoEntrega(alumno)){
-			tp.agregarCorreccion(alumno, ejercicio, correccion);
+
+	public void corregirEntrega(TrabajoPractico tp, Alumno alumno1, String ejercicio,
+			String correccion)
+	{
+		if (tp.alumnoHizoEntrega(alumno1)) {
+			tp.agregarCorreccion(alumno1, ejercicio, correccion);
 		}
-		
+
 	}
 }
